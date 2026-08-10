@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "author": "ESP32 Dual 7 Segment",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-devkit-c-v4",
+      "id": "esp",
+      "top": 50,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-7segment",
+      "id": "display",
+      "top": 20,
+      "left": 350,
+      "attrs": {
+        "common": "cathode",
+        "digits": "2",
+        "color": "red"
+      }
+    }
+  ],
+  "connections": [
+    ["esp:17", "display:A", "green", ["h0"]],
+    ["esp:18", "display:B", "green", ["h0"]],
+    ["esp:19", "display:C", "green", ["h0"]],
+    ["esp:21", "display:D", "green", ["h0"]],
+    ["esp:22", "display:E", "green", ["h0"]],
+    ["esp:23", "display:F", "green", ["h0"]],
+    ["esp:25", "display:G", "green", ["h0"]],
+    ["esp:26", "display:DIG1", "blue", ["h0"]],
+    ["esp:27", "display:DIG2", "blue", ["h0"]]
+  ]
+}
