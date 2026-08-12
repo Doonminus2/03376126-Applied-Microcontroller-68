@@ -23,14 +23,14 @@
     }
   ],
   "connections": [
-    ["esp:17", "display:A", "green", ["h0"]],
-    ["esp:18", "display:B", "green", ["h0"]],
-    ["esp:19", "display:C", "green", ["h0"]],
-    ["esp:21", "display:D", "green", ["h0"]],
-    ["esp:22", "display:E", "green", ["h0"]],
-    ["esp:23", "display:F", "green", ["h0"]],
-    ["esp:25", "display:G", "green", ["h0"]],
-    ["esp:26", "display:DIG1", "blue", ["h0"]],
-    ["esp:27", "display:DIG2", "blue", ["h0"]]
-  ]
+  ["esp:23", "display:A", "green", ["h0"]],
+  ["esp:22", "display:B", "green", ["h0"]],
+  ["esp:TX", "display:C", "green", ["h0"]],
+  ["esp:RX", "display:D", "green", ["h0"]],
+  ["esp:21", "display:E", "green", ["h0"]],
+  ["esp:19", "display:F", "green", ["h0"]],
+  ["esp:18", "display:G", "green", ["h0"]],
+  ["esp:17", "display:DIG1", "blue", ["h0"]],
+  ["esp:5",  "display:DIG2", "blue", ["h0"]]
+]
 }
