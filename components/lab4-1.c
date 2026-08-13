@@ -1,11 +1,7 @@
 #include <stdio.h>
-
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-
 #include "driver/gpio.h"
-
-
 // ========================================
 // GPIO A - G
 // ========================================
@@ -51,6 +47,23 @@ static const int number[10][7] = {
 // เลขปัจจุบัน
 volatile int count = 0;
 
+
+
+// ========================================
+// display_num_in_monitor
+// ========================================
+
+void display_monitor(void *pvParameter)
+{
+    while(1)
+    {
+        int value = count;
+        int ones = value % 10;
+        int tens = value / 10;
+        printf("Count: %d%d\n", tens, ones);
+        vTaskDelay(pdMS_TO_TICKS(500));
+    }
+}
 
 // ========================================
 // ฟังก์ชันแสดงเลข 1 หลัก
@@ -219,5 +232,16 @@ void app_main(void)
         2,                  // Priority สูงกว่า Counter
         NULL,
         1                   // Core 1
+    );
+
+    xTaskCreatePinnedToCore(
+        display_monitor,
+        " Display Monitor Task", 
+        2048, 
+        NULL, 
+        1,
+        NULL, 
+        1
+
     );
 }
