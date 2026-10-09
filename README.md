@@ -16,14 +16,14 @@ blink/
 │   ├── lab-manual-th.html       # คู่มือแลป (แปลไทย)
 │   ├── lab-manual-en.html       # คู่มือแลป (ต้นฉบับ)
 │   └── images/lab01..lab04/     # ภาพหน้าจอผลการทดลอง
-└── labs/                        # แต่ละแลปเป็นโปรเจกต์ ESP-IDF แยกกัน
+└── labs-9-oct-26/               # แต่ละแลปเป็นโปรเจกต์ ESP-IDF แยกกัน
     ├── 01-wifi-sta/             # Wi-Fi STA + Event Loop (Wokwi-GUEST)
     ├── 02-i2c-lcd/              # I2C Master + LCD1602 (PCF8574 @ 0x27)
     ├── 03-isr-queue/            # GPIO ISR + FreeRTOS Queue
     └── 04-spiffs/               # SPIFFS + VFS (มี partitions.csv)
 ```
 
-แต่ละโฟลเดอร์ใน `labs/` มีไฟล์:
+แต่ละโฟลเดอร์ใน `labs-9-oct-26/` มีไฟล์:
 
 | ไฟล์ | หน้าที่ |
 | --- | --- |
@@ -39,11 +39,12 @@ blink/
 เปิด `ESP-IDF: Open ESP-IDF Terminal` ใน VS Code แล้วรัน:
 
 ```bash
-cd labs/01-wifi-sta
+cd labs-9-oct-26/01-wifi-sta
+source ~/.espressif/tools/activate_idf_v6.0.2.sh
 idf.py set-target esp32
 idf.py build
 ```
 
-จากนั้น `F1` → `Wokwi: Select Config File` → เลือก `labs/01-wifi-sta/wokwi.toml` → `Wokwi: Start Simulator`
+จากนั้น `F1` → `Wokwi: Select Config File` → เลือก `labs-9-oct-26/01-wifi-sta/wokwi.toml` → `Wokwi: Start Simulator`
 
 ทำแบบเดียวกันกับ `02-i2c-lcd`, `03-isr-queue` และ `04-spiffs`

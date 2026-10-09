@@ -16,5 +16,5 @@
     "--query-driver=**",
     "--compile-commands-dir=/Users/chitsanupat/Desktop/blink/build"
   ],
-  "idf.monitorPort": "/dev/tty.usbserial-0001"
+  "idf.monitorPort": "/dev/tty.usbserial-10"
 }

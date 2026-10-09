@@ -1,202 +1,121 @@
-/*
- * LCD 8-bit shows DHT11 + HC-SR04 readings.
- *   Line 1: T:28.0°C H: 65%
- *   Line 2: Dist:  123.4 cm
- *
- * LCD (8-bit) wiring:
- *   LCD pin 1  VSS -> GND
- *   LCD pin 2  VDD -> 5V
- *   LCD pin 3  V0  -> GND (contrast, no potentiometer)
- *   LCD pin 4  RS  -> GPIO21
- *   LCD pin 5  R/W -> GND
- *   LCD pin 6  E   -> GPIO22
- *   LCD pin 7  D0  -> GPIO13
- *   LCD pin 8  D1  -> GPIO14
- *   LCD pin 9  D2  -> GPIO23
- *   LCD pin 10 D3  -> GPIO25
- *   LCD pin 11 D4  -> GPIO26
- *   LCD pin 12 D5  -> GPIO27
- *   LCD pin 13 D6  -> GPIO32
- *   LCD pin 14 D7  -> GPIO33
- *   LCD pin 15 A   -> 5V (via 220 ohm)
- *   LCD pin 16 K   -> GND
- *
- * DHT11 wiring:
- *   VCC  -> 3.3V
- *   DATA -> GPIO4 (10k pull-up to 3.3V if the module has none)
- *   GND  -> GND
- *
- * HC-SR04 wiring:
- *   VCC  -> 5V
- *   TRIG -> GPIO18
- *   ECHO -> GPIO19 (ECHO is 5V: use divider 1k in series + 2k to GND)
- *   GND  -> GND
- */
-#include "dht11.h"
+#include "driver/dac_oneshot.h"
 #include "driver/gpio.h"
 #include "esp_log.h"
-#include "esp_rom_sys.h"
-#include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
+#include "freertos/queue.h"
+#include "freertos/semphr.h"
 #include "freertos/task.h"
 #include "lcd_hd44780.h"
 #include <stdio.h>
+#include <string.h>
 
-static const char *TAG = "lcd_dht_us";
+static const char *TAG = "main_app";
 
-#define DHT_GPIO GPIO_NUM_4
-#define US_TRIG_GPIO GPIO_NUM_18
-#define US_ECHO_GPIO GPIO_NUM_19
+typedef struct {
+  uint8_t line;
+  uint8_t column;
+  char text[17];
+} lcd_msg_t;
 
-#define ECHO_TIMEOUT_US 30000 // ~5 m round trip ceiling
-#define US_MIN_CM 2.0f        // HC-SR04 usable range
-#define US_MAX_CM 400.0f
-#define US_SAMPLES 5       // median of 5 rejects single bad echoes
-#define DHT_PERIOD_MS 2000 // DHT11 needs >= 1 s between reads
-#define US_PERIOD_MS 250
+static QueueHandle_t lcd_queue = NULL;
+static SemaphoreHandle_t lcd_mutex = NULL; // lcd driver is not thread-safe
 
-static void ultrasonic_setup(void) {
-  gpio_reset_pin(US_TRIG_GPIO);
-  gpio_set_direction(US_TRIG_GPIO, GPIO_MODE_OUTPUT);
-  gpio_set_level(US_TRIG_GPIO, 0);
+/* No potentiometer: DAC drives V0 (contrast), 2 buttons adjust it.
+ * LCD V0 (pin 3) -> GPIO25 (DAC_CHAN_0)
+ * Button UP   -> GPIO32 (active low, internal pull-up) : lower V0 = darker
+ * Button DOWN -> GPIO33 (active low, internal pull-up) : higher V0 = lighter */
+#define BTN_UP GPIO_NUM_32
+#define BTN_DOWN GPIO_NUM_33
+#define CONTRAST_STEP 5
 
-  gpio_reset_pin(US_ECHO_GPIO);
-  gpio_set_direction(US_ECHO_GPIO, GPIO_MODE_INPUT);
+static dac_oneshot_handle_t contrast_dac = NULL;
+static uint8_t contrast_level = 30; // 30/255 * 3.3 V ~= 0.39 V on V0
+
+void contrast_task(void *pvParameters) {
+  while (1) {
+    int up = gpio_get_level(BTN_UP) == 0;
+    int down = gpio_get_level(BTN_DOWN) == 0;
+
+    if (up && contrast_level >= CONTRAST_STEP) {
+      contrast_level -= CONTRAST_STEP;
+    } else if (down && contrast_level <= 255 - CONTRAST_STEP) {
+      contrast_level += CONTRAST_STEP;
+    }
+
+    if (up || down) {
+      dac_oneshot_output_voltage(contrast_dac, contrast_level);
+      ESP_LOGI(TAG, "Contrast DAC = %u (V0 ~= %.2f V)", contrast_level,
+               contrast_level * 3.3f / 255.0f);
+    }
+    vTaskDelay(pdMS_TO_TICKS(150)); // debounce + repeat rate while held
+  }
 }
 
-/* Echo pulse width in microseconds (same logic as components/ultrasonic). */
-static esp_err_t ultrasonic_echo_us(int64_t *echo_us) {
-  // 10 us trigger pulse.
-  gpio_set_level(US_TRIG_GPIO, 1);
-  esp_rom_delay_us(10);
-  gpio_set_level(US_TRIG_GPIO, 0);
+static void contrast_init(void) {
+  dac_oneshot_config_t dac_cfg = {.chan_id = DAC_CHAN_0}; // GPIO25
+  ESP_ERROR_CHECK(dac_oneshot_new_channel(&dac_cfg, &contrast_dac));
+  ESP_ERROR_CHECK(dac_oneshot_output_voltage(contrast_dac, contrast_level));
 
-  int64_t start = esp_timer_get_time();
-  while (gpio_get_level(US_ECHO_GPIO) == 0) {
-    if (esp_timer_get_time() - start > ECHO_TIMEOUT_US) {
-      return ESP_ERR_TIMEOUT;
-    }
-  }
-
-  int64_t echo_start = esp_timer_get_time();
-  while (gpio_get_level(US_ECHO_GPIO) == 1) {
-    if (esp_timer_get_time() - echo_start > ECHO_TIMEOUT_US) {
-      return ESP_ERR_TIMEOUT;
-    }
-  }
-
-  *echo_us = esp_timer_get_time() - echo_start;
-  return ESP_OK;
+  gpio_config_t btn_conf = {.pin_bit_mask =
+                                (1ULL << BTN_UP) | (1ULL << BTN_DOWN),
+                            .mode = GPIO_MODE_INPUT,
+                            .pull_up_en = GPIO_PULLUP_ENABLE,
+                            .pull_down_en = GPIO_PULLDOWN_DISABLE,
+                            .intr_type = GPIO_INTR_DISABLE};
+  ESP_ERROR_CHECK(gpio_config(&btn_conf));
 }
 
-/* Distance in cm, median of US_SAMPLES echoes.
- * Speed of sound depends on air temperature: v = 331.3 + 0.606 * T (m/s).
- * Echo time is the round trip, so distance = time * v / 2. */
-static esp_err_t us_read_distance_cm(float temp_c, float *cm_out) {
-  float samples[US_SAMPLES];
-  int count = 0;
-  float cm_per_us = (331.3f + 0.606f * temp_c) / 10000.0f; // m/s -> cm/us
-
-  for (int i = 0; i < US_SAMPLES; i++) {
-    int64_t echo_us;
-    if (ultrasonic_echo_us(&echo_us) == ESP_OK) {
-      float cm = (float)echo_us * cm_per_us / 2.0f;
-      // insertion sort, keeps samples[] ordered for the median
-      int j = count++;
-      while (j > 0 && samples[j - 1] > cm) {
-        samples[j] = samples[j - 1];
-        j--;
-      }
-      samples[j] = cm;
-    }
-    vTaskDelay(pdMS_TO_TICKS(60)); // HC-SR04 needs ~60 ms between pings
-  }
-
-  if (count == 0) {
-    return ESP_ERR_TIMEOUT;
-  }
-  *cm_out = samples[count / 2];
-  return ESP_OK;
-}
-
-void sensor_display_task(void *pvParameters) {
+void lcd_server_task(void *pvParameters) {
   lcd_handle_t lcd = (lcd_handle_t)pvParameters;
-  char line[32];        // extra room for snprintf, cut to 16 columns below
-  float temp_c = 25.0f; // used for speed of sound until first DHT read
-  TickType_t last_dht = xTaskGetTickCount() - pdMS_TO_TICKS(DHT_PERIOD_MS);
-
-  vTaskDelay(pdMS_TO_TICKS(1000)); // DHT11 settle time after power-up
+  lcd_msg_t msg;
 
   while (1) {
-    // Line 1: DHT11
-    if (xTaskGetTickCount() - last_dht >= pdMS_TO_TICKS(DHT_PERIOD_MS)) {
-      last_dht = xTaskGetTickCount();
-      dht11_data_t dht;
-      if (dht11_read(&dht) == ESP_OK) {
-        temp_c = dht.temperature;
-        // 0xDF = degree sign in HD44780 ROM
-        snprintf(line, sizeof(line),
-                 "T:%4.1f\xDF"
-                 "C H:%3.0f%%  ",
-                 dht.temperature, dht.humidity);
-        ESP_LOGI(TAG, "Temp %.1f C, Humidity %.0f %%", dht.temperature,
-                 dht.humidity);
-      } else {
-        snprintf(line, sizeof(line), "DHT11 read error");
-        ESP_LOGW(TAG, "DHT11 read failed");
-      }
-      line[16] = '\0';
-      lcd_set_cursor(lcd, 0, 0);
-      lcd_write_string(lcd, line);
+    if (xQueueReceive(lcd_queue, &msg, portMAX_DELAY) == pdTRUE) {
+      xSemaphoreTake(lcd_mutex, portMAX_DELAY);
+      lcd_set_cursor(lcd, msg.line, msg.column);
+      lcd_write_string(lcd, msg.text);
+      xSemaphoreGive(lcd_mutex);
     }
+  }
+}
 
-    // Line 2: HC-SR04
-    float cm;
-    if (us_read_distance_cm(temp_c, &cm) != ESP_OK || cm > US_MAX_CM) {
-      snprintf(line, sizeof(line), "Dist: out range ");
-    } else if (cm < US_MIN_CM) {
-      snprintf(line, sizeof(line), "Dist: too close ");
-    } else {
-      snprintf(line, sizeof(line), "Dist: %6.1f cm  ", cm);
-      ESP_LOGI(TAG, "Distance %.1f cm", cm);
-    }
-    line[16] = '\0';
-    lcd_set_cursor(lcd, 1, 0);
-    lcd_write_string(lcd, line);
+void telemetry_task(void *pvParameters) {
+  uint8_t percent = 0;
+  lcd_handle_t lcd = (lcd_handle_t)pvParameters;
 
-    vTaskDelay(pdMS_TO_TICKS(US_PERIOD_MS));
+  while (1) {
+    xSemaphoreTake(lcd_mutex, portMAX_DELAY);
+    lcd_draw_bargraph(lcd, 1, 0, 16, percent);
+    xSemaphoreGive(lcd_mutex);
+    percent = (percent + 5) % 105;
+    vTaskDelay(pdMS_TO_TICKS(200));
   }
 }
 
 void app_main(void) {
-  ESP_LOGI(TAG, "Starting LCD + DHT11 + HC-SR04...");
+  ESP_LOGI(TAG, "Starting Component-Based LCD System...");
 
-  lcd_config_t lcd_config = {
-      .bus_mode = LCD_BUS_MODE_8BIT,
-      .rs_io = GPIO_NUM_21,     // LCD pin 4 (RS)
-      .rw_io = GPIO_NUM_NC,     // ต่อ RW ลง GND (LCD pin 5)
-      .en_io = GPIO_NUM_22,     // LCD pin 6 (E)
-      .data_ios = {GPIO_NUM_13, // LCD pin 7  (D0)
-                   GPIO_NUM_14, // LCD pin 8  (D1)
-                   GPIO_NUM_23, // LCD pin 9  (D2)
-                   GPIO_NUM_25, // LCD pin 10 (D3)
-                   GPIO_NUM_26, // LCD pin 11 (D4)
-                   GPIO_NUM_27, // LCD pin 12 (D5)
-                   GPIO_NUM_32, // LCD pin 13 (D6)
-                   GPIO_NUM_33} // LCD pin 14 (D7)
-  };
+  contrast_init();
 
-  lcd_handle_t lcd = NULL;
-  ESP_ERROR_CHECK(lcd_new_device(&lcd_config, &lcd));
+  lcd_config_t lcd1_config = {
+      .bus_mode = LCD_BUS_MODE_4BIT,
+      .rs_io = GPIO_NUM_4,
+      .rw_io = GPIO_NUM_NC, // ต่อ RW ลง GND
+      .en_io = GPIO_NUM_5,
+      .data_ios = {GPIO_NUM_16, GPIO_NUM_17, GPIO_NUM_18, GPIO_NUM_19}};
 
-  lcd_set_cursor(lcd, 0, 0);
-  lcd_write_string(lcd, "T:--.-\xDF"
-                        "C H: --%");
-  lcd_set_cursor(lcd, 1, 0);
-  lcd_write_string(lcd, "Dist:   ---- cm");
+  lcd_handle_t lcd1 = NULL;
+  ESP_ERROR_CHECK(lcd_new_device(&lcd1_config, &lcd1));
+  ESP_ERROR_CHECK(lcd_init_bargraph_glyphs(lcd1));
 
-  ESP_ERROR_CHECK(dht11_init(DHT_GPIO));
-  ultrasonic_setup();
+  lcd_set_cursor(lcd1, 0, 0);
+  lcd_write_string(lcd1, "System Ready!");
 
-  xTaskCreate(sensor_display_task, "sensor_lcd", 4096, (void *)lcd, 5, NULL);
+  lcd_queue = xQueueCreate(10, sizeof(lcd_msg_t));
+  lcd_mutex = xSemaphoreCreateMutex();
+  if (lcd_queue != NULL && lcd_mutex != NULL) {
+    xTaskCreate(lcd_server_task, "lcd_server", 3072, (void *)lcd1, 5, NULL);
+    xTaskCreate(telemetry_task, "telemetry", 3072, (void *)lcd1, 4, NULL);
+    xTaskCreate(contrast_task, "contrast", 3072, NULL, 3, NULL);
+  }
 }
