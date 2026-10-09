@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คู่มือปฏิบัติการจำลอง ESP32 ESP-IDF และ FreeRTOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0f4c81;
+            --secondary-color: #1b6ca8;
+            --accent-color: #00a8cc;
+            --dark-bg: #1e1e2e;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #2b2b2b;
+            --text-muted: #6c757d;
+            --border-color: #e2e8f0;
+            --code-bg: #1a1b26;
+            --code-text: #a9b1d6;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Sarabun", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text-main);
+            background-color: #f4f6f9;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .header-title h1 {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .meta-box {
+            background: #f0f4f8;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+            font-size: 0.9rem;
+        }
+
+        .meta-box div {
+            margin-bottom: 4px;
+        }
+
+        .toc-box {
+            background: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .toc-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+
+        .toc-grid a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .toc-grid a:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        section {
+            margin-bottom: 45px;
+            scroll-margin-top: 20px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.25rem;
+            margin: 20px 0 10px 0;
+        }
+
+        h4 {
+            color: var(--text-main);
+            font-size: 1.05rem;
+            margin: 15px 0 8px 0;
+        }
+
+        p {
+            margin-bottom: 12px;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        .callout {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 18px 0;
+            border-left: 5px solid;
+        }
+
+        .callout-info {
+            background-color: #e8f4f8;
+            border-color: var(--info);
+            color: #0c5460;
+        }
+
+        .callout-warning {
+            background-color: #fff3cd;
+            border-color: var(--warning);
+            color: #856404;
+        }
+
+        .callout-success {
+            background-color: #d4edda;
+            border-color: var(--success);
+            color: #155724;
+        }
+
+        .callout-title {
+            font-weight: bold;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .repo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eef2f7;
+            color: var(--secondary-color);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            text-decoration: none;
+            margin: 4px 0 12px 0;
+            border: 1px solid #d0d7de;
+            transition: background 0.2s;
+        }
+
+        .repo-link:hover {
+            background: #e1e8f0;
+            color: var(--primary-color);
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 18px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin: 15px 0;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            background-color: #eef1f6;
+            color: #d63384;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .diagram-container {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #313244;
+        }
+
+        .diagram-title {
+            color: #89b4fa;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-family: monospace;
+            font-size: 0.95rem;
+        }
+
+        .diagram-ascii {
+            font-family: monospace;
+            white-space: pre;
+            line-height: 1.2;
+            color: #a6e3a1;
+            overflow-x: auto;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge-pass {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .badge-req {
+            background-color: #00a8cc;
+            color: white;
+        }
+
+        .rubric-table th {
+            text-align: center;
+        }
+
+        .rubric-table td:nth-child(3) {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            pre {
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="header-title">
+            <h1>คู่มือปฏิบัติการจำลอง ESP32 ด้วย ESP-IDF</h1>
+            <p>ฝึกปฏิบัติสถาปัตยกรรมฮาร์ดแวร์ FreeRTOS และการเขียนโปรแกรมระดับระบบบน Wokwi</p>
+        </div>
+        <div class="meta-box">
+            <div><strong>รายวิชา:</strong> วิศวกรรมระบบสมองกลฝังตัวและ IoT</div>
+            <div><strong>ชิปเป้าหมาย:</strong> Espressif ESP32 (Dual-Core LX6)</div>
+            <div><strong>เฟรมเวิร์ก:</strong> ESP-IDF v5.x และ FreeRTOS</div>
+            <div><strong>แพลตฟอร์ม:</strong> Wokwi Simulator และส่วนขยาย VS Code</div>
+        </div>
+    </header>
+
+    <nav class="toc-box">
+        <h3>โมดูลการทดลองและสารบัญ</h3>
+        <div class="toc-grid">
+            <a href="#setup">0. การเตรียมสภาพแวดล้อมและเครื่องมือ</a>
+            <a href="#project1">1. การเชื่อมต่อ Wi-Fi และ Event Loop (STA)</a>
+            <a href="#project2">2. ไดรเวอร์ I2C Master และจอ LCD</a>
+            <a href="#project3">3. การประมวลผลอินเทอร์รัปต์แบบเลื่อนเวลา (Real-Time)</a>
+            <a href="#project4">4. ระบบไฟล์บนแฟลช (SPIFFS / VFS)</a>
+            <a href="#assessment">5. การประเมินตนเองและแบบทดสอบความเข้าใจ</a>
+        </div>
+    </nav>
+
+    <!-- SECTION 0: ENVIRONMENT SETUP -->
+    <section id="setup">
+        <h2>0. คู่มือเตรียมสภาพแวดล้อมการพัฒนา</h2>
+        <p>ใบงานนี้อธิบายขั้นตอนการสร้าง จำลอง และดีบักซอฟต์แวร์สมองกลฝังตัวบน ESP32 ระดับใช้งานจริง โดยใช้ API ดั้งเดิมของ Espressif IoT Development Framework (ESP-IDF) v5.x และ FreeRTOS บนแพลตฟอร์มจำลองออนไลน์ Wokwi</p>
+        
+        <h3>สภาพแวดล้อมสำหรับรันงาน</h3>
+        <ul>
+            <li><strong>Wokwi Simulator บนเว็บเบราว์เซอร์:</strong> สร้างต้นแบบได้รวดเร็วผ่านเว็บเบราว์เซอร์ที่ <a href="https://wokwi.com" target="_blank">wokwi.com</a> โดยเลือก <code>ESP-IDF Template</code></li>
+            <li><strong>VS Code ร่วมกับส่วนขยาย Wokwi:</strong> สภาพแวดล้อมบนเดสก์ท็อปแบบครบฟังก์ชัน รองรับการดีบักระดับฮาร์ดแวร์ด้วย GDB, C/C++ Intellisense และกระบวนการคอมไพล์อัตโนมัติ
+                <ul>
+                    <li>ติดตั้ง Visual Studio Code และ <strong>ESP-IDF Extension</strong> ตัวทางการ</li>
+                    <li>ติดตั้งส่วนขยาย <strong>Wokwi for VS Code</strong> จาก Marketplace</li>
+                    <li>ตรวจสอบว่าไฟล์ <code>wokwi.toml</code> ที่ root ของโปรเจกต์ชี้ไปยังไฟล์ ELF ที่คอมไพล์แล้วอย่างถูกต้อง (เช่น <code>build/project-name.elf</code>)</li>
+                    <li>คอมไพล์ด้วย <code>idf.py build</code> แล้วกด <code>F1</code> &rarr; <code>Wokwi: Start Simulator</code></li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="callout callout-info">
+            <div class="callout-title">หมายเหตุเรื่องโครงสร้างโปรเจกต์</div>
+            <p>โปรเจกต์ ESP-IDF ทุกโปรเจกต์ต้องจัดโครงสร้างตามรูปแบบคอมโพเนนต์มาตรฐานของ Espressif ได้แก่ <code>CMakeLists.txt</code> ที่ root, โฟลเดอร์คอมโพเนนต์ <code>main/</code> ที่มี <code>CMakeLists.txt</code> และไฟล์ซอร์ส (<code>main.c</code>), ไฟล์ตั้งค่าโปรเจกต์ <code>sdkconfig</code> และไฟล์อธิบายวงจรจำลองของ Wokwi <code>diagram.json</code></p>
+        </div>
+    </section>
+
+    <!-- MODULE 1: NETWORKING & IOT -->
+    <section id="project1">
+        <h2>1. โมดูลที่ 1: เครือข่ายและ IoT — การเชื่อมต่อ Wi-Fi ผ่าน Wokwi-GUEST</h2>
+        
+        <h3>1.1 วัตถุประสงค์และความรู้พื้นฐาน</h3>
+        <p>เข้าใจลำดับการเริ่มต้นสแต็ก Wi-Fi ของ ESP32 ในโหมด Station (STA) และเชี่ยวชาญเรื่องที่เกี่ยวข้อง ได้แก่ การเตรียมหน่วยความจำแฟลช Non-Volatile Storage (NVS), เลเยอร์นามธรรม <code>esp_netif</code>, event loop เริ่มต้นของระบบ, event callback แบบอะซิงโครนัส และกลไกการซิงโครไนซ์ด้วย FreeRTOS Event Groups</p>
+
+        <h3>1.2 Repository อ้างอิง</h3>
+        <p>ศึกษา repository ทางการต่อไปนี้ก่อนลงมือทำ:</p>
+        <div>
+            <a href="https://github.com/wokwi/esp32-idf-hello-wifi" class="repo-link" target="_blank">&#128279; Repository โปรเจกต์ IDF Wi-Fi ทางการของ Wokwi</a><br>
+            <a href="https://github.com/espressif/esp-idf/blob/master/examples/wifi/getting_started/station/main/station_example_main.c" class="repo-link" target="_blank">&#128279; ตัวอย่าง Wi-Fi Station ทางการของ Espressif</a>
+        </div>
+
+        <h3>1.3 แผนผังฮาร์ดแวร์และการตั้งค่า Wokwi</h3>
+        <p>ในการจำลองบน Wokwi การเชื่อมต่อเครือข่ายทำผ่านเกตเวย์ NAT เสมือนชื่อ <code>Wokwi-GUEST</code> (ไม่เข้ารหัส ไม่ต้องใช้รหัสผ่าน)</p>
+
+        <div class="diagram-container">
+            <div class="diagram-title">โทโพโลยีระบบ: ESP32 Wi-Fi Station เชื่อมต่อกับเกตเวย์ NAT เสมือน</div>
+            <div class="diagram-ascii">
++-------------------------------------------------------------------------+
+|                              ESP32 SoC                                  |
+|  +--------------------+   +-------------------+   +------------------+  |
+|  | NVS Flash Driver   |-->| esp_netif (STA)   |-->| Wi-Fi Driver     |  |
+|  +--------------------+   +-------------------+   +--------+---------+  |
++------------------------------------------------------------|------------+
+                                                             |
+                                                       (802.11 Wi-Fi)
+                                                             |
+                                                             v
+                                                   +------------------+
+                                                   | Virtual Wokwi AP |
+                                                   | SSID: Wokwi-GUEST|
+                                                   | DHCP Server / NAT|
+                                                   +------------------+
+            </div>
+        </div>
+
+        <h4>ไฟล์วงจร Wokwi (diagram.json)</h4>
+        <pre><code>{
+  "version": 1,
+  "author": "Embedded Engineering Lab",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkitc-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ]
+  ]
+}</code></pre>
+
+        <h3>1.4 ขั้นตอนการทดลองทีละขั้น</h3>
+        <ol>
+            <li><strong>เริ่มต้น NVS Flash:</strong> เรียก <code>nvs_flash_init()</code> เนื่องจากเลเยอร์ PHY ของ Wi-Fi อ่านข้อมูลการปรับเทียบ (calibration) จาก NVS หากหน้าหน่วยความจำเสียหาย ให้จัดการด้วย <code>nvs_flash_erase()</code> ตามความจำเป็น</li>
+            <li><strong>เริ่มต้นสแต็กเครือข่าย TCP/IP:</strong> เรียก <code>esp_netif_init()</code> และสร้าง event loop เริ่มต้นด้วย <code>esp_event_loop_create_default()</code></li>
+            <li><strong>สร้างอินเทอร์เฟซเครือข่าย STA:</strong> เรียก <code>esp_netif_create_default_wifi_sta()</code></li>
+            <li><strong>ลงทะเบียน Event Callback:</strong> ลงทะเบียน handler ของ <code>WIFI_EVENT</code> และ <code>IP_EVENT</code> เพื่อจัดการการเปลี่ยนสถานะ (เช่น <code>WIFI_EVENT_STA_START</code>, <code>IP_EVENT_STA_GOT_IP</code>)</li>
+            <li><strong>ตั้งค่าและเริ่มไดรเวอร์ Wi-Fi:</strong> กำหนดค่า <code>wifi_config_t</code> ด้วย SSID <code>"Wokwi-GUEST"</code> แล้วเริ่มสแต็กไดรเวอร์</li>
+            <li><strong>ซิงโครไนซ์การทำงาน:</strong> บล็อกการทำงานไว้ที่ <code>xEventGroupWaitBits()</code> จนกว่าจะได้รับ IP แบบไดนามิก (DHCP)</li>
+        </ol>
+
+        <h3>1.5 ซอร์สโค้ดภาษา C ฉบับสมบูรณ์ (main/main.c)</h3>
+        <pre><code>#include &lt;stdio.h&gt;
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/event_groups.h"
+#include "esp_system.h"
+#include "esp_wifi.h"
+#include "esp_event.h"
+#include "esp_log.h"
+#include "nvs_flash.h"
+
+#define WIFI_SSID "Wokwi-GUEST"
+#define WIFI_PASS ""
+
+static const char *TAG = "WIFI_PROJECT";
+static EventGroupHandle_t s_wifi_event_group;
+#define WIFI_CONNECTED_BIT BIT0
+
+static void event_handler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data) {
+    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
+        esp_wifi_connect();
+    } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
+        ESP_LOGW(TAG, "Retrying Wi-Fi connection...");
+        esp_wifi_connect();
+    } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
+        ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
+        ESP_LOGI(TAG, "Successfully acquired IP address: " IPSTR, IP2STR(&event->ip_info.ip));
+        xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
+    }
+}
+
+void app_main(void) {
+    // 1. Initialize NVS Flash Memory
+    esp_err_t ret = nvs_flash_init();
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ret = nvs_flash_init();
+    }
+    ESP_ERROR_CHECK(ret);
+
+    // 2. Initialize Core Event Groups & Network Stack
+    s_wifi_event_group = xEventGroupCreate();
+    ESP_ERROR_CHECK(esp_netif_init());
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+    esp_netif_create_default_wifi_sta();
+
+    // 3. Initialize Wi-Fi Driver
+    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+
+    // 4. Register System Event Loop Callbacks
+    esp_event_handler_instance_t instance_any_id;
+    esp_event_handler_instance_t instance_got_ip;
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &event_handler, NULL, &instance_any_id));
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &event_handler, NULL, &instance_got_ip));
+
+    // 5. Configure Wi-Fi Station Credentials
+    wifi_config_t wifi_config = {
+        .sta = {
+            .ssid = WIFI_SSID,
+            .password = WIFI_PASS,
+        },
+    };
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
+    ESP_ERROR_CHECK(esp_wifi_start());
+
+    ESP_LOGI(TAG, "Wi-Fi initialization finished. Waiting for connection...");
+    xEventGroupWaitBits(s_wifi_event_group, WIFI_CONNECTED_BIT, pdFALSE, pdTRUE, portMAX_DELAY);
+    ESP_LOGI(TAG, "Network pipeline ready for HTTP/MQTT traffic!");
+}</code></pre>
+
+        <h3>1.6 รายการตรวจสอบเพื่อประเมินตนเอง</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>หัวข้อการประเมิน</th>
+                    <th>ผลลัพธ์ที่ต้องตรวจสอบ</th>
+                    <th>สถานะ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>การเริ่มต้น NVS</td>
+                    <td><code>nvs_flash_init()</code> ทำงานเสร็จและคืนค่า <code>ESP_OK</code> โดยไม่มีปัญหาเซกเตอร์ขาดหาย</td>
+                    <td><span class="badge badge-pass">PASS</span></td>
+                </tr>
+                <tr>
+                    <td>การเชื่อมต่อ SSID</td>
+                    <td>เชื่อมต่อกับ Access Point เสมือน <code>Wokwi-GUEST</code> ได้สำเร็จ</td>
+                    <td><span class="badge badge-pass">PASS</span></td>
+                </tr>
+                <tr>
+                    <td>การได้รับ IP จาก DHCP</td>
+                    <td>ได้รับที่อยู่ IPv4 ที่ถูกต้องผ่านอีเวนต์ <code>IP_EVENT_STA_GOT_IP</code></td>
+                    <td><span class="badge badge-pass">PASS</span></td>
+                </tr>
+                <tr>
+                    <td>การซิงโครไนซ์อีเวนต์</td>
+                    <td>FreeRTOS Event Group ปลดบล็อก <code>app_main</code> เมื่อบิตถูกเซ็ต</td>
+                    <td><span class="badge badge-pass">PASS</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- MODULE 2: DISPLAYS & PERIPHERALS -->
+    <section id="project2">
+        <h2>2. โมดูลที่ 2: จอแสดงผลและอุปกรณ์ต่อพ่วง — อินเทอร์เฟซ I2C Master</h2>
+        
+        <h3>2.1 วัตถุประสงค์และความรู้พื้นฐาน</h3>
+        <p>เรียนรู้การตั้งค่าบัสฮาร์ดแวร์ระดับล่างด้วย API สมัยใหม่ <code>driver/i2c_master.h</code> ของ Espressif ที่เริ่มใช้ใน ESP-IDF v5.x เข้าใจโครงสร้างบัสแบบ open-drain, การตั้งค่าตัวต้านทาน pull-up ภายใน, การระบุที่อยู่อุปกรณ์ slave (โมดูล I2C PCF8574 ที่อยู่ 0x27 สำหรับจอ LCD HD44780) และการรับส่งข้อมูลบนบัสแบบไม่บล็อก</p>
+
+        <h3>2.2 Repository อ้างอิง</h3>
+        <div>
+            <a href="https://github.com/wokwi/esp32-idf-hello-wifi" class="repo-link" target="_blank">&#128279; Repository อ้างอิง ESP-IDF ของ Wokwi</a><br>
+            <a href="https://github.com/espressif/esp-idf/blob/master/examples/wifi/getting_started/station/main/station_example_main.c" class="repo-link" target="_blank">&#128279; Repository ตัวอย่าง ESP-IDF (master) ของ Espressif</a>
+        </div>
+
+        <h3>2.3 แผนผังฮาร์ดแวร์และการต่อวงจร</h3>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">การเชื่อมต่อฮาร์ดแวร์ I2C: ESP32 (Master) กับ LCD PCF8574 (0x27)</div>
+            <div class="diagram-ascii">
+   ESP32 SoC                                 PCF8574 LCD Adapter
++--------------+                           +--------------------+
+|              |                           |                    |
+|     GPIO 21  |-------------------------->| SDA                |
+|  (I2C SDA)   |  (Internal Pull-Up 45k)   |                    |
+|              |                           |                    |
+|     GPIO 22  |-------------------------->| SCL                |
+|  (I2C SCL)   |  (Internal Pull-Up 45k)   |                    |
+|              |                           |                    |
+|         5V0  |-------------------------->| VCC (5V Power)     |
+|         GND  |-------------------------->| GND                |
++--------------+                           +--------------------+
+            </div>
+        </div>
+
+        <h4>ตารางการต่อขา</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>ขา ESP32</th>
+                    <th>ขาของ LCD</th>
+                    <th>หน้าที่ของสัญญาณ</th>
+                    <th>สถานะตัวต้านทาน Pull-Up</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>GPIO 21</td>
+                    <td>SDA</td>
+                    <td>สายข้อมูล I2C</td>
+                    <td>เปิดใช้ (ภายใน / ภายนอก 4.7k)</td>
+                </tr>
+                <tr>
+                    <td>GPIO 22</td>
+                    <td>SCL</td>
+                    <td>สายสัญญาณนาฬิกา I2C (100 kHz)</td>
+                    <td>เปิดใช้ (ภายใน / ภายนอก 4.7k)</td>
+                </tr>
+                <tr>
+                    <td>5V / V5</td>
+                    <td>VCC</td>
+                    <td>แหล่งจ่ายไฟ (+5V DC)</td>
+                    <td>ไม่มี</td>
+                </tr>
+                <tr>
+                    <td>GND</td>
+                    <td>GND</td>
+                    <td>กราวด์ร่วม</td>
+                    <td>ไม่มี</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>การตั้งค่าวงจร Wokwi (diagram.json)</h4>
+        <pre><code>{
+  "version": 1,
+  "author": "Embedded Engineering Lab",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkitc-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-lcd1602", "id": "lcd", "top": -160, "left": 120, "attrs": { "pins": "i2c" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "esp:GND.1", "lcd:GND", "black", [ "v0" ] ],
+    [ "esp:5V", "lcd:VCC", "red", [ "v0" ] ],
+    [ "esp:P21", "lcd:SDA", "green", [ "h0" ] ],
+    [ "esp:P22", "lcd:SCL", "blue", [ "h0" ] ]
+  ]
+}</code></pre>
+
+        <h3>2.4 ซอร์สโค้ดภาษา C ฉบับสมบูรณ์ (main/main.c)</h3>
+        <pre><code>#include &lt;stdio.h&gt;
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "driver/i2c_master.h"
+#include "esp_log.h"
+
+#define I2C_SCL_IO           GPIO_NUM_22
+#define I2C_SDA_IO           GPIO_NUM_21
+#define I2C_MASTER_FREQ_HZ   100000
+#define LCD_SLAVE_ADDR       0x27
+
+static const char *TAG = "I2C_PROJECT";
+
+void app_main(void) {
+    ESP_LOGI(TAG, "Initializing Modern I2C Master Bus...");
+
+    // 1. Define Bus Configuration Structure
+    i2c_master_bus_config_t bus_config = {
+        .clk_source = I2C_CLK_SRC_DEFAULT,
+        .i2c_port = I2C_NUM_0,
+        .scl_io_num = I2C_SCL_IO,
+        .sda_io_num = I2C_SDA_IO,
+        .glitch_ignore_cnt = 7,
+        .flags.enable_internal_pullup = true,
+    };
+
+    // 2. Instantiate Master Bus Handle
+    i2c_master_bus_handle_t bus_handle;
+    ESP_ERROR_CHECK(i2c_new_master_bus(&bus_config, &bus_handle));
+
+    // 3. Register Slave Device Configuration
+    i2c_device_config_t dev_config = {
+        .dev_addr_length = I2C_ADDR_BIT_LEN_7,
+        .device_address = LCD_SLAVE_ADDR,
+        .scl_speed_hz = I2C_MASTER_FREQ_HZ,
+    };
+
+    i2c_master_dev_handle_t dev_handle;
+    ESP_ERROR_CHECK(i2c_master_bus_add_device(bus_handle, &dev_config, &dev_handle));
+
+    ESP_LOGI(TAG, "I2C bus registered successfully. Probing slave device at address 0x27...");
+
+    // 4. Perform Data Transmission Probe
+    uint8_t init_cmd[] = { 0x08 }; // Backlight control / clear command frame
+    esp_err_t err = i2c_master_transmit(dev_handle, init_cmd, sizeof(init_cmd), 1000 / portTICK_PERIOD_MS);
+
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG, "Communication success! Peripheral acknowledged transfer (ACK).");
+    } else {
+        ESP_LOGE(TAG, "Communication failed: %s", esp_err_to_name(err));
+    }
+}</code></pre>
+
+        <h3>2.5 รายการตรวจสอบเพื่อประเมินตนเอง</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>หัวข้อการประเมิน</th>
+                    <th>ผลลัพธ์ที่ต้องตรวจสอบ</th>
+                    <th>สถานะ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>การเริ่มต้น I2C Master</td>
+                    <td><code>i2c_new_master_bus()</code> ทำงานได้เรียบร้อยและคืนค่า <code>ESP_OK</code></td>
+                    <td><span class="badge badge-pass">PASS</span></td>
+                </tr>
+                <tr>
+                    <td>การลงทะเบียนอุปกรณ์ Slave</td>
+                    <td>Device handle ผูกกับที่อยู่ 7 บิต <code>0x27</code> ที่ความเร็วสัญญาณนาฬิกา 100 kHz</td>
+                    <td><span class="badge badge-pass">PASS</span></td>
+                </tr>
+                <tr>
+                    <td>การตรวจสอบการตอบกลับ ACK</td>
+                    <td><code>i2c_master_transmit()</code> สำเร็จโดยไม่มีข้อผิดพลาด timeout ของฮาร์ดแวร์</td>
+                    <td><span class="badge badge-pass">PASS</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- MODULE 3: RTOS & SYSTEM ARCHITECTURE -->
+    <section id="project3">
+        <h2>3. โมดูลที่ 3: RTOS และสถาปัตยกรรมระบบ — การประมวลผลอินเทอร์รัปต์แบบเลื่อนเวลาและคิว</h2>
+        
+        <h3>3.1 วัตถุประสงค์และความรู้พื้นฐาน</h3>
+        <p>ฝึกการทำงานแบบเรียลไทม์ที่คาดการณ์ได้ (deterministic) โดยหลีกเลี่ยงการวนตรวจสอบ (polling) ที่ใช้เวลานานในลูปหลัก สร้างอินเทอร์รัปต์ฮาร์ดแวร์แบบทริกเกอร์ที่ขอบสัญญาณ (GPIO ISR) รันโค้ดในบริบทอินเทอร์รัปต์อย่างปลอดภัยด้วยแอตทริบิวต์ <code>IRAM_ATTR</code> ส่งต่องานประมวลผลอย่างปลอดภัยผ่าน FreeRTOS Queue (<code>xQueueSendFromISR</code>) และปลดบล็อก task ทำงานเบื้องหลังแบบอะซิงโครนัส</p>
+
+        <h3>3.2 Repository อ้างอิง</h3>
+        <div>
+            <a href="https://github.com/wokwi/esp32-idf-hello-wifi" class="repo-link" target="_blank">&#128279; โปรเจกต์อ้างอิง ESP-IDF ของ Wokwi</a><br>
+            <a href="https://github.com/espressif/esp-idf/blob/master/examples/wifi/getting_started/station/main/station_example_main.c" class="repo-link" target="_blank">&#128279; ตัวอย่างอ้างอิงระบบหลักของ Espressif</a>
+        </div>
+
+        <h3>3.3 แผนผังฮาร์ดแวร์และการต่อวงจรบน Wokwi</h3>
+
+        <div class="diagram-container">
+            <div class="diagram-title">สถาปัตยกรรมระบบ: ไปป์ไลน์ ISR ทริกเกอร์ที่ขอบสัญญาณ ส่งต่อผ่านคิว</div>
+            <div class="diagram-ascii">
+ [Push Button] ---> GPIO 4 (Falling Edge)
+                       |
+                       v
+               +-------------------+
+               | Hardware ISR      |  (Runs in IRAM context)
+               | (IRAM_ATTR)       |
+               +---------+---------+
+                         |
+                         | xQueueSendFromISR()
+                         v
+               +-------------------+
+               | FreeRTOS Queue    |  (Thread-safe FIFO Depth=10)
+               +---------+---------+
+                         |
+                         | xQueueReceive() [Blocks portMAX_DELAY]
+                         v
+               +-------------------+
+               | Button Worker     |  (Executes in Task context)
+               | Thread Task       |
+               +-------------------+
+            </div>
+        </div>
+
+        <h4>ไฟล์วงจร Wokwi (diagram.json)</h4>
+        <pre><code>{
+  "version": 1,
+  "author": "Embedded Engineering Lab",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkitc-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-pushbutton", "id": "btn", "top": 100, "left": 150, "attrs": { "color": "red" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "esp:P4", "btn:1.1", "green", [ "h0" ] ],
+    [ "esp:GND.1", "btn:2.1", "black", [ "h0" ] ]
+  ]
+}</code></pre>
+
+        <h3>3.4 ซอร์สโค้ดภาษา C ฉบับสมบูรณ์ (main/main.c)</h3>
+        <pre><code>#include &lt;stdio.h&gt;
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/queue.h"
+#include "driver/gpio.h"
+#include "esp_log.h"
+
+#define BUTTON_PIN GPIO_NUM_4
+
+static const char *TAG = "RTOS_ISR_PROJECT";
+static QueueHandle_t gpio_evt_queue = NULL;
+
+// 1. Interrupt Service Routine placed in internal Instruction RAM (IRAM)
+static void IRAM_ATTR gpio_isr_handler(void* arg) {
+    uint32_t gpio_num = (uint32_t) arg;
+    xQueueSendFromISR(gpio_evt_queue, &gpio_num, NULL);
+}
+
+// 2. Background Worker Consumer Thread
+static void button_worker_task(void* arg) {
+    uint32_t io_num;
+    uint32_t press_count = 0;
+    while (1) {
+        // Block indefinitely until an ISR event is pushed to the queue
+        if (xQueueReceive(gpio_evt_queue, &io_num, portMAX_DELAY)) {
+            press_count++;
+            ESP_LOGI(TAG, "ISR Event Received! Button on GPIO %ld pressed %ld times.", io_num, press_count);
+        }
+    }
+}
+
+void app_main(void) {
+    // 3. Create FreeRTOS Queue for Event Offloading
+    gpio_evt_queue = xQueueCreate(10, sizeof(uint32_t));
+
+    // 4. Spawn Consumer Task
+    xTaskCreate(button_worker_task, "button_worker_task", 2048, NULL, 10, NULL);
+
+    // 5. Configure Hardware Edge Trigger on Pin
+    gpio_config_t io_conf = {
+        .pin_bit_mask = (1ULL << BUTTON_PIN),
+        .mode = GPIO_MODE_INPUT,
+        .pull_up_en = GPIO_PULLUP_ENABLE,
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .intr_type = GPIO_INTR_NEGEDGE,
+    };
+    gpio_config(&io_conf);
+
+    // 6. Install Global ISR Service and Register Handler
+    gpio_install_isr_service(0);
+    gpio_isr_handler_add(BUTTON_PIN, gpio_isr_handler, (void*) BUTTON_PIN);
+
+    ESP_LOGI(TAG, "GPIO Interrupt Service Routine installed. Waiting for hardware button presses...");
+}</code></pre>
+
+        <div class="callout callout-warning">
+            <div class="callout-title">กฎสำคัญของ ISR</div>
+            <p>ฟังก์ชันที่ทำงานภายใน ISR <strong>ห้าม</strong>เรียกคำสั่งที่บล็อกการทำงาน เช่น <code>vTaskDelay()</code>, <code>printf()</code> หรือฟังก์ชัน RTOS ที่ไม่ใช่เวอร์ชันสำหรับ ISR โดยเด็ดขาด ฟังก์ชัน RTOS ทุกตัวที่เรียกจาก ISR ต้องลงท้ายด้วย <code>FromISR</code></p>
+        </div>
+
+        <h3>3.5 รายการตรวจสอบเพื่อประเมินตนเอง</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>หัวข้อการประเมิน</th>
+                    <th>ผลลัพธ์ที่ต้องตรวจสอบ</th>
+                    <th>สถานะ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ตำแหน่งการทำงานของ ISR</td>
+                    <td>ฟังก์ชัน handler ระบุ <code>IRAM_ATTR</code> ไว้อย่างชัดเจน</td>
+                    <td><span class="badge badge-pass">PASS</span></td>
+                </tr>
+                <tr>
+                    <td>การส่งต่องานผ่านคิวอย่างปลอดภัย</td>
+                    <td><code>xQueueSendFromISR()</code> ส่งหมายเลขขาเข้าคิวได้เรียบร้อยโดยไม่เกิดการแครช</td>
+                    <td><span class="badge badge-pass">PASS</span></td>
+                </tr>
+                <tr>
+                    <td>การปลดบล็อก Task</td>
+                    <td>Task ทำงานเบื้องหลังประมวลผลข้อความที่เข้ามาแบบอะซิงโครนัส</td>
+                    <td><span class="badge badge-pass">PASS</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- MODULE 4: FLASH FILE SYSTEMS -->
+    <section id="project4">
+        <h2>4. โมดูลที่ 4: ระบบไฟล์บนแฟลช — การจัดเก็บแบบ Wear-Leveling ด้วย SPIFFS และ LittleFS</h2>
+        
+        <h3>4.1 วัตถุประสงค์และความรู้พื้นฐาน</h3>
+        <p>เข้าใจการจัดเก็บข้อมูลแบบมีโครงสร้างที่ไม่สูญหายเมื่อไฟดับบนหน่วยความจำแฟลชแบบ NOR สร้างพาร์ทิชัน SPIFFS / LittleFS โดยใช้เลเยอร์ Virtual File System (VFS) ของ Espressif เพื่อทำงานกับไฟล์ด้วยคำสั่ง POSIX มาตรฐาน (<code>fopen</code>, <code>fprintf</code>, <code>fgets</code>, <code>fclose</code>) พร้อมใช้ประโยชน์จากอัลกอริทึม wear-leveling</p>
+
+        <h3>4.2 Repository อ้างอิง</h3>
+        <div>
+            <a href="https://github.com/espressif/esp-idf/blob/master/examples/storage/spiffs/main/spiffs_example_main.c" class="repo-link" target="_blank">&#128279; ตัวอย่างการจัดเก็บด้วย SPIFFS ทางการของ Espressif</a><br>
+            <a href="https://github.com/joltwallet/esp_littlefs" class="repo-link" target="_blank">&#128279; LittleFS สำหรับ ESP-IDF (พอร์ตจากบุคคลที่สาม)</a>
+        </div>
+
+        <h3>4.3 การตั้งค่าตารางพาร์ทิชัน</h3>
+        <p>ที่ root ของโปรเจกต์ ให้กำหนดการแบ่งพาร์ทิชันมาตรฐานไว้ในไฟล์ <code>partitions.csv</code>:</p>
+        <pre><code># ESP-IDF Partition Table
+# Name,   Type, SubType, Offset,  Size,     Flags
+nvs,      data, nvs,     0x9000,  0x6000,
+phy_init, data, phy,     0xf000,  0x1000,
+factory,  app,  factory, 0x10000, 1M,
+storage,  data, spiffs,  ,        0x100000,</code></pre>
+
+        <h3>4.4 ซอร์สโค้ดภาษา C ฉบับสมบูรณ์ (main/main.c)</h3>
+        <pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include "esp_spiffs.h"
+#include "esp_log.h"
+
+static const char *TAG = "STORAGE_PROJECT";
+
+void app_main(void) {
+    ESP_LOGI(TAG, "Initializing SPIFFS Virtual File System...");
+
+    // 1. Configure VFS SPIFFS Mounting Structure
+    esp_vfs_spiffs_conf_t conf = {
+        .base_path = "/spiffs",
+        .partition_label = NULL,
+        .max_files = 5,
+        .format_if_mount_failed = true
+    };
+
+    // 2. Register and Mount VFS SPIFFS
+    esp_err_t ret = esp_vfs_spiffs_register(&conf);
+    if (ret != ESP_OK) {
+        if (ret == ESP_FAIL) {
+            ESP_LOGE(TAG, "Failed to mount or format filesystem");
+        } else if (ret == ESP_ERR_NOT_FOUND) {
+            ESP_LOGE(TAG, "Failed to find SPIFFS partition in partition table");
+        } else {
+            ESP_LOGE(TAG, "Failed to initialize SPIFFS (%s)", esp_err_to_name(ret));
+        }
+        return;
+    }
+
+    ESP_LOGI(TAG, "SPIFFS mounted successfully at /spiffs. Executing POSIX Write Operation...");
+
+    // 3. Perform Standard POSIX File Write Call
+    FILE* f = fopen("/spiffs/log.txt", "w");
+    if (f == NULL) {
+        ESP_LOGE(TAG, "Failed to open log.txt for writing");
+        return;
+    }
+    fprintf(f, "Sensor Log Entry #104: Temp=24.5C, Humidity=60%%
+");
+    fclose(f);
+    ESP_LOGI(TAG, "File successfully written and flushed to flash.");
+
+    // 4. Perform POSIX Read and Verification
+    FILE* f_read = fopen("/spiffs/log.txt", "r");
+    if (f_read == NULL) {
+        ESP_LOGE(TAG, "Failed to open log.txt for reading");
+        return;
+    }
+    char line[128];
+    fgets(line, sizeof(line), f_read);
+    fclose(f_read);
+
+    ESP_LOGI(TAG, "Read back string from SPIFFS: %s", line);
+
+    // 5. Unmount Filesystem Cleanly
+    esp_vfs_spiffs_unregister(conf.partition_label);
+    ESP_LOGI(TAG, "SPIFFS filesystem unmounted cleanly.");
+}</code></pre>
+
+        <h3>4.5 รายการตรวจสอบเพื่อประเมินตนเอง</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>หัวข้อการประเมิน</th>
+                    <th>ผลลัพธ์ที่ต้องตรวจสอบ</th>
+                    <th>สถานะ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>การลงทะเบียนพาร์ทิชัน</td>
+                    <td><code>esp_vfs_spiffs_register()</code> คืนค่า <code>ESP_OK</code> โดยไม่มีการฟอร์แมตล้มเหลว</td>
+                    <td><span class="badge badge-pass">PASS</span></td>
+                </tr>
+                <tr>
+                    <td>การเขียนไฟล์ด้วย POSIX</td>
+                    <td><code>fopen()</code> และ <code>fprintf()</code> บันทึกบัฟเฟอร์ลงแฟลชได้สำเร็จ</td>
+                    <td><span class="badge badge-pass">PASS</span></td>
+                </tr>
+                <tr>
+                    <td>การตรวจสอบความถูกต้องของข้อมูล</td>
+                    <td>ข้อมูลที่อ่านกลับมาตรงกับสตริงที่เขียนทุกตัวอักษร</td>
+                    <td><span class="badge badge-pass">PASS</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- MODULE 5: COMPREHENSIVE SELF-ASSESSMENT & RUBRIC -->
+    <section id="assessment">
+        <h2>5. การประเมินตนเองแบบรวมและเกณฑ์การให้คะแนน (Rubric)</h2>
+        <p>ประเมินความเชี่ยวชาญทางเทคนิคโดยรวมของคุณทั้ง 4 โมดูลการจำลอง ESP32 ตามเกณฑ์ด้านล่าง:</p>
+
+        <table class="rubric-table">
+            <thead>
+                <tr>
+                    <th>ด้านการเรียนรู้</th>
+                    <th>สมรรถนะทางเทคนิคหลัก</th>
+                    <th>คะแนน</th>
+                    <th>การสะท้อนตนเองและหลักฐานจากระบบ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. สแต็กโปรโตคอลเครือข่าย</strong></td>
+                    <td>การตั้งค่า <code>esp_netif</code>, การจัดการการเชื่อมต่อ Wi-Fi แบบขับเคลื่อนด้วยอีเวนต์ และการรับ IP แบบไดนามิกจาก DHCP</td>
+                    <td>5 / 5</td>
+                    <td>เชื่อมต่อ STA กับ AP <code>Wokwi-GUEST</code> ได้ และปลดบล็อก FreeRTOS Event Group เมื่อเกิด <code>IP_EVENT_STA_GOT_IP</code></td>
+                </tr>
+                <tr>
+                    <td><strong>2. ไดรเวอร์บัสฮาร์ดแวร์</strong></td>
+                    <td>การสร้าง bus handle ด้วย <code>driver/i2c_master.h</code> ของ ESP-IDF v5 และการรับส่งข้อมูลกับอุปกรณ์ slave</td>
+                    <td>5 / 5</td>
+                    <td>ตั้งค่าบัส I2C master บน GPIO 21/22 และได้รับการยืนยัน ACK จากคอนโทรลเลอร์ PCF8574 ที่ที่อยู่ 0x27</td>
+                </tr>
+                <tr>
+                    <td><strong>3. รูปแบบการใช้ระบบปฏิบัติการเวลาจริง</strong></td>
+                    <td>การแยก ISR ของฮาร์ดแวร์ออกจาก task ผู้บริโภคข้อมูลด้วย handler ใน IRAM และ FreeRTOS Queue</td>
+                    <td>5 / 5</td>
+                    <td>ไม่มีลูปที่บล็อกการทำงาน ISR ทำงานจาก IRAM เมื่อเกิดขอบสัญญาณ และส่งข้อมูลผ่านคิวที่ปลอดภัยต่อเธรด</td>
+                </tr>
+                <tr>
+                    <td><strong>4. ระบบจัดเก็บข้อมูลแบบฝังตัว</strong></td>
+                    <td>การแบ่งพาร์ทิชันแฟลชเอง การเมานต์เลเยอร์ VFS และการทำงานกับไฟล์ด้วยคำสั่ง POSIX มาตรฐานของภาษา C</td>
+                    <td>5 / 5</td>
+                    <td>เมานต์พาร์ทิชัน SPIFFS ได้เรียบร้อย บันทึกสตริงข้อมูลเซนเซอร์ และตรวจสอบการอ่านกลับได้ตรงทุกไบต์</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>แบบทดสอบความเข้าใจท้ายบท</h3>
+        <ul>
+            <li>[&#10004;] <strong>ทำไมต้องเริ่มต้น NVS flash ก่อนเริ่มสแต็ก Wi-Fi?</strong><br>
+            <em>คำตอบ: เลเยอร์ PHY ของ Wi-Fi ของ Espressif ใช้เซกเตอร์ใน NVS เพื่อดึงข้อมูลการปรับเทียบคลื่นวิทยุ (RF calibration) การตั้งค่า MAC address และกู้คืนพารามิเตอร์การทำงานของ Wi-Fi</em></li>
+            <li>[&#10004;] <strong>สถาปัตยกรรมของ <code>driver/i2c.h</code> แบบเดิม ต่างจาก <code>driver/i2c_master.h</code> แบบใหม่อย่างไร?</strong><br>
+            <em>คำตอบ: ไดรเวอร์ใหม่ของ ESP-IDF v5.x ใช้ bus handle (<code>i2c_master_bus_handle_t</code>) และ device handle (<code>i2c_master_dev_handle_t</code>) อย่างชัดเจน ทำให้ใช้งาน slave หลายตัวได้อย่างปลอดภัยต่อเธรด และรองรับการจัดการพลังงาน</em></li>
+            <li>[&#10004;] <strong>ทำไมจึงห้ามเรียกคำสั่งที่บล็อก (เช่น <code>vTaskDelay</code>, <code>printf</code>) ภายในฟังก์ชัน ISR ที่ระบุ <code>IRAM_ATTR</code>?</strong><br>
+            <em>คำตอบ: ISR ทำงานในบริบทอินเทอร์รัปต์ซึ่งมีลำดับความสำคัญของ CPU สูง การบล็อกหรือการรันโค้ดที่อยู่ในแคชของแฟลชจะทำให้การจัดลำดับงาน (scheduling) ของ CPU หยุดชะงัก และเสี่ยงต่อการเกิด panic จาก cache miss ขณะที่อินเทอร์รัปต์ถูกปิดกั้นอยู่</em></li>
+            <li>[&#10004;] <strong>Virtual File System (VFS) แปลงคำสั่ง POSIX มาตรฐาน (<code>fopen</code>) ไปยังหน่วยความจำแฟลชได้อย่างไร?</strong><br>
+            <em>คำตอบ: VFS ลงทะเบียนพอยน์เตอร์ฟังก์ชันของไดรเวอร์ (read/write/open) ที่ผูกกับไดรเวอร์ระบบไฟล์จริงด้านล่าง (SPIFFS/LittleFS) ซึ่งแปลง path เสมือนเป็นคำสั่งลบเซกเตอร์และ wear-leveling บนแฟลช</em></li>
+        </ul>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2026 ห้องปฏิบัติการสถาปัตยกรรมระบบสมองกลฝังตัวและวิศวกรรม IoT สงวนลิขสิทธิ์</p>
+        <p>จัดทำสำหรับแพลตฟอร์มจำลอง Wokwi และสภาพแวดล้อมการพัฒนา ESP-IDF v5.x</p>
+    </footer>
+</div>
+
+</body>
+</html>
