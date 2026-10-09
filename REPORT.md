@@ -43,12 +43,16 @@ idf.py build
 เข้าใจลำดับการเริ่มต้น Wi-Fi ของ ESP32 ในโหมด Station: NVS, `esp_netif`, default event loop, event callback และ FreeRTOS Event Group
 
 ### 1.2 หลักการทำงาน / สิ่งที่เรียนรู้
-_(อธิบายด้วยคำพูดของตัวเอง เช่น ลำดับการทำงานตั้งแต่ `nvs_flash_init()` จนได้ IP และหน้าที่ของ Event Group)_
+นำ esp32 มาจำลองการทำ router เปิด ssid  wifi แล้วให้ device เชื่อมต่อแล้วทำการแจก DHCP จากนั้นก็ปิด connecttion 
 
 ### 1.3 ขั้นตอนการทดลอง
-1. _(สรุปสิ่งที่ทำจริง)_
-2.
-3.
+1. เริ่มต้นหน่วยความจำ NVS ด้วย `nvs_flash_init()`
+2. เริ่มต้นสแต็กเครือข่ายด้วย `esp_netif_init()` และสร้าง event loop ด้วย `esp_event_loop_create_default()`
+3. สร้างอินเทอร์เฟซ Wi-Fi โหมด Station ด้วย `esp_netif_create_default_wifi_sta()` แล้วเริ่มไดรเวอร์ด้วย `esp_wifi_init()`
+4. ลงทะเบียนฟังก์ชัน `event_handler` ให้รับอีเวนต์ `WIFI_EVENT` และ `IP_EVENT`
+5. ตั้งค่า SSID เป็น `Wokwi-GUEST` (ไม่มีรหัสผ่าน) แล้วเรียก `esp_wifi_start()`
+6. ใช้ `xEventGroupWaitBits()` ให้ `app_main` รอจนกว่าจะได้รับ IP
+
 
 ### 1.4 ผลการทดลอง
 
@@ -168,6 +172,9 @@ I (2802) main_task: Returned from app_main(
 
 ### 1.6 วิเคราะห์ผล
 _(IP ที่ได้คืออะไร ใช้เวลาเชื่อมต่อนานเท่าไร มีการ retry หรือไม่ เพราะอะไร)_
+IP ที่ได้คือ 10.13.37.2, gateway 10.13.37.1, subnet /24
+ต่อ router ติดใช้เวลาประมาณ 0.6 วินาที (1062 → 1692 ms) และได้ IP ประมาณ 1.7 วินาทีหลังเริ่ม Wi-Fi (→ 2802 ms)
+ไม่มีบรรทัด Retrying Wi-Fi connection... เลย แปลว่าต่อติดในครั้งแรก
 
 ---
 
