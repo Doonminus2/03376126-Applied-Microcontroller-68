@@ -3,3 +3,4 @@ CONFIG_PARTITION_TABLE_CUSTOM=y
 CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
 # factory 1M + storage 1M เกิน 2MB จึงต้องตั้งแฟลชเป็น 4MB
 CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+    
