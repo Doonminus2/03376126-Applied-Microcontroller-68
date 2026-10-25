@@ -1,0 +1,2 @@
+# เทสต์ใช้ TEST_ASSERT_EQUAL_UINT64/INT64 กับ epoch และเวลา stopwatch
+CONFIG_UNITY_ENABLE_64BIT=y

@@ -1,0 +1,2 @@
+# แอป Wi-Fi มีขนาดใหญ่ ใช้พาร์ทิชันแอปขนาดใหญ่ขึ้น
+CONFIG_PARTITION_TABLE_SINGLE_APP_LARGE=y

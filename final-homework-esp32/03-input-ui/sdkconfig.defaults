@@ -1,0 +1,2 @@
+# เปิดให้ ESP_LOGD คอมไพล์เข้าไป เพื่อให้ main เปิดระดับ debug เฉพาะ tag ButtonManager แล้วเห็นจำนวน bounce
+CONFIG_LOG_MAXIMUM_LEVEL_DEBUG=y

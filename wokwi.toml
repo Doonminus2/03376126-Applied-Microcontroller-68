@@ -1,4 +1,4 @@
 [wokwi]
 version = 1
-firmware = 'build/flasher_args.json'
-elf = 'build/blink.elf'
+firmware = 'final-homework-esp32/05-integration/build/flasher_args.json'
+elf = 'final-homework-esp32/05-integration/build/final05_integration.elf'

@@ -1,0 +1,49 @@
+menu "Digital Clock"
+
+    config DC_WIFI_SSID
+        string "Wi-Fi SSID"
+        default "Wokwi-GUEST"
+        help
+            ชื่อ Wi-Fi ที่จะต่อเพื่อดึงเวลา NTP
+            ค่าเริ่มต้น Wokwi-GUEST ใช้ได้เฉพาะใน Wokwi simulator
+            บอร์ดจริงใช้ SSID iotexpo / password 12345678
+            ตั้งผ่าน `idf.py menuconfig` -> Digital Clock
+
+    config DC_WIFI_PASSWORD
+        string "Wi-Fi password"
+        default ""
+        help
+            รหัส Wi-Fi ปล่อยว่างสำหรับ AP แบบเปิด (Wokwi-GUEST)
+            บอร์ดจริงให้ตั้งเป็น 12345678 ผ่าน `idf.py menuconfig`
+            ว่าง = ยอมรับ WIFI_AUTH_OPEN, มีรหัส = ต้องเป็น WPA2-PSK ขึ้นไป
+
+    config DC_WIFI_MAX_RETRY
+        int "Wi-Fi reconnect attempts before waiting for next NTP cycle"
+        range 1 20
+        default 5
+        help
+            จำนวนครั้งที่ต่อ Wi-Fi ใหม่แบบ back-off (1, 2, 4, ... สูงสุด 30 วินาที)
+            ครบแล้วจะรอรอบ NTP ถัดไปค่อยเริ่มนับใหม่
+
+    config DC_NTP_SERVER
+        string "NTP server"
+        default "pool.ntp.org"
+
+    config DC_TZ
+        string "POSIX timezone"
+        default "ICT-7"
+        help
+            DS1307 และเวลาระบบเก็บเป็น UTC ค่านี้ใช้แปลงเป็นเวลาท้องถิ่นตอนแสดงผล
+            ICT-7 = เวลาประเทศไทย (UTC+7) เครื่องหมายใน POSIX TZ กลับด้านกับ UTC offset
+
+    config DC_NTP_RESYNC_SEC
+        int "NTP resync period (seconds)"
+        range 60 86400
+        default 3600
+
+    config DC_NTP_TIMEOUT_SEC
+        int "Timeout for Wi-Fi connect and NTP reply (seconds)"
+        range 1 120
+        default 15
+
+endmenu
