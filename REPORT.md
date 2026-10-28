@@ -88,19 +88,25 @@ idf.py build
 
 ![ผลการจำลอง Spiral 1](docs/images/spiral01/Screenshot%202569-10-28%20at%2015.28.48.png)
 
-```text
-<ets Jul 29 2019 12:21:46
+**บรรทัด log สำคัญ** (ตัดบรรทัดเวลาที่ซ้ำทุกวินาทีและ debug ของปุ่มออก):
 
-rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0040,len:6272
-load:0x40078000,len:15820
-load:0x40080400,len:3920
-entry 0x40080644
-I (12) boot: ESP-IDF v6.0.2 2nd stage bootloader
-I (13) boot: compile time Oct 28 2026 15:2ets Jul 29 2019 12:21:46
+```text
+I (167) app_init: Project name:     final01_hal_i2c
+I (262) hal_demo: I2C device found at 0x3C
+I (272) hal_demo: I2C device found at 0x68
+I (272) hal_demo: Scan done: 2 device(s)
+I (272) hal_demo: DS1307 init: OK
+I (272) hal_demo: SSD1306 init: OK
+I (392) hal_demo: Read-back check: PASS (diff=0s)
+I (502) hal_demo: DS1307 2026-10-28 15:25:00
+I (1602) hal_demo: DS1307 2026-10-28 15:25:01
+```
+
+<details>
+<summary>ดู Serial Monitor log เต็ม</summary>
+
+```text
+ets Jul 29 2019 12:21:46
 
 rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
 configsip: 0, SPIWP:0xee
@@ -143,7 +149,7 @@ I (176) app_init: Compile time:     Oct 28 2026 15:23:18
 I (181) app_init: ELF file SHA256:  629d98d00...
 I (185) app_init: ESP-IDF:          v6.0.2
 I (189) efuse_init: Min chip rev:     v0.0
-I (193) efuse_init: Max chip rev:     v3.99 
+I (193) efuse_init: Max chip rev:     v3.99
 I (197) efuse_init: Chip rev:         v3.0
 I (202) heap_init: Initializing. RAM available for dynamic allocation:
 I (207) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
@@ -328,6 +334,8 @@ I (179802) hal_demo: DS1307 2026-10-28 15:27:59
 >
 ```
 
+</details>
+
 ### 1.6 ตรวจสอบตนเอง
 
 | หัวข้อการประเมิน | ผลลัพธ์ที่ต้องตรวจสอบ | ผล |
@@ -382,6 +390,26 @@ I (179802) hal_demo: DS1307 2026-10-28 15:27:59
 
 ![ผลการจำลอง Spiral 2](docs/images/spiral02/image.png)
 
+**บรรทัด log สำคัญ** (ตัดบรรทัดเวลาที่ซ้ำทุกวินาทีและ debug ของปุ่มออก):
+
+```text
+I (612) app_init: Project name:     final02_time_ntp
+I (808) TimeManager: System clock loaded from DS1307: 2026-10-28 15:56:59 UTC (TZ=ICT-7)
+I (808) time_demo: Time from RTC loaded
+I (1238) TimeManager: Wi-Fi STA started, connecting to "Wokwi-GUEST" (open)
+I (1278) time_demo: [time] 2026-10-28 22:56:59 source=RTC
+I (3138) esp_netif_handlers: sta ip: 10.13.37.2, mask: 255.255.255.0, gw: 10.13.37.1
+I (3138) TimeManager: Wi-Fi connected, IP 10.13.37.2
+I (3138) TimeManager: SNTP query pool.ntp.org (timeout 15000 ms)
+I (3488) time_demo: [time] 2026-10-28 22:57:01 source=RTC
+I (4988) TimeManager: ntp_demo: UTC 2026-10-28 08:57:03 -> DS1307 written | local (ICT-7) 2026-10-28 15:57:03
+I (4988) TimeManager: NTP sync OK, next resync in 3600 s
+I (5688) time_demo: [time] 2026-10-28 15:57:04 source=NTP
+```
+
+<details>
+<summary>ดู Serial Monitor log เต็ม</summary>
+
 ```text
 <ets Jul 29 2019 12:21:46
 
@@ -426,7 +454,7 @@ I (621) app_init: Compile time:     Oct 28 2026 15:44:32
 I (626) app_init: ELF file SHA256:  f9607da0f...
 I (631) app_init: ESP-IDF:          v6.0.2
 I (634) efuse_init: Min chip rev:     v0.0
-I (638) efuse_init: Max chip rev:     v3.99 
+I (638) efuse_init: Max chip rev:     v3.99
 I (642) efuse_init: Chip rev:         v3.0
 I (647) heap_init: Initializing. RAM available for dynamic allocation:
 I (652) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
@@ -522,6 +550,8 @@ I (38688) time_demo: [time] 2026-10-28 15:57:37 source=NTP
 >
 ```
 
+</details>
+
 ### 2.6 ตรวจสอบตนเอง
 
 | หัวข้อการประเมิน | ผลลัพธ์ที่ต้องตรวจสอบ | ผล |
@@ -587,6 +617,52 @@ I (38688) time_demo: [time] 2026-10-28 15:57:37 source=NTP
 
 ![ผลการจำลอง Spiral 3](docs/images/spiral03/image.png)
 
+**บรรทัด log สำคัญ** (ตัดบรรทัดเวลาที่ซ้ำทุกวินาทีและ debug ของปุ่มออก):
+
+```text
+I (171) app_init: Project name:     final03_input_ui
+I (366) ButtonManager: ready: MODE=GPIO18 SET=GPIO19 ALARM=GPIO4 LAP=GPIO5
+I (14496) ui_demo: [btn] MODE short
+I (14496) ui_demo: [mode] CLOCK -> SET TIME
+I (16076) ui_demo: [btn] MODE short
+I (16076) ui_demo: [mode] SET TIME -> ALARM
+I (17166) ui_demo: [btn] MODE short
+I (17166) ui_demo: [mode] ALARM -> STOPWATCH
+I (18956) ui_demo: [btn] MODE short
+I (18956) ui_demo: [mode] STOPWATCH -> CLOCK
+I (24736) ui_demo: [btn] SET long
+I (24836) ui_demo: [btn] ALARM short
+I (24836) ui_demo: [cmd] 2
+I (26076) ui_demo: [btn] MODE short
+I (26076) ui_demo: [mode] CLOCK -> SET TIME
+I (28196) ui_demo: [btn] MODE short
+I (28196) ui_demo: [mode] SET TIME -> ALARM
+I (33196) ui_demo: [btn] ALARM short
+I (33196) ui_demo: [cmd] 2
+I (33356) ui_demo: [btn] ALARM short
+I (33356) ui_demo: [cmd] 2
+I (33516) ui_demo: [btn] ALARM short
+I (33516) ui_demo: [cmd] 2
+I (34006) ui_demo: [btn] SET short
+I (34006) ui_demo: [field] 0 -> 13
+I (34866) ui_demo: [btn] MODE short
+I (34866) ui_demo: [mode] ALARM -> STOPWATCH
+I (39396) ui_demo: [btn] LAP short
+I (39396) ui_demo: [cmd] 4
+I (40146) ui_demo: [btn] ALARM short
+I (40146) ui_demo: [cmd] 2
+I (40696) ui_demo: [btn] SET short
+I (40696) ui_demo: [cmd] 3
+I (41216) ui_demo: [btn] MODE short
+I (41216) ui_demo: [mode] STOPWATCH -> CLOCK
+I (41996) ui_demo: [btn] SET short
+I (42406) ui_demo: [btn] ALARM short
+I (42406) ui_demo: [cmd] 2
+```
+
+<details>
+<summary>ดู Serial Monitor log เต็ม</summary>
+
 ```text
 <ets Jul 29 2019 12:21:46
 
@@ -631,7 +707,7 @@ I (180) app_init: Compile time:     Oct 28 2026 15:58:30
 I (185) app_init: ELF file SHA256:  b10fff131...
 I (189) app_init: ESP-IDF:          v6.0.2
 I (193) efuse_init: Min chip rev:     v0.0
-I (197) efuse_init: Max chip rev:     v3.99 
+I (197) efuse_init: Max chip rev:     v3.99
 I (201) efuse_init: Chip rev:         v3.0
 I (206) heap_init: Initializing. RAM available for dynamic allocation:
 I (211) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
@@ -748,6 +824,8 @@ I (42406) ui_demo: [cmd] 2
 >
 ```
 
+</details>
+
 ### 3.6 ตรวจสอบตนเอง
 
 | หัวข้อการประเมิน | ผลลัพธ์ที่ต้องตรวจสอบ | ผล |
@@ -804,6 +882,28 @@ I (42406) ui_demo: [cmd] 2
 
 ![ผลการจำลอง Spiral 4](docs/images/spiral04/image.png)
 
+**บรรทัด log สำคัญ** (ตัดบรรทัดเวลาที่ซ้ำทุกวินาทีและ debug ของปุ่มออก):
+
+```text
+I (197) app_init: Project name:     final04_alarm_stopwatch
+I (394) ButtonManager: ready: MODE=GPIO18 SET=GPIO19 ALARM=GPIO4 LAP=GPIO5
+I (394) TimeManager: System clock loaded from DS1307: 2026-10-28 16:05:03 UTC (TZ=ICT-7)
+I (394) alarm_demo: [alarm] demo alarm set to 23:06
+I (6394) alarm_demo: [alarm] disabled
+I (7594) alarm_demo: [alarm] enabled
+I (22834) sw: [sw] reset
+I (22994) sw: [sw] reset
+I (25564) sw: [sw] reset
+I (26164) sw: [sw] start at 00:00.00
+I (33164) sw: [sw] stop at 00:07.00
+I (44304) alarm_demo: [alarm] disabled
+I (47814) alarm_demo: [alarm] enabled
+I (58394) alarm: [alarm] START 23:06
+```
+
+<details>
+<summary>ดู Serial Monitor log เต็ม</summary>
+
 ```text
 <ets Jul 29 2019 12:21:46
 
@@ -848,7 +948,7 @@ I (207) app_init: Compile time:     Oct 28 2026 16:03:39
 I (212) app_init: ELF file SHA256:  2f2099f9c...
 I (216) app_init: ESP-IDF:          v6.0.2
 I (220) efuse_init: Min chip rev:     v0.0
-I (224) efuse_init: Max chip rev:     v3.99 
+I (224) efuse_init: Max chip rev:     v3.99
 I (228) efuse_init: Chip rev:         v3.0
 I (233) heap_init: Initializing. RAM available for dynamic allocation:
 I (238) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
@@ -875,6 +975,8 @@ I (47814) alarm_demo: [alarm] enabled
 I (58394) alarm: [alarm] START 23:06
 >
 ```
+
+</details>
 
 ### 4.6 ตรวจสอบตนเอง
 
@@ -942,6 +1044,43 @@ I (58394) alarm: [alarm] START 23:06
 
 ![ผลการจำลอง Spiral 5](docs/images/spiral05/Screenshot%202569-10-28%20at%2016.09.21.png)
 
+**บรรทัด log สำคัญ** (ตัดบรรทัดเวลาที่ซ้ำทุกวินาทีและ debug ของปุ่มออก):
+
+```text
+I (626) app_init: Project name:     final05_integration
+I (822) ButtonManager: ready: MODE=GPIO18 SET=GPIO19 ALARM=GPIO4 LAP=GPIO5
+I (822) TimeManager: System clock loaded from DS1307: 2026-10-28 16:08:41 UTC (TZ=ICT-7)
+I (822) main: All tasks started
+I (942) main: [clock] 23:08:41 src=RTC
+I (1242) TimeManager: Wi-Fi STA started, connecting to "Wokwi-GUEST" (open)
+I (1952) main: [clock] 23:08:42 src=RTC
+I (2952) esp_netif_handlers: sta ip: 10.13.37.2, mask: 255.255.255.0, gw: 10.13.37.1
+I (2952) TimeManager: Wi-Fi connected, IP 10.13.37.2
+I (2952) TimeManager: SNTP query pool.ntp.org (timeout 15000 ms)
+I (3152) main: [clock] 23:08:43 src=RTC
+I (5202) TimeManager: ntp_demo: UTC 2026-10-28 09:08:46 -> DS1307 written | local (ICT-7) 2026-10-28 16:08:46
+I (5202) TimeManager: NTP sync OK, next resync in 3600 s
+I (5552) main: [clock] 16:08:46 src=NTP
+I (12332) main: [mode] CLOCK -> SET TIME
+I (12352) main: [clock] 16:08:53 src=NTP
+I (20152) TimeManager: Manual set local 2026-10-28 18:08:53, DS1307 updated
+I (20152) main: [time] manual set saved to RTC
+I (20152) main: [mode] SET TIME -> ALARM
+I (20552) main: [clock] 18:08:53 src=NTP
+I (24312) main: [alarm] set to 07:00
+I (24312) main: [mode] ALARM -> STOPWATCH
+I (25152) main: [clock] 18:08:57 src=NTP
+I (26172) sw: [sw] start at 00:00.00
+I (26352) main: [clock] 18:08:59 src=NTP
+I (30002) sw: [sw] stop at 00:03.83
+I (30952) main: [clock] 18:09:03 src=NTP
+I (31032) main: [mode] STOPWATCH -> CLOCK
+I (31952) main: [clock] 18:09:04 src=NTP
+```
+
+<details>
+<summary>ดู Serial Monitor log เต็ม</summary>
+
 ```text
 <ets Jul 29 2019 12:21:46
 
@@ -986,7 +1125,7 @@ I (635) app_init: Compile time:     Oct 28 2026 16:08:14
 I (640) app_init: ELF file SHA256:  28e518eb4...
 I (644) app_init: ESP-IDF:          v6.0.2
 I (648) efuse_init: Min chip rev:     v0.0
-I (652) efuse_init: Max chip rev:     v3.99 
+I (652) efuse_init: Max chip rev:     v3.99
 I (656) efuse_init: Chip rev:         v3.0
 I (661) heap_init: Initializing. RAM available for dynamic allocation:
 I (666) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
@@ -1129,6 +1268,8 @@ I (80152) main: [clock] 18:09:52 src=NTP
 >
 ```
 
+</details>
+
 ### 5.6 ตรวจสอบตนเอง
 
 | หัวข้อการประเมิน | ผลลัพธ์ที่ต้องตรวจสอบ | ผล |
@@ -1240,13 +1381,57 @@ python3 final-homework-esp32/test/host/mutate.py
 | 51 | โหมด UI | `test_ui_set_long_wraps_field` | กด SET ค้างเลื่อนฟิลด์แบบวนรอบ | 🗸 ผ่าน ☐ ไม่ผ่าน |
 | 52 | โหมด UI | `test_ui_wrap_increment` | เพิ่มค่าแบบวน เช่น (59, 60) = 0 และ (23, 24) = 0 | 🗸 ผ่าน ☐ ไม่ผ่าน |
 
-### 6.3 สรุปผลที่ต้องกรอก
+### 6.3 สรุปผล
 
 | รายการ | ผลที่ได้ |
 | --- | --- |
-| รัน host (`test/host/run.sh`) | 52 test / ผ่าน 52 / ไม่ผ่าน 0 (`ALL TESTS PASSED: 52 tests, 0 failures`) |
-| รันบน Wokwi (`test`) | <!-- TODO: วางบรรทัดสรุปจาก Serial Monitor --> |
-| Mutation check (`mutate.py`) | <!-- TODO: จำนวนบั๊กเทียมที่ถูกจับ / ทั้งหมด --> |
+| รัน host (`test/host/run.sh`) | 52 test / ผ่าน 52 / ไม่ผ่าน 0 |
+| รันบน Wokwi (`test`) | 52 Tests 0 Failures 0 Ignored (`ALL TESTS PASSED: 52 tests, 0 failures`) |
+| Mutation check (`mutate.py`) | จับบั๊กเทียมได้ 28 / 28 แบบ (ดูตารางข้อ 6.4) |
+
+บรรทัดสรุปจาก Serial Monitor ของ Wokwi:
+
+```text
+52 Tests 0 Failures 0 Ignored
+OK
+
+==== final_test: ALL TESTS PASSED: 52 tests, 0 failures ====
+```
+
+### 6.4 ผล Mutation check
+
+`test/host/mutate.py` ใส่บั๊กเทียมทีละแบบลงในโค้ด `clock_logic` แล้วรัน test ซ้ำ ถ้า test อย่างน้อย 1 เคสล้ม แปลว่าเทสต์จับบั๊กแบบนั้นได้ ("mutant ถูกฆ่า") ผลคือฆ่าได้ครบ **28 / 28**
+
+| # | บั๊กเทียมที่ใส่ | test ที่ล้ม (จับได้) |
+| :-: | --- | --- |
+| 1 | bcd: swapped nibbles in bcdToDec | `test_bcd_round_trip_0_to_99`, `test_bcd_to_dec_known_values`, `test_ds1307_decode_12h_mode`, `test_ds1307_decode_ignores_clock_halt_bit`, `test_ds1307_decode_known_registers`, `test_ds1307_encode_decode_round_trip` |
+| 2 | bcd: isValidBcd accepts A..F in low nibble | `test_bcd_valid_rejects_non_decimal_nibbles` |
+| 3 | ds1307: decode keeps CH bit in seconds | `test_ds1307_decode_ignores_clock_halt_bit` |
+| 4 | ds1307: 12h decode without % 12 (12 AM -> 12) | `test_ds1307_decode_12h_mode` |
+| 5 | ds1307: encode sets 12h bit | `test_ds1307_encode_clears_ch_and_selects_24h`, `test_ds1307_encode_decode_round_trip`, `test_ds1307_encode_known_datetime` |
+| 6 | epoch: weekday offset off by one | `test_epoch_from_out_of_range_rejected`, `test_epoch_known_datetime`, `test_epoch_leap_day_2028`, `test_epoch_weekday_known_dates`, `test_epoch_y2k` |
+| 7 | epoch: leap year ignores century rule | `test_epoch_leap_year_rules` |
+| 8 | epoch: fromEpoch skips range check | `test_epoch_from_out_of_range_rejected` |
+| 9 | alarm: compare uses hour only | `test_alarm_matches_enabled_exact_minute`, `test_alarm_state_rearms_after_minute_passes`, `test_alarm_state_starts_once_in_matching_minute` |
+| 10 | alarm: no once-per-minute guard | `test_alarm_state_midnight_boundary`, `test_alarm_state_rearms_after_minute_passes`, `test_alarm_state_silence_no_retrigger_same_minute`, `test_alarm_state_starts_once_in_matching_minute`, `test_alarm_state_stops_after_ring_timeout`, `test_alarm_state_stops_when_disabled_while_ringing` |
+| 11 | alarm: ring timeout off by one (> instead of >=) | `test_alarm_state_midnight_boundary`, `test_alarm_state_starts_once_in_matching_minute`, `test_alarm_state_stops_after_ring_timeout`, `test_alarm_state_timeout_survives_ms_wraparound` |
+| 12 | alarm: disabling does not stop ringing | `test_alarm_state_stops_when_disabled_while_ringing` |
+| 13 | stopwatch: lap split uses total | `test_stopwatch_lap_capacity_enforced`, `test_stopwatch_lap_total_and_split` |
+| 14 | stopwatch: lap capacity one short | `test_stopwatch_lap_capacity_enforced` |
+| 15 | stopwatch: reset keeps previous lap total | `test_stopwatch_reset_clears_everything` |
+| 16 | stopwatch: start while running restarts | `test_stopwatch_repeated_start_stop_ignored` |
+| 17 | stopwatch: stop forgets accumulated time | `test_stopwatch_accumulates_across_pauses` |
+| 18 | button: debounce ignored | `test_button_bounce_shorter_than_debounce_no_event`, `test_button_bounce_then_stable_press`, `test_button_clean_short_press`, `test_button_release_before_long_is_short`, `test_button_two_presses_in_a_row` |
+| 19 | button: long-press threshold off by one | `test_button_idle_semantics`, `test_button_long_press_fires_once` |
+| 20 | button: Short also fires after Long | `test_button_idle_semantics`, `test_button_long_press_fires_once` |
+| 21 | button: idle ignores pending long press | `test_button_idle_semantics` |
+| 22 | ui: mode order swapped (Alarm <-> Stopwatch) | `test_ui_handle_press_full_table`, `test_ui_next_mode_cycle_order` |
+| 23 | ui: modeName typo | `test_ui_mode_names` |
+| 24 | ui: SET long does not wrap field | `test_ui_set_long_wraps_field` |
+| 25 | ui: MODE press keeps field | `test_ui_mode_long_returns_to_clock`, `test_ui_mode_short_resets_field` |
+| 26 | ui: LAP long behaves like short | `test_ui_handle_press_full_table` |
+| 27 | ui: ALARM toggles only in Clock mode | `test_ui_handle_press_full_table` |
+| 28 | ui: wrapIncrement wraps one too late | `test_ui_wrap_increment` |
 
 ---
 
@@ -1307,6 +1492,8 @@ python3 final-homework-esp32/test/host/mutate.py
 | ปุ่ม LAP (GPIO5) เป็น strapping pin | GPIO5 ใช้กำหนดค่าตอนบูตของ ESP32 ด้วย | ใช้ตามที่สเปก suite กำหนด และอย่ากดปุ่มนี้ค้างตอนบูตบอร์ดจริง |
 | บนบอร์ดจริงขา SDA/SCL อาจโดน 5V | โมดูล DS1307 ทั่วไปมี pull-up ต่อ 5V ขณะ ESP32 ทนได้ 3.3V | ใน Wokwi ไม่เกิดปัญหา สำหรับบอร์ดจริงควรใช้ตัวแปลงระดับสัญญาณหรือจ่าย DS1307 ที่ 3.3V |
 
+---
+
 ## 9. สรุปผลการทดลอง
 
 **ภาพรวม:** โปรเจกต์นี้สร้างนาฬิกาดิจิทัลบน ESP32 ด้วย C++ แบบ OOP และ FreeRTOS โดยพัฒนาแบบ Spiral (bottom-up) 5 รอบ แต่ละรอบเป็นโปรเจกต์ ESP-IDF v6.0.2 แยกกัน มี `main.cpp`, `diagram.json` และ `wokwi.toml` ของตัวเอง ส่วนคลาสทั้งหมดอยู่ใน `final-homework-esp32/components/` ซึ่งทุก spiral ใช้ร่วมกัน แต่ละ spiral เรียกใช้เฉพาะคอมโพเนนต์ที่ระบุใน `REQUIRES` ของตัวเอง ทำให้ทดสอบทีละชั้นได้โดยไม่ต้องรอชั้นบน
@@ -1321,7 +1508,7 @@ python3 final-homework-esp32/test/host/mutate.py
 | 4. ปลุก + Stopwatch | `AlarmEngine` ขับ buzzer ด้วย LEDC (PWM), ปลุกครั้งเดียวต่อนาที, `StopwatchEngine` จับเวลาและบันทึก lap | ใช้ `esp_timer` ทำจังหวะเสียงบี๊บโดยไม่กินเวลา task, ต้องจำว่าปลุกไปแล้วในนาทีนั้นเพื่อไม่ให้ดังซ้ำ |
 | 5. รวมระบบ | แบ่งงานเป็น 5 task (`vTaskClockDisplay`, `vTaskButtonHandler`, `vTaskUiEvents`, `vTaskAlarmCheck`, `vTaskNTPSync`) ตามตารางในสเปก | กำหนด priority/core/stack ให้เหมาะกับงาน, ข้อมูลที่ใช้ร่วมกันอยู่หลัง mutex, task จอคัดลอกสถานะออกมาก่อนวาดเพื่อไม่ถือ mutex ระหว่างส่ง I2C |
 
-**การทดสอบ:** แยก logic ล้วน (BCD, วันที่/epoch, FSM ปุ่ม, ตารางหน้าที่ปุ่ม, ตัวตัดสินปลุก, stopwatch) ไว้ใน `clock_logic` ที่ไม่แตะฮาร์ดแวร์ จึงเขียน Unity test ได้ 52 เคส รันได้ทั้งบนเครื่อง (host) และบน ESP32 ใน Wokwi และตรวจความไวของเทสต์ด้วยการใส่บั๊กเทียม 28 แบบ (ผลตัวเลขจริงกรอกในข้อ 6.3)
+**การทดสอบ:** แยก logic ล้วน (BCD, วันที่/epoch, FSM ปุ่ม, ตารางหน้าที่ปุ่ม, ตัวตัดสินปลุก, stopwatch) ไว้ใน `clock_logic` ที่ไม่แตะฮาร์ดแวร์ จึงเขียน Unity test ได้ 52 เคส รันได้ทั้งบนเครื่อง (host) และบน ESP32 ใน Wokwi และตรวจความไวของเทสต์ด้วยการใส่บั๊กเทียม 28 แบบ ผลคือรันผ่านครบ 52/52 ทั้งบน host และบน Wokwi และเทสต์จับบั๊กเทียมได้ 28/28 แบบ (ข้อ 6.3 และ 6.4)
 
 **ข้อบกพร่องของสเปกที่พบและแก้:** ไฟล์สเปก 2 ไฟล์ที่ AI สร้างมีข้อมูลขัดกันและโค้ดส่วนใหญ่เป็น stub จึงใช้เป็นสเปกอย่างเดียวและเขียนโค้ดใหม่ทั้งหมด ตัวอย่างที่แก้ ได้แก่ ขาปุ่มสองไฟล์ไม่ตรงกัน (เลือก GPIO 18/19/4/5 เพราะ GPIO12 เป็น strapping pin), ชื่อ part/ขาใน `diagram.json` ผิด, ต่อ buzzer กลับขั้ว, Wi-Fi `iotexpo` ใช้ใน Wokwi ไม่ได้ (ใช้ `Wokwi-GUEST` เป็นค่าเริ่มต้น), stack ของ task ปลุกเล็กเกินไป และ unit test ในหน้า HTML เป็นของปลอม รายละเอียดอยู่ในข้อ 8
 
@@ -1334,6 +1521,8 @@ python3 final-homework-esp32/test/host/mutate.py
 - การซิงก์ NTP ต้องใช้อินเทอร์เน็ต ถ้าไม่มีนาฬิกายังเดินต่อจากเวลาใน DS1307 แต่อาจคลาดเคลื่อนสะสมตามคุณภาพของคริสตัล
 
 **ข้อเสนอแนะเพื่อพัฒนาต่อ:** เก็บเวลาปลุกลง NVS ให้อยู่ข้ามการรีบูต, เพิ่มการปลุกหลายชุดหรือเลือกวันในสัปดาห์, เพิ่มการตั้งค่า Wi-Fi ผ่านหน้าเว็บแทนการแก้ใน menuconfig และเพิ่มเทสต์ของคลาสที่ผูกกับฮาร์ดแวร์ (เช่น จำลอง I2C) นอกเหนือจาก logic ล้วน
+
+---
 
 ## 10. เอกสารอ้างอิง
 - [Wokwi Docs: DS1307 RTC](https://docs.wokwi.com/parts/wokwi-ds1307)
