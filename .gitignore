@@ -79,3 +79,5 @@ Desktop.ini
 
 # clangd index cache
 .cache/
+
+how2.md

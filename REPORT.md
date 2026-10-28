@@ -9,7 +9,7 @@
 | รหัสนักศึกษา | 68030063 |
 | รายวิชา | 03376126 Applied Microcontroller |
 | ผู้สอน | Piya Jitthammapirom |
-| วันที่ทำการทดลอง | <!-- TODO --> |
+| วันที่ทำการทดลอง | 28/10/2569 |
 | Branch | `final-homework-esp32` |
 
 ---
@@ -86,21 +86,257 @@ idf.py build
 
 ### 1.5 ผลการทดลอง
 
-![ผลการจำลอง Spiral 1](docs/images/spiral01/image.png)
+![ผลการจำลอง Spiral 1](docs/images/spiral01/Screenshot%202569-10-28%20at%2015.28.48.png)
 
 ```text
-<!-- TODO: วาง Serial Monitor log -->
+<ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0040,len:6272
+load:0x40078000,len:15820
+load:0x40080400,len:3920
+entry 0x40080644
+I (12) boot: ESP-IDF v6.0.2 2nd stage bootloader
+I (13) boot: compile time Oct 28 2026 15:2ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0040,len:6272
+load:0x40078000,len:15820
+load:0x40080400,len:3920
+entry 0x40080644
+I (12) boot: ESP-IDF v6.0.2 2nd stage bootloader
+I (13) boot: compile time Oct 28 2026 15:23:21
+I (13) boot: Multicore bootloader
+I (14) boot: chip revision: v3.0
+I (16) boot.esp32: SPI Speed      : 40MHz
+I (19) boot.esp32: SPI Mode       : DIO
+I (23) boot.esp32: SPI Flash Size : 2MB
+I (27) boot: Enabling RNG early entropy source...
+I (31) boot: Partition Table:
+I (34) boot: ## Label            Usage          Type ST Offset   Length
+I (40) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (46) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (53) boot:  2 factory          factory app      00 00 00010000 00100000
+I (60) boot: End of partition table
+I (63) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=086b8h ( 34488) map
+I (116) esp_image: segment 1: paddr=000186e0 vaddr=3ffb0000 size=02820h ( 10272) load
+I (133) esp_image: segment 2: paddr=0001af08 vaddr=40080000 size=05110h ( 20752) load
+I (166) esp_image: segment 3: paddr=00020020 vaddr=400d0020 size=0f4a8h ( 62632) map
+I (249) esp_image: segment 4: paddr=0002f4d0 vaddr=40085110 size=05a7ch ( 23164) load
+I (287) esp_image: segment 5: paddr=00034f54 vaddr=50000000 size=00028h (    40) load
+I (306) boot: Loaded app from partition at offset 0x10000
+I (307) boot: Disabling RNG early entropy source...
+I (319) cpu_start: Multicore app
+I (161) cpu_start: GPIO 3 and 1 are used as console UART I/O pins
+I (162) cpu_start: Pro cpu start user code
+I (162) cpu_start: cpu freq: 160000000 Hz
+I (163) app_init: Application information:
+I (167) app_init: Project name:     final01_hal_i2c
+I (171) app_init: App version:      b6e30ab-dirty
+I (176) app_init: Compile time:     Oct 28 2026 15:23:18
+I (181) app_init: ELF file SHA256:  629d98d00...
+I (185) app_init: ESP-IDF:          v6.0.2
+I (189) efuse_init: Min chip rev:     v0.0
+I (193) efuse_init: Max chip rev:     v3.99 
+I (197) efuse_init: Chip rev:         v3.0
+I (202) heap_init: Initializing. RAM available for dynamic allocation:
+I (207) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (213) heap_init: At 3FFB3780 len 0002C880 (178 KiB): DRAM
+I (217) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (223) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (229) heap_init: At 4008AB8C len 00015474 (85 KiB): IRAM
+I (235) spi_flash: detected chip: winbond
+I (237) spi_flash: flash io: dio
+I (242) main_task: Started on CPU0
+I (242) main_task: Calling app_main()
+I (262) hal_demo: I2C device found at 0x3C
+I (272) hal_demo: I2C device found at 0x68
+I (272) hal_demo: Scan done: 2 device(s)
+I (272) hal_demo: DS1307 init: OK
+I (272) hal_demo: SSD1306 init: OK
+I (392) hal_demo: Read-back check: PASS (diff=0s)
+I (502) hal_demo: DS1307 2026-10-28 15:25:00
+I (1602) hal_demo: DS1307 2026-10-28 15:25:01
+I (2702) hal_demo: DS1307 2026-10-28 15:25:02
+I (3802) hal_demo: DS1307 2026-10-28 15:25:03
+I (4902) hal_demo: DS1307 2026-10-28 15:25:04
+I (6002) hal_demo: DS1307 2026-10-28 15:25:05
+I (7102) hal_demo: DS1307 2026-10-28 15:25:06
+I (8202) hal_demo: DS1307 2026-10-28 15:25:07
+I (9302) hal_demo: DS1307 2026-10-28 15:25:08
+I (10402) hal_demo: DS1307 2026-10-28 15:25:10
+I (11502) hal_demo: DS1307 2026-10-28 15:25:11
+I (12602) hal_demo: DS1307 2026-10-28 15:25:12
+I (13702) hal_demo: DS1307 2026-10-28 15:25:13
+I (14802) hal_demo: DS1307 2026-10-28 15:25:14
+I (15902) hal_demo: DS1307 2026-10-28 15:25:15
+I (17002) hal_demo: DS1307 2026-10-28 15:25:16
+I (18102) hal_demo: DS1307 2026-10-28 15:25:17
+I (19202) hal_demo: DS1307 2026-10-28 15:25:18
+I (20302) hal_demo: DS1307 2026-10-28 15:25:19
+I (21402) hal_demo: DS1307 2026-10-28 15:25:21
+I (22502) hal_demo: DS1307 2026-10-28 15:25:22
+I (23602) hal_demo: DS1307 2026-10-28 15:25:23
+I (24702) hal_demo: DS1307 2026-10-28 15:25:24
+I (25802) hal_demo: DS1307 2026-10-28 15:25:25
+I (26902) hal_demo: DS1307 2026-10-28 15:25:26
+I (28002) hal_demo: DS1307 2026-10-28 15:25:27
+I (29102) hal_demo: DS1307 2026-10-28 15:25:28
+I (30202) hal_demo: DS1307 2026-10-28 15:25:29
+I (31302) hal_demo: DS1307 2026-10-28 15:25:30
+I (32402) hal_demo: DS1307 2026-10-28 15:25:32
+I (33502) hal_demo: DS1307 2026-10-28 15:25:33
+I (34602) hal_demo: DS1307 2026-10-28 15:25:34
+I (35702) hal_demo: DS1307 2026-10-28 15:25:35
+I (36802) hal_demo: DS1307 2026-10-28 15:25:36
+I (37902) hal_demo: DS1307 2026-10-28 15:25:37
+I (39002) hal_demo: DS1307 2026-10-28 15:25:38
+I (40102) hal_demo: DS1307 2026-10-28 15:25:39
+I (41202) hal_demo: DS1307 2026-10-28 15:25:40
+I (42302) hal_demo: DS1307 2026-10-28 15:25:41
+I (43402) hal_demo: DS1307 2026-10-28 15:25:43
+I (44502) hal_demo: DS1307 2026-10-28 15:25:44
+I (45602) hal_demo: DS1307 2026-10-28 15:25:45
+I (46702) hal_demo: DS1307 2026-10-28 15:25:46
+I (47802) hal_demo: DS1307 2026-10-28 15:25:47
+I (48902) hal_demo: DS1307 2026-10-28 15:25:48
+I (50002) hal_demo: DS1307 2026-10-28 15:25:49
+I (51102) hal_demo: DS1307 2026-10-28 15:25:50
+I (52202) hal_demo: DS1307 2026-10-28 15:25:51
+I (53302) hal_demo: DS1307 2026-10-28 15:25:52
+I (54402) hal_demo: DS1307 2026-10-28 15:25:54
+I (55502) hal_demo: DS1307 2026-10-28 15:25:55
+I (56602) hal_demo: DS1307 2026-10-28 15:25:56
+I (57702) hal_demo: DS1307 2026-10-28 15:25:57
+I (58802) hal_demo: DS1307 2026-10-28 15:25:58
+I (59902) hal_demo: DS1307 2026-10-28 15:25:59
+I (61002) hal_demo: DS1307 2026-10-28 15:26:00
+I (62102) hal_demo: DS1307 2026-10-28 15:26:01
+I (63202) hal_demo: DS1307 2026-10-28 15:26:02
+I (64302) hal_demo: DS1307 2026-10-28 15:26:03
+I (65402) hal_demo: DS1307 2026-10-28 15:26:05
+I (66502) hal_demo: DS1307 2026-10-28 15:26:06
+I (67602) hal_demo: DS1307 2026-10-28 15:26:07
+I (68702) hal_demo: DS1307 2026-10-28 15:26:08
+I (69802) hal_demo: DS1307 2026-10-28 15:26:09
+I (70902) hal_demo: DS1307 2026-10-28 15:26:10
+I (72002) hal_demo: DS1307 2026-10-28 15:26:11
+I (73102) hal_demo: DS1307 2026-10-28 15:26:12
+I (74202) hal_demo: DS1307 2026-10-28 15:26:13
+I (75302) hal_demo: DS1307 2026-10-28 15:26:14
+I (76402) hal_demo: DS1307 2026-10-28 15:26:16
+I (77502) hal_demo: DS1307 2026-10-28 15:26:17
+I (78602) hal_demo: DS1307 2026-10-28 15:26:18
+I (79702) hal_demo: DS1307 2026-10-28 15:26:19
+I (80802) hal_demo: DS1307 2026-10-28 15:26:20
+I (81902) hal_demo: DS1307 2026-10-28 15:26:21
+I (83002) hal_demo: DS1307 2026-10-28 15:26:22
+I (84102) hal_demo: DS1307 2026-10-28 15:26:23
+I (85202) hal_demo: DS1307 2026-10-28 15:26:24
+I (86302) hal_demo: DS1307 2026-10-28 15:26:25
+I (87402) hal_demo: DS1307 2026-10-28 15:26:27
+I (88502) hal_demo: DS1307 2026-10-28 15:26:28
+I (89602) hal_demo: DS1307 2026-10-28 15:26:29
+I (90702) hal_demo: DS1307 2026-10-28 15:26:30
+I (91802) hal_demo: DS1307 2026-10-28 15:26:31
+I (92902) hal_demo: DS1307 2026-10-28 15:26:32
+I (94002) hal_demo: DS1307 2026-10-28 15:26:33
+I (95102) hal_demo: DS1307 2026-10-28 15:26:34
+I (96202) hal_demo: DS1307 2026-10-28 15:26:35
+I (97302) hal_demo: DS1307 2026-10-28 15:26:36
+I (98402) hal_demo: DS1307 2026-10-28 15:26:38
+I (99502) hal_demo: DS1307 2026-10-28 15:26:39
+I (100602) hal_demo: DS1307 2026-10-28 15:26:40
+I (101702) hal_demo: DS1307 2026-10-28 15:26:41
+I (102802) hal_demo: DS1307 2026-10-28 15:26:42
+I (103902) hal_demo: DS1307 2026-10-28 15:26:43
+I (105002) hal_demo: DS1307 2026-10-28 15:26:44
+I (106102) hal_demo: DS1307 2026-10-28 15:26:45
+I (107202) hal_demo: DS1307 2026-10-28 15:26:46
+I (108302) hal_demo: DS1307 2026-10-28 15:26:47
+I (109402) hal_demo: DS1307 2026-10-28 15:26:49
+I (110502) hal_demo: DS1307 2026-10-28 15:26:50
+I (111602) hal_demo: DS1307 2026-10-28 15:26:51
+I (112702) hal_demo: DS1307 2026-10-28 15:26:52
+I (113802) hal_demo: DS1307 2026-10-28 15:26:53
+I (114902) hal_demo: DS1307 2026-10-28 15:26:54
+I (116002) hal_demo: DS1307 2026-10-28 15:26:55
+I (117102) hal_demo: DS1307 2026-10-28 15:26:56
+I (118202) hal_demo: DS1307 2026-10-28 15:26:57
+I (119302) hal_demo: DS1307 2026-10-28 15:26:58
+I (120402) hal_demo: DS1307 2026-10-28 15:27:00
+I (121502) hal_demo: DS1307 2026-10-28 15:27:01
+I (122602) hal_demo: DS1307 2026-10-28 15:27:02
+I (123702) hal_demo: DS1307 2026-10-28 15:27:03
+I (124802) hal_demo: DS1307 2026-10-28 15:27:04
+I (125902) hal_demo: DS1307 2026-10-28 15:27:05
+I (127002) hal_demo: DS1307 2026-10-28 15:27:06
+I (128102) hal_demo: DS1307 2026-10-28 15:27:07
+I (129202) hal_demo: DS1307 2026-10-28 15:27:08
+I (130302) hal_demo: DS1307 2026-10-28 15:27:09
+I (131402) hal_demo: DS1307 2026-10-28 15:27:11
+I (132502) hal_demo: DS1307 2026-10-28 15:27:12
+I (133602) hal_demo: DS1307 2026-10-28 15:27:13
+I (134702) hal_demo: DS1307 2026-10-28 15:27:14
+I (135802) hal_demo: DS1307 2026-10-28 15:27:15
+I (136902) hal_demo: DS1307 2026-10-28 15:27:16
+I (138002) hal_demo: DS1307 2026-10-28 15:27:17
+I (139102) hal_demo: DS1307 2026-10-28 15:27:18
+I (140202) hal_demo: DS1307 2026-10-28 15:27:19
+I (141302) hal_demo: DS1307 2026-10-28 15:27:20
+I (142402) hal_demo: DS1307 2026-10-28 15:27:22
+I (143502) hal_demo: DS1307 2026-10-28 15:27:23
+I (144602) hal_demo: DS1307 2026-10-28 15:27:24
+I (145702) hal_demo: DS1307 2026-10-28 15:27:25
+I (146802) hal_demo: DS1307 2026-10-28 15:27:26
+I (147902) hal_demo: DS1307 2026-10-28 15:27:27
+I (149002) hal_demo: DS1307 2026-10-28 15:27:28
+I (150102) hal_demo: DS1307 2026-10-28 15:27:29
+I (151202) hal_demo: DS1307 2026-10-28 15:27:30
+I (152302) hal_demo: DS1307 2026-10-28 15:27:31
+I (153402) hal_demo: DS1307 2026-10-28 15:27:33
+I (154502) hal_demo: DS1307 2026-10-28 15:27:34
+I (155602) hal_demo: DS1307 2026-10-28 15:27:35
+I (156702) hal_demo: DS1307 2026-10-28 15:27:36
+I (157802) hal_demo: DS1307 2026-10-28 15:27:37
+I (158902) hal_demo: DS1307 2026-10-28 15:27:38
+I (160002) hal_demo: DS1307 2026-10-28 15:27:39
+I (161102) hal_demo: DS1307 2026-10-28 15:27:40
+I (162202) hal_demo: DS1307 2026-10-28 15:27:41
+I (163302) hal_demo: DS1307 2026-10-28 15:27:42
+I (164402) hal_demo: DS1307 2026-10-28 15:27:44
+I (165502) hal_demo: DS1307 2026-10-28 15:27:45
+I (166602) hal_demo: DS1307 2026-10-28 15:27:46
+I (167702) hal_demo: DS1307 2026-10-28 15:27:47
+I (168802) hal_demo: DS1307 2026-10-28 15:27:48
+I (169902) hal_demo: DS1307 2026-10-28 15:27:49
+I (171002) hal_demo: DS1307 2026-10-28 15:27:50
+I (172102) hal_demo: DS1307 2026-10-28 15:27:51
+I (173202) hal_demo: DS1307 2026-10-28 15:27:52
+I (174302) hal_demo: DS1307 2026-10-28 15:27:53
+I (175402) hal_demo: DS1307 2026-10-28 15:27:55
+I (176502) hal_demo: DS1307 2026-10-28 15:27:56
+I (177602) hal_demo: DS1307 2026-10-28 15:27:57
+I (178702) hal_demo: DS1307 2026-10-28 15:27:58
+I (179802) hal_demo: DS1307 2026-10-28 15:27:59
+>
 ```
 
 ### 1.6 ตรวจสอบตนเอง
 
 | หัวข้อการประเมิน | ผลลัพธ์ที่ต้องตรวจสอบ | ผล |
 | --- | --- | --- |
-| สแกนบัส I2C | พบอุปกรณ์ที่ `0x3C` (OLED) และ `0x68` (DS1307) | ☐ ผ่าน ☐ ไม่ผ่าน |
-| เริ่มต้น DS1307 | `DS1307 init: OK` | ☐ ผ่าน ☐ ไม่ผ่าน |
-| เริ่มต้น SSD1306 | `SSD1306 init: OK` และจอขึ้นข้อความ | ☐ ผ่าน ☐ ไม่ผ่าน |
-| เขียน-อ่านเวลา DS1307 | `Read-back check: PASS` (เวลาที่อ่านกลับห่างจากที่เขียนไม่เกิน 2 วินาที) | ☐ ผ่าน ☐ ไม่ผ่าน |
-| นาฬิกาเดินต่อเนื่อง | เวลาบนจอและ log เพิ่มขึ้นทีละ 1 วินาที | ☐ ผ่าน ☐ ไม่ผ่าน |
+| สแกนบัส I2C | พบอุปกรณ์ที่ `0x3C` (OLED) และ `0x68` (DS1307) | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| เริ่มต้น DS1307 | `DS1307 init: OK` | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| เริ่มต้น SSD1306 | `SSD1306 init: OK` และจอขึ้นข้อความ | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| เขียน-อ่านเวลา DS1307 | `Read-back check: PASS` (เวลาที่อ่านกลับห่างจากที่เขียนไม่เกิน 2 วินาที) | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| นาฬิกาเดินต่อเนื่อง | เวลาบนจอและ log เพิ่มขึ้นทีละ 1 วินาที | 🗸 ผ่าน ☐ ไม่ผ่าน |
 
 ### 1.7 วิเคราะห์ผล
 <!-- TODO -->
@@ -147,7 +383,143 @@ idf.py build
 ![ผลการจำลอง Spiral 2](docs/images/spiral02/image.png)
 
 ```text
-<!-- TODO: วาง Serial Monitor log -->
+<ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0040,len:6272
+load:0x40078000,len:15820
+load:0x40080400,len:3920
+entry 0x40080644
+I (12) boot: ESP-IDF v6.0.2 2nd stage bootloader
+I (13) boot: compile time Oct 28 2026 15:44:36
+I (13) boot: Multicore bootloader
+I (14) boot: chip revision: v3.0
+I (16) boot.esp32: SPI Speed      : 40MHz
+I (19) boot.esp32: SPI Mode       : DIO
+I (23) boot.esp32: SPI Flash Size : 2MB
+I (27) boot: Enabling RNG early entropy source...
+I (31) boot: Partition Table:
+I (34) boot: ## Label            Usage          Type ST Offset   Length
+I (40) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (46) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (53) boot:  2 factory          factory app      00 00 00010000 00177000
+I (60) boot: End of partition table
+I (63) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=1b8e4h (112868) map
+I (218) esp_image: segment 1: paddr=0002b90c vaddr=3ffb0000 size=0458ch ( 17804) load
+I (247) esp_image: segment 2: paddr=0002fea0 vaddr=40080000 size=00178h (   376) load
+I (249) esp_image: segment 3: paddr=00030020 vaddr=400d0020 size=8fd80h (589184) map
+I (1020) esp_image: segment 4: paddr=000bfda8 vaddr=40080178 size=15b60h ( 88928) load
+I (1158) esp_image: segment 5: paddr=000d5910 vaddr=50000000 size=00028h (    40) load
+I (1195) boot: Loaded app from partition at offset 0x10000
+I (1196) boot: Disabling RNG early entropy source...
+I (1209) cpu_start: Multicore app
+I (606) cpu_start: GPIO 3 and 1 are used as console UART I/O pins
+I (607) cpu_start: Pro cpu start user code
+I (607) cpu_start: cpu freq: 160000000 Hz
+I (608) app_init: Application information:
+I (612) app_init: Project name:     final02_time_ntp
+I (617) app_init: App version:      b6e30ab-dirty
+I (621) app_init: Compile time:     Oct 28 2026 15:44:32
+I (626) app_init: ELF file SHA256:  f9607da0f...
+I (631) app_init: ESP-IDF:          v6.0.2
+I (634) efuse_init: Min chip rev:     v0.0
+I (638) efuse_init: Max chip rev:     v3.99 
+I (642) efuse_init: Chip rev:         v3.0
+I (647) heap_init: Initializing. RAM available for dynamic allocation:
+I (652) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (658) heap_init: At 3FFB9698 len 00026968 (154 KiB): DRAM
+I (663) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (668) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (674) heap_init: At 40095CD8 len 0000A328 (40 KiB): IRAM
+I (680) spi_flash: detected chip: winbond
+I (683) spi_flash: flash io: dio
+I (688) main_task: Started on CPU0
+I (688) main_task: Calling app_main()
+I (808) TimeManager: System clock loaded from DS1307: 2026-10-28 15:56:59 UTC (TZ=ICT-7)
+I (808) time_demo: Time from RTC loaded
+I (868) wifi:wifi driver task: 3ffc2e1c, prio:23, stack:6656, core=0
+I (878) wifi:wifi firmware version: 00ad238
+I (888) wifi:wifi certification version: v7.0
+I (888) wifi:config NVS flash: enabled
+I (888) wifi:config nano formatting: disabled
+I (888) wifi:Init data frame dynamic rx buffer num: 32
+I (898) wifi:Init static rx mgmt buffer num: 5
+I (898) wifi:Init management short buffer num: 32
+I (898) wifi:Init dynamic tx buffer num: 32
+I (908) wifi:Init static rx buffer size: 1600
+I (908) wifi:Init static rx buffer num: 10
+I (908) wifi:Init dynamic rx buffer num: 32
+I (918) wifi_init: rx ba win: 6
+I (918) wifi_init: accept mbox: 6
+I (918) wifi_init: tcpip mbox: 32
+I (928) wifi_init: udp mbox: 6
+I (928) wifi_init: tcp mbox: 6
+I (928) wifi_init: tcp tx win: 5760
+I (938) wifi_init: tcp rx win: 5760
+I (938) wifi_init: tcp mss: 1440
+I (938) wifi_init: WiFi IRAM OP enabled
+I (948) wifi_init: WiFi RX IRAM OP enabled
+I (1048) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06
+W (1048) phy_init: failed to load RF calibration data (0x1102), falling back to full calibration
+I (1188) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(2)
+I (1228) wifi:mode : sta (24:0a:c4:00:01:10)
+I (1228) wifi:enable tsf
+I (1238) TimeManager: Wi-Fi STA started, connecting to "Wokwi-GUEST" (open)
+I (1278) time_demo: [time] 2026-10-28 22:56:59 source=RTC
+I (1848) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0x0
+I (1848) wifi:state: init -> auth (0xb0)
+I (1848) wifi:state: auth -> assoc (0x0)
+I (1858) wifi:state: assoc -> run (0x10)
+I (1858) wifi:connected with Wokwi-GUEST, aid = 1, channel 6, BW20, bssid = 42:13:37:55:aa:01
+I (1858) wifi:security: Open Auth, phy: bg, rssi: -98, cipher(pairwise:0x0, group:0x0), pmf:0
+I (1888) wifi:pm start, type: 1
+
+I (1898) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (1898) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us
+I (1898) wifi:AP's beacon interval = 102400 us, DTIM period = 2
+I (2378) time_demo: [time] 2026-10-28 22:57:00 source=RTC
+I (3138) esp_netif_handlers: sta ip: 10.13.37.2, mask: 255.255.255.0, gw: 10.13.37.1
+I (3138) TimeManager: Wi-Fi connected, IP 10.13.37.2
+I (3138) TimeManager: SNTP query pool.ntp.org (timeout 15000 ms)
+I (3488) time_demo: [time] 2026-10-28 22:57:01 source=RTC
+I (4588) time_demo: [time] 2026-10-28 22:57:02 source=RTC
+I (4988) TimeManager: ntp_demo: UTC 2026-10-28 08:57:03 -> DS1307 written | local (ICT-7) 2026-10-28 15:57:03
+I (4988) TimeManager: NTP sync OK, next resync in 3600 s
+I (5688) time_demo: [time] 2026-10-28 15:57:04 source=NTP
+I (6788) time_demo: [time] 2026-10-28 15:57:05 source=NTP
+I (7888) time_demo: [time] 2026-10-28 15:57:06 source=NTP
+I (8988) time_demo: [time] 2026-10-28 15:57:07 source=NTP
+I (10088) time_demo: [time] 2026-10-28 15:57:08 source=NTP
+I (11188) time_demo: [time] 2026-10-28 15:57:09 source=NTP
+I (12288) time_demo: [time] 2026-10-28 15:57:10 source=NTP
+I (13388) time_demo: [time] 2026-10-28 15:57:11 source=NTP
+I (14488) time_demo: [time] 2026-10-28 15:57:12 source=NTP
+I (15588) time_demo: [time] 2026-10-28 15:57:14 source=NTP
+I (16688) time_demo: [time] 2026-10-28 15:57:15 source=NTP
+I (17788) time_demo: [time] 2026-10-28 15:57:16 source=NTP
+I (18888) time_demo: [time] 2026-10-28 15:57:17 source=NTP
+I (19988) time_demo: [time] 2026-10-28 15:57:18 source=NTP
+I (21088) time_demo: [time] 2026-10-28 15:57:19 source=NTP
+I (22188) time_demo: [time] 2026-10-28 15:57:20 source=NTP
+I (23288) time_demo: [time] 2026-10-28 15:57:21 source=NTP
+I (24388) time_demo: [time] 2026-10-28 15:57:22 source=NTP
+I (25488) time_demo: [time] 2026-10-28 15:57:23 source=NTP
+I (26588) time_demo: [time] 2026-10-28 15:57:25 source=NTP
+I (27688) time_demo: [time] 2026-10-28 15:57:26 source=NTP
+I (28788) time_demo: [time] 2026-10-28 15:57:27 source=NTP
+I (29888) time_demo: [time] 2026-10-28 15:57:28 source=NTP
+I (30988) time_demo: [time] 2026-10-28 15:57:29 source=NTP
+I (32088) time_demo: [time] 2026-10-28 15:57:30 source=NTP
+I (33188) time_demo: [time] 2026-10-28 15:57:31 source=NTP
+I (34288) time_demo: [time] 2026-10-28 15:57:32 source=NTP
+I (35388) time_demo: [time] 2026-10-28 15:57:33 source=NTP
+I (36488) time_demo: [time] 2026-10-28 15:57:34 source=NTP
+I (37588) time_demo: [time] 2026-10-28 15:57:36 source=NTP
+I (38688) time_demo: [time] 2026-10-28 15:57:37 source=NTP
+>
 ```
 
 ### 2.6 ตรวจสอบตนเอง
@@ -216,7 +588,164 @@ idf.py build
 ![ผลการจำลอง Spiral 3](docs/images/spiral03/image.png)
 
 ```text
-<!-- TODO: วาง Serial Monitor log -->
+<ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0040,len:6272
+load:0x40078000,len:15820
+load:0x40080400,len:3920
+entry 0x40080644
+I (12) boot: ESP-IDF v6.0.2 2nd stage bootloader
+I (13) boot: compile time Oct 25 2026 20:25:15
+I (13) boot: Multicore bootloader
+I (14) boot: chip revision: v3.0
+I (16) boot.esp32: SPI Speed      : 40MHz
+I (19) boot.esp32: SPI Mode       : DIO
+I (23) boot.esp32: SPI Flash Size : 2MB
+I (27) boot: Enabling RNG early entropy source...
+I (31) boot: Partition Table:
+I (34) boot: ## Label            Usage          Type ST Offset   Length
+I (40) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (46) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (53) boot:  2 factory          factory app      00 00 00010000 00100000
+I (60) boot: End of partition table
+I (63) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=08e30h ( 36400) map
+I (118) esp_image: segment 1: paddr=00018e58 vaddr=3ffb0000 size=0287ch ( 10364) load
+I (136) esp_image: segment 2: paddr=0001b6dc vaddr=40080000 size=0493ch ( 18748) load
+I (166) esp_image: segment 3: paddr=00020020 vaddr=400d0020 size=100c8h ( 65736) map
+I (253) esp_image: segment 4: paddr=000300f0 vaddr=4008493c size=064d8h ( 25816) load
+I (294) esp_image: segment 5: paddr=000365d0 vaddr=50000000 size=00028h (    40) load
+I (314) boot: Loaded app from partition at offset 0x10000
+I (315) boot: Disabling RNG early entropy source...
+I (327) cpu_start: Multicore app
+I (165) cpu_start: GPIO 3 and 1 are used as console UART I/O pins
+I (166) cpu_start: Pro cpu start user code
+I (166) cpu_start: cpu freq: 160000000 Hz
+I (167) app_init: Application information:
+I (171) app_init: Project name:     final03_input_ui
+I (176) app_init: App version:      b6e30ab-dirty
+I (180) app_init: Compile time:     Oct 28 2026 15:58:30
+I (185) app_init: ELF file SHA256:  b10fff131...
+I (189) app_init: ESP-IDF:          v6.0.2
+I (193) efuse_init: Min chip rev:     v0.0
+I (197) efuse_init: Max chip rev:     v3.99 
+I (201) efuse_init: Chip rev:         v3.0
+I (206) heap_init: Initializing. RAM available for dynamic allocation:
+I (211) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (217) heap_init: At 3FFB3878 len 0002C788 (177 KiB): DRAM
+I (221) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (227) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (233) heap_init: At 4008AE14 len 000151EC (84 KiB): IRAM
+I (239) spi_flash: detected chip: winbond
+I (241) spi_flash: flash io: dio
+I (246) main_task: Started on CPU0
+I (246) main_task: Calling app_main()
+I (366) ButtonManager: ready: MODE=GPIO18 SET=GPIO19 ALARM=GPIO4 LAP=GPIO5
+D (8026) ButtonManager: MODE: 8 raw edges, 0 accepted, 8 dropped by debounce
+D (8026) ButtonManager: MODE: 32 raw edges, 0 accepted, 32 dropped by debounce
+D (8116) ButtonManager: MODE: 89 raw edges, 0 accepted, 89 dropped by debounce
+D (14496) ButtonManager: MODE: 149 raw edges, 2 accepted, 147 dropped by debounce
+I (14496) ui_demo: [btn] MODE short
+I (14496) ui_demo: [mode] CLOCK -> SET TIME
+D (15956) ButtonManager: MODE: 1 raw edges, 0 accepted, 1 dropped by debounce
+D (16076) ButtonManager: MODE: 122 raw edges, 2 accepted, 120 dropped by debounce
+I (16076) ui_demo: [btn] MODE short
+I (16076) ui_demo: [mode] SET TIME -> ALARM
+D (17046) ButtonManager: MODE: 2 raw edges, 0 accepted, 2 dropped by debounce
+D (17056) ButtonManager: MODE: 30 raw edges, 0 accepted, 30 dropped by debounce
+D (17166) ButtonManager: MODE: 94 raw edges, 2 accepted, 92 dropped by debounce
+I (17166) ui_demo: [btn] MODE short
+I (17166) ui_demo: [mode] ALARM -> STOPWATCH
+D (18846) ButtonManager: MODE: 7 raw edges, 0 accepted, 7 dropped by debounce
+D (18956) ButtonManager: MODE: 116 raw edges, 2 accepted, 114 dropped by debounce
+I (18956) ui_demo: [btn] MODE short
+I (18956) ui_demo: [mode] STOPWATCH -> CLOCK
+D (21006) ButtonManager: MODE: 8 raw edges, 0 accepted, 8 dropped by debounce
+D (21016) ButtonManager: MODE: 32 raw edges, 0 accepted, 32 dropped by debounce
+D (21096) ButtonManager: MODE: 1 raw edges, 0 accepted, 1 dropped by debounce
+D (21096) ButtonManager: MODE: 16 raw edges, 0 accepted, 16 dropped by debounce
+D (21096) ButtonManager: MODE: 6 raw edges, 0 accepted, 6 dropped by debounce
+D (21896) ButtonManager: MODE: 2 raw edges, 0 accepted, 2 dropped by debounce
+D (21896) ButtonManager: MODE: 32 raw edges, 0 accepted, 32 dropped by debounce
+D (21986) ButtonManager: MODE: 72 raw edges, 0 accepted, 72 dropped by debounce
+D (23646) ButtonManager: SET: 6 raw edges, 0 accepted, 6 dropped by debounce
+D (23646) ButtonManager: SET: 32 raw edges, 0 accepted, 32 dropped by debounce
+D (23726) ButtonManager: SET: 4 raw edges, 0 accepted, 4 dropped by debounce
+D (24586) ButtonManager: ALARM: 2 raw edges, 0 accepted, 2 dropped by debounce
+D (24736) ButtonManager: SET: 32 raw edges, 1 accepted, 31 dropped by debounce
+I (24736) ui_demo: [btn] SET long
+D (24746) ButtonManager: ALARM: 123 raw edges, 2 accepted, 121 dropped by debounce
+I (24836) ui_demo: [btn] ALARM short
+I (24836) ui_demo: [cmd] 2
+D (25186) ButtonManager: LAP: 3 raw edges, 0 accepted, 3 dropped by debounce
+D (25186) ButtonManager: LAP: 32 raw edges, 0 accepted, 32 dropped by debounce
+D (25266) ButtonManager: LAP: 13 raw edges, 0 accepted, 13 dropped by debounce
+D (25266) ButtonManager: LAP: 32 raw edges, 0 accepted, 32 dropped by debounce
+D (25966) ButtonManager: MODE: 1 raw edges, 0 accepted, 1 dropped by debounce
+D (26076) ButtonManager: MODE: 126 raw edges, 2 accepted, 124 dropped by debounce
+I (26076) ui_demo: [btn] MODE short
+I (26076) ui_demo: [mode] CLOCK -> SET TIME
+D (28196) ButtonManager: MODE: 119 raw edges, 2 accepted, 117 dropped by debounce
+I (28196) ui_demo: [btn] MODE short
+I (28196) ui_demo: [mode] SET TIME -> ALARM
+D (31266) ButtonManager: LAP: 1 raw edges, 0 accepted, 1 dropped by debounce
+D (31266) ButtonManager: LAP: 32 raw edges, 0 accepted, 32 dropped by debounce
+D (31346) ButtonManager: LAP: 2 raw edges, 0 accepted, 2 dropped by debounce
+D (31346) ButtonManager: LAP: 32 raw edges, 0 accepted, 32 dropped by debounce
+D (32306) ButtonManager: SET: 1 raw edges, 0 accepted, 1 dropped by debounce
+D (32316) ButtonManager: SET: 2 raw edges, 0 accepted, 2 dropped by debounce
+D (32426) ButtonManager: SET: 87 raw edges, 1 accepted, 86 dropped by debounce
+D (33086) ButtonManager: ALARM: 4 raw edges, 0 accepted, 4 dropped by debounce
+D (33196) ButtonManager: ALARM: 82 raw edges, 2 accepted, 80 dropped by debounce
+I (33196) ui_demo: [btn] ALARM short
+I (33196) ui_demo: [cmd] 2
+D (33256) ButtonManager: ALARM: 4 raw edges, 0 accepted, 4 dropped by debounce
+D (33256) ButtonManager: ALARM: 18 raw edges, 0 accepted, 18 dropped by debounce
+D (33356) ButtonManager: ALARM: 72 raw edges, 2 accepted, 70 dropped by debounce
+I (33356) ui_demo: [btn] ALARM short
+I (33356) ui_demo: [cmd] 2
+D (33416) ButtonManager: ALARM: 2 raw edges, 0 accepted, 2 dropped by debounce
+D (33516) ButtonManager: ALARM: 92 raw edges, 2 accepted, 90 dropped by debounce
+I (33516) ui_demo: [btn] ALARM short
+I (33516) ui_demo: [cmd] 2
+D (33906) ButtonManager: SET: 2 raw edges, 0 accepted, 2 dropped by debounce
+D (33906) ButtonManager: SET: 14 raw edges, 0 accepted, 14 dropped by debounce
+D (34006) ButtonManager: SET: 45 raw edges, 2 accepted, 43 dropped by debounce
+I (34006) ui_demo: [btn] SET short
+I (34006) ui_demo: [field] 0 -> 13
+D (34066) ButtonManager: SET: 3 raw edges, 0 accepted, 3 dropped by debounce
+D (34066) ButtonManager: SET: 32 raw edges, 0 accepted, 32 dropped by debounce
+D (34116) ButtonManager: SET: 4 raw edges, 0 accepted, 4 dropped by debounce
+D (34116) ButtonManager: SET: 32 raw edges, 0 accepted, 32 dropped by debounce
+D (34746) ButtonManager: MODE: 6 raw edges, 0 accepted, 6 dropped by debounce
+D (34866) ButtonManager: MODE: 87 raw edges, 2 accepted, 85 dropped by debounce
+I (34866) ui_demo: [btn] MODE short
+I (34866) ui_demo: [mode] ALARM -> STOPWATCH
+D (39266) ButtonManager: LAP: 2 raw edges, 0 accepted, 2 dropped by debounce
+D (39396) ButtonManager: LAP: 120 raw edges, 2 accepted, 118 dropped by debounce
+I (39396) ui_demo: [btn] LAP short
+I (39396) ui_demo: [cmd] 4
+D (40026) ButtonManager: ALARM: 2 raw edges, 0 accepted, 2 dropped by debounce
+D (40146) ButtonManager: ALARM: 96 raw edges, 2 accepted, 94 dropped by debounce
+I (40146) ui_demo: [btn] ALARM short
+I (40146) ui_demo: [cmd] 2
+D (40696) ButtonManager: SET: 145 raw edges, 2 accepted, 143 dropped by debounce
+I (40696) ui_demo: [btn] SET short
+I (40696) ui_demo: [cmd] 3
+D (41066) ButtonManager: MODE: 2 raw edges, 0 accepted, 2 dropped by debounce
+D (41066) ButtonManager: MODE: 6 raw edges, 0 accepted, 6 dropped by debounce
+D (41216) ButtonManager: MODE: 78 raw edges, 2 accepted, 76 dropped by debounce
+I (41216) ui_demo: [btn] MODE short
+I (41216) ui_demo: [mode] STOPWATCH -> CLOCK
+D (41996) ButtonManager: SET: 164 raw edges, 2 accepted, 162 dropped by debounce
+I (41996) ui_demo: [btn] SET short
+D (42406) ButtonManager: ALARM: 174 raw edges, 2 accepted, 172 dropped by debounce
+I (42406) ui_demo: [btn] ALARM short
+I (42406) ui_demo: [cmd] 2
+>
 ```
 
 ### 3.6 ตรวจสอบตนเอง
@@ -276,7 +805,75 @@ idf.py build
 ![ผลการจำลอง Spiral 4](docs/images/spiral04/image.png)
 
 ```text
-<!-- TODO: วาง Serial Monitor log -->
+<ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0040,len:6272
+load:0x40078000,len:15820
+load:0x40080400,len:3920
+entry 0x40080644
+I (12) boot: ESP-IDF v6.0.2 2nd stage bootloader
+I (13) boot: compile time Oct 28 2026 16:03:43
+I (13) boot: Multicore bootloader
+I (14) boot: chip revision: v3.0
+I (16) boot.esp32: SPI Speed      : 40MHz
+I (19) boot.esp32: SPI Mode       : DIO
+I (23) boot.esp32: SPI Flash Size : 2MB
+I (27) boot: Enabling RNG early entropy source...
+I (31) boot: Partition Table:
+I (34) boot: ## Label            Usage          Type ST Offset   Length
+I (40) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (46) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (53) boot:  2 factory          factory app      00 00 00010000 00100000
+I (60) boot: End of partition table
+I (63) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=0af90h ( 44944) map
+I (129) esp_image: segment 1: paddr=0001afb8 vaddr=3ffb0000 size=02af4h ( 10996) load
+I (148) esp_image: segment 2: paddr=0001dab4 vaddr=40080000 size=02564h (  9572) load
+I (164) esp_image: segment 3: paddr=00020020 vaddr=400d0020 size=16504h ( 91396) map
+I (285) esp_image: segment 4: paddr=0003652c vaddr=40082564 size=096f0h ( 38640) load
+I (345) esp_image: segment 5: paddr=0003fc24 vaddr=50000000 size=00028h (    40) load
+I (367) boot: Loaded app from partition at offset 0x10000
+I (367) boot: Disabling RNG early entropy source...
+I (379) cpu_start: Multicore app
+I (191) cpu_start: GPIO 3 and 1 are used as console UART I/O pins
+I (192) cpu_start: Pro cpu start user code
+I (192) cpu_start: cpu freq: 160000000 Hz
+I (193) app_init: Application information:
+I (197) app_init: Project name:     final04_alarm_stopwatch
+I (202) app_init: App version:      b6e30ab-dirty
+I (207) app_init: Compile time:     Oct 28 2026 16:03:39
+I (212) app_init: ELF file SHA256:  2f2099f9c...
+I (216) app_init: ESP-IDF:          v6.0.2
+I (220) efuse_init: Min chip rev:     v0.0
+I (224) efuse_init: Max chip rev:     v3.99 
+I (228) efuse_init: Chip rev:         v3.0
+I (233) heap_init: Initializing. RAM available for dynamic allocation:
+I (238) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (243) heap_init: At 3FFB3D68 len 0002C298 (176 KiB): DRAM
+I (248) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (254) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (260) heap_init: At 4008BC54 len 000143AC (80 KiB): IRAM
+I (266) spi_flash: detected chip: winbond
+I (268) spi_flash: flash io: dio
+I (274) main_task: Started on CPU0
+I (274) main_task: Calling app_main()
+I (394) ButtonManager: ready: MODE=GPIO18 SET=GPIO19 ALARM=GPIO4 LAP=GPIO5
+I (394) TimeManager: System clock loaded from DS1307: 2026-10-28 16:05:03 UTC (TZ=ICT-7)
+I (394) alarm_demo: [alarm] demo alarm set to 23:06
+I (6394) alarm_demo: [alarm] disabled
+I (7594) alarm_demo: [alarm] enabled
+I (22834) sw: [sw] reset
+I (22994) sw: [sw] reset
+I (25564) sw: [sw] reset
+I (26164) sw: [sw] start at 00:00.00
+I (33164) sw: [sw] stop at 00:07.00
+I (44304) alarm_demo: [alarm] disabled
+I (47814) alarm_demo: [alarm] enabled
+I (58394) alarm: [alarm] START 23:06
+>
 ```
 
 ### 4.6 ตรวจสอบตนเอง
@@ -343,10 +940,193 @@ idf.py build
 
 ### 5.5 ผลการทดลอง
 
-![ผลการจำลอง Spiral 5](docs/images/spiral05/image.png)
+![ผลการจำลอง Spiral 5](docs/images/spiral05/Screenshot%202569-10-28%20at%2016.09.21.png)
 
 ```text
-<!-- TODO: วาง Serial Monitor log -->
+<ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0040,len:6272
+load:0x40078000,len:15820
+load:0x40080400,len:3920
+entry 0x40080644
+I (12) boot: ESP-IDF v6.0.2 2nd stage bootloader
+I (13) boot: compile time Oct 28 2026 16:08:17
+I (13) boot: Multicore bootloader
+I (14) boot: chip revision: v3.0
+I (16) boot.esp32: SPI Speed      : 40MHz
+I (19) boot.esp32: SPI Mode       : DIO
+I (23) boot.esp32: SPI Flash Size : 2MB
+I (27) boot: Enabling RNG early entropy source...
+I (31) boot: Partition Table:
+I (34) boot: ## Label            Usage          Type ST Offset   Length
+I (40) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (46) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (53) boot:  2 factory          factory app      00 00 00010000 00177000
+I (60) boot: End of partition table
+I (63) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=1c8dch (116956) map
+I (223) esp_image: segment 1: paddr=0002c904 vaddr=3ffb0000 size=03714h ( 14100) load
+I (246) esp_image: segment 2: paddr=00030020 vaddr=400d0020 size=93abch (604860) map
+I (1037) esp_image: segment 3: paddr=000c3ae4 vaddr=3ffb3714 size=00eech (  3820) load
+I (1045) esp_image: segment 4: paddr=000c49d8 vaddr=40080000 size=160c8h ( 90312) load
+I (1185) esp_image: segment 5: paddr=000daaa8 vaddr=50000000 size=00028h (    40) load
+I (1222) boot: Loaded app from partition at offset 0x10000
+I (1223) boot: Disabling RNG early entropy source...
+I (1236) cpu_start: Multicore app
+I (620) cpu_start: GPIO 3 and 1 are used as console UART I/O pins
+I (620) cpu_start: Pro cpu start user code
+I (621) cpu_start: cpu freq: 160000000 Hz
+I (622) app_init: Application information:
+I (626) app_init: Project name:     final05_integration
+I (631) app_init: App version:      b6e30ab-dirty
+I (635) app_init: Compile time:     Oct 28 2026 16:08:14
+I (640) app_init: ELF file SHA256:  28e518eb4...
+I (644) app_init: ESP-IDF:          v6.0.2
+I (648) efuse_init: Min chip rev:     v0.0
+I (652) efuse_init: Max chip rev:     v3.99 
+I (656) efuse_init: Chip rev:         v3.0
+I (661) heap_init: Initializing. RAM available for dynamic allocation:
+I (666) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (672) heap_init: At 3FFB98F0 len 00026710 (153 KiB): DRAM
+I (676) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (682) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (688) heap_init: At 400960C8 len 00009F38 (39 KiB): IRAM
+I (694) spi_flash: detected chip: winbond
+I (696) spi_flash: flash io: dio
+I (702) main_task: Started on CPU0
+I (702) main_task: Calling app_main()
+I (822) ButtonManager: ready: MODE=GPIO18 SET=GPIO19 ALARM=GPIO4 LAP=GPIO5
+I (822) TimeManager: System clock loaded from DS1307: 2026-10-28 16:08:41 UTC (TZ=ICT-7)
+I (822) main: All tasks started
+I (822) main_task: Returned from app_main()
+I (872) wifi:wifi driver task: 3ffc5f1c, prio:23, stack:6656, core=0
+I (882) wifi:wifi firmware version: 00ad238
+I (882) wifi:wifi certification version: v7.0
+I (882) wifi:config NVS flash: enabled
+I (892) wifi:config nano formatting: disabled
+I (892) wifi:Init data frame dynamic rx buffer num: 32
+I (892) wifi:Init static rx mgmt buffer num: 5
+I (902) wifi:Init management short buffer num: 32
+I (902) wifi:Init dynamic tx buffer num: 32
+I (912) wifi:Init static rx buffer size: 1600
+I (912) wifi:Init static rx buffer num: 10
+I (912) wifi:Init dynamic rx buffer num: 32
+I (922) wifi_init: rx ba win: 6
+I (922) wifi_init: accept mbox: 6
+I (922) wifi_init: tcpip mbox: 32
+I (932) wifi_init: udp mbox: 6
+I (932) wifi_init: tcp mbox: 6
+I (932) wifi_init: tcp tx win: 5760
+I (932) wifi_init: tcp rx win: 5760
+I (942) wifi_init: tcp mss: 1440
+I (942) main: [clock] 23:08:41 src=RTC
+I (942) wifi_init: WiFi IRAM OP enabled
+I (952) wifi_init: WiFi RX IRAM OP enabled
+I (1052) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06
+W (1052) phy_init: failed to load RF calibration data (0x1102), falling back to full calibration
+I (1192) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(2)
+I (1232) wifi:mode : sta (24:0a:c4:00:01:10)
+I (1232) wifi:enable tsf
+I (1242) TimeManager: Wi-Fi STA started, connecting to "Wokwi-GUEST" (open)
+I (1852) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0x0
+I (1852) wifi:state: init -> auth (0xb0)
+I (1852) wifi:state: auth -> assoc (0x0)
+I (1852) wifi:state: assoc -> run (0x10)
+I (1862) wifi:connected with Wokwi-GUEST, aid = 1, channel 6, BW20, bssid = 42:13:37:55:aa:01
+I (1862) wifi:security: Open Auth, phy: bg, rssi: -89, cipher(pairwise:0x0, group:0x0), pmf:0
+I (1892) wifi:pm start, type: 1
+
+I (1902) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (1902) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us
+I (1902) wifi:AP's beacon interval = 102400 us, DTIM period = 2
+I (1952) main: [clock] 23:08:42 src=RTC
+I (2952) esp_netif_handlers: sta ip: 10.13.37.2, mask: 255.255.255.0, gw: 10.13.37.1
+I (2952) TimeManager: Wi-Fi connected, IP 10.13.37.2
+I (2952) TimeManager: SNTP query pool.ntp.org (timeout 15000 ms)
+I (3152) main: [clock] 23:08:43 src=RTC
+I (4352) main: [clock] 23:08:44 src=RTC
+I (5202) TimeManager: ntp_demo: UTC 2026-10-28 09:08:46 -> DS1307 written | local (ICT-7) 2026-10-28 16:08:46
+I (5202) TimeManager: NTP sync OK, next resync in 3600 s
+I (5552) main: [clock] 16:08:46 src=NTP
+I (6752) main: [clock] 16:08:47 src=NTP
+I (7752) main: [clock] 16:08:48 src=NTP
+I (8952) main: [clock] 16:08:49 src=NTP
+I (10152) main: [clock] 16:08:51 src=NTP
+I (11152) main: [clock] 16:08:52 src=NTP
+I (12332) main: [mode] CLOCK -> SET TIME
+I (12352) main: [clock] 16:08:53 src=NTP
+I (13552) main: [clock] 16:08:54 src=NTP
+I (14752) main: [clock] 16:08:55 src=NTP
+I (15952) main: [clock] 16:08:56 src=NTP
+I (17152) main: [clock] 16:08:58 src=NTP
+I (18352) main: [clock] 16:08:59 src=NTP
+I (19352) main: [clock] 16:09:00 src=NTP
+I (20152) TimeManager: Manual set local 2026-10-28 18:08:53, DS1307 updated
+I (20152) main: [time] manual set saved to RTC
+I (20152) main: [mode] SET TIME -> ALARM
+I (20552) main: [clock] 18:08:53 src=NTP
+I (21752) main: [clock] 18:08:54 src=NTP
+I (22952) main: [clock] 18:08:55 src=NTP
+I (24152) main: [clock] 18:08:56 src=NTP
+I (24312) main: [alarm] set to 07:00
+I (24312) main: [mode] ALARM -> STOPWATCH
+I (25152) main: [clock] 18:08:57 src=NTP
+I (26172) sw: [sw] start at 00:00.00
+I (26352) main: [clock] 18:08:59 src=NTP
+I (27552) main: [clock] 18:09:00 src=NTP
+I (28552) main: [clock] 18:09:01 src=NTP
+I (29752) main: [clock] 18:09:02 src=NTP
+I (30002) sw: [sw] stop at 00:03.83
+I (30952) main: [clock] 18:09:03 src=NTP
+I (31032) main: [mode] STOPWATCH -> CLOCK
+I (31952) main: [clock] 18:09:04 src=NTP
+I (32952) main: [clock] 18:09:05 src=NTP
+I (34152) main: [clock] 18:09:06 src=NTP
+I (35352) main: [clock] 18:09:08 src=NTP
+I (36552) main: [clock] 18:09:09 src=NTP
+I (37752) main: [clock] 18:09:10 src=NTP
+I (38952) main: [clock] 18:09:11 src=NTP
+I (39952) main: [clock] 18:09:12 src=NTP
+I (41152) main: [clock] 18:09:13 src=NTP
+I (42352) main: [clock] 18:09:15 src=NTP
+I (43552) main: [clock] 18:09:16 src=NTP
+I (44752) main: [clock] 18:09:17 src=NTP
+I (45752) main: [clock] 18:09:18 src=NTP
+I (46952) main: [clock] 18:09:19 src=NTP
+I (47952) main: [clock] 18:09:20 src=NTP
+I (49152) main: [clock] 18:09:21 src=NTP
+I (50152) main: [clock] 18:09:22 src=NTP
+I (51352) main: [clock] 18:09:24 src=NTP
+I (52352) main: [clock] 18:09:25 src=NTP
+I (53552) main: [clock] 18:09:26 src=NTP
+I (54752) main: [clock] 18:09:27 src=NTP
+I (55752) main: [clock] 18:09:28 src=NTP
+I (56952) main: [clock] 18:09:29 src=NTP
+I (57952) main: [clock] 18:09:30 src=NTP
+I (59152) main: [clock] 18:09:31 src=NTP
+I (60152) main: [clock] 18:09:32 src=NTP
+I (61352) main: [clock] 18:09:34 src=NTP
+I (62352) main: [clock] 18:09:35 src=NTP
+I (63552) main: [clock] 18:09:36 src=NTP
+I (64752) main: [clock] 18:09:37 src=NTP
+I (65752) main: [clock] 18:09:38 src=NTP
+I (66952) main: [clock] 18:09:39 src=NTP
+I (67952) main: [clock] 18:09:40 src=NTP
+I (69152) main: [clock] 18:09:41 src=NTP
+I (70152) main: [clock] 18:09:42 src=NTP
+I (71352) main: [clock] 18:09:44 src=NTP
+I (72352) main: [clock] 18:09:45 src=NTP
+I (73552) main: [clock] 18:09:46 src=NTP
+I (74752) main: [clock] 18:09:47 src=NTP
+I (75752) main: [clock] 18:09:48 src=NTP
+I (76952) main: [clock] 18:09:49 src=NTP
+I (77952) main: [clock] 18:09:50 src=NTP
+I (79152) main: [clock] 18:09:51 src=NTP
+I (80152) main: [clock] 18:09:52 src=NTP
+>
 ```
 
 ### 5.6 ตรวจสอบตนเอง

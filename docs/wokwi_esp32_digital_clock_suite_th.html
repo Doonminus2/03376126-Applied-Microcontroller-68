@@ -474,16 +474,16 @@
             </div>
         </section>
 
-        <!-- TAB 2: WOKWI DIAGRAM.JSON -->
+        <!-- TAB 2: WOKWI DIAGRAM.JSON (แยกตาม lab) -->
         <section id="content-wokwi" class="tab-content hidden space-y-6">
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                     <div>
                         <h2 class="text-xl font-bold text-white flex items-center space-x-2">
                             <i class="fa-solid fa-file-code text-cyan-400"></i>
-                            <span>ไฟล์ตั้งค่าวงจรจำลองของ Wokwi (`diagram.json`)</span>
+                            <span>ไฟล์วงจรจำลองของ Wokwi แยกตาม lab</span>
                         </h2>
-                        <p class="text-xs text-slate-400 mt-1">ก๊อปไปวางใน Wokwi ได้เลย</p>
+                        <p class="text-xs text-slate-400 mt-1">เลือก lab แล้วคัดลอก <code>diagram.json</code> ไปวางในโฟลเดอร์ของ lab นั้น (ในวงจรมีเฉพาะอุปกรณ์ที่ lab นั้นใช้)</p>
                     </div>
                     <button onclick="copyToClipboard('wokwiJsonCode', 'copyBtnWokwi')" id="copyBtnWokwi" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-semibold flex items-center space-x-2 transition-all shadow-lg shadow-cyan-600/30">
                         <i class="fa-regular fa-copy"></i>
@@ -491,150 +491,38 @@
                     </button>
                 </div>
 
-                <!-- JSON CODE VIEWER -->
-                <div class="relative bg-slate-950 border border-slate-800 rounded-xl p-4 overflow-x-auto font-mono text-xs">
-                    <pre id="wokwiJsonCode" class="text-slate-300">{
-  "version": 1,
-  "author": "Modular OOP Digital Clock Team",
-  "editor": "wokwi",
-  "parts": [
-    {
-      "type": "board-esp32-devkit-c-v4",
-      "id": "esp",
-      "top": 0,
-      "left": 0,
-      "attrs": {}
-    },
-    {
-      "type": "wokwi-ds1307",
-      "id": "rtc",
-      "top": -120,
-      "left": 280,
-      "attrs": {}
-    },
-    {
-      "type": "wokwi-ssd1306",
-      "id": "oled",
-      "top": 120,
-      "left": 280,
-      "attrs": {
-        "i2cAddress": "0x3c"
-      }
-    },
-    {
-      "type": "wokwi-pushbutton",
-      "id": "btn_mode",
-      "top": 280,
-      "left": -120,
-      "attrs": { "color": "red", "label": "MODE (GPIO18)" }
-    },
-    {
-      "type": "wokwi-pushbutton",
-      "id": "btn_set",
-      "top": 280,
-      "left": -20,
-      "attrs": { "color": "green", "label": "SET (GPIO19)" }
-    },
-    {
-      "type": "wokwi-pushbutton",
-      "id": "btn_alarm",
-      "top": 280,
-      "left": 80,
-      "attrs": { "color": "yellow", "label": "ALARM (GPIO4)" }
-    },
-    {
-      "type": "wokwi-pushbutton",
-      "id": "btn_lap",
-      "top": 280,
-      "left": 180,
-      "attrs": { "color": "blue", "label": "LAP (GPIO5)" }
-    },
-    {
-      "type": "wokwi-buzzer",
-      "id": "buzzer",
-      "top": -120,
-      "left": -80,
-      "attrs": { "volume": "0.1" }
-    }
-  ],
-  "connections": [
-    [ "esp:GND.1", "rtc:GND", "black", [ "v0" ] ],
-    [ "esp:5V", "rtc:5V", "red", [ "v0" ] ],
-    [ "esp:21", "rtc:SDA", "yellow", [ "v0" ] ],
-    [ "esp:22", "rtc:SCL", "cyan", [ "v0" ] ],
-    [ "esp:GND.2", "oled:GND", "black", [ "v0" ] ],
-    [ "esp:3V3", "oled:VCC", "red", [ "v0" ] ],
-    [ "esp:21", "oled:SDA", "yellow", [ "v0" ] ],
-    [ "esp:22", "oled:SCL", "cyan", [ "v0" ] ],
-    [ "esp:18", "btn_mode:1.A", "green", [ "v0" ] ],
-    [ "esp:GND.3", "btn_mode:2.A", "black", [ "v0" ] ],
-    [ "esp:19", "btn_set:1.A", "green", [ "v0" ] ],
-    [ "esp:GND.3", "btn_set:2.A", "black", [ "v0" ] ],
-    [ "esp:4", "btn_alarm:1.A", "green", [ "v0" ] ],
-    [ "esp:GND.3", "btn_alarm:2.A", "black", [ "v0" ] ],
-    [ "esp:5", "btn_lap:1.A", "green", [ "v0" ] ],
-    [ "esp:GND.3", "btn_lap:2.A", "black", [ "v0" ] ],
-    [ "esp:25", "buzzer:1", "orange", [ "v0" ] ],
-    [ "esp:GND.1", "buzzer:2", "black", [ "v0" ] ]
-  ]
-}</pre>
+                <div class="lab-picker flex gap-2 overflow-x-auto no-scrollbar pb-2"></div>
+                <p id="wokwiLabDesc" class="text-xs text-slate-400 mt-2"></p>
+                <p id="wokwiFilePath" class="text-[11px] font-mono text-cyan-400 mt-3"></p>
+
+                <div class="relative bg-slate-950 border border-slate-800 rounded-xl p-4 mt-1 overflow-x-auto font-mono text-xs">
+                    <pre id="wokwiJsonCode" class="text-slate-300"></pre>
                 </div>
 
-                <!-- PINOUT REFERENCE TABLE -->
                 <div class="mt-6">
-                    <h3 class="text-sm font-bold text-white mb-3">ตารางสรุปการต่อฮาร์ดแวร์ใน Wokwi</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs font-mono">
-                        <div class="bg-slate-800/60 p-3 rounded-lg border border-slate-700/60">
-                            <span class="text-cyan-400 font-bold">DS1307 RTC</span>
-                            <ul class="text-slate-300 mt-1 space-y-0.5 text-[11px]">
-                                <li>• SDA ➔ GPIO 21</li>
-                                <li>• SCL ➔ GPIO 22</li>
-                                <li>• VCC ➔ ไฟ 5V</li>
-                                <li>• GND ➔ GND ร่วม</li>
-                            </ul>
-                        </div>
-                        <div class="bg-slate-800/60 p-3 rounded-lg border border-slate-700/60">
-                            <span class="text-cyan-400 font-bold">SSD1306 OLED</span>
-                            <ul class="text-slate-300 mt-1 space-y-0.5 text-[11px]">
-                                <li>• SDA ➔ GPIO 21</li>
-                                <li>• SCL ➔ GPIO 22</li>
-                                <li>• VCC ➔ ไฟ 3.3V</li>
-                                <li>• GND ➔ GND ร่วม</li>
-                            </ul>
-                        </div>
-                        <div class="bg-slate-800/60 p-3 rounded-lg border border-slate-700/60">
-                            <span class="text-emerald-400 font-bold">ปุ่มกด 4 ปุ่ม</span>
-                            <ul class="text-slate-300 mt-1 space-y-0.5 text-[11px]">
-                                <li>• MODE ➔ GPIO 18</li>
-                                <li>• SET ➔ GPIO 19</li>
-                                <li>• ALARM ➔ GPIO 4</li>
-                                <li>• LAP ➔ GPIO 5</li>
-                            </ul>
-                        </div>
-                        <div class="bg-slate-800/60 p-3 rounded-lg border border-slate-700/60">
-                            <span class="text-amber-400 font-bold">บัซเซอร์และเครือข่าย</span>
-                            <ul class="text-slate-300 mt-1 space-y-0.5 text-[11px]">
-                                <li>• บัซเซอร์ ➔ GPIO 25</li>
-                                <li>• Wi-Fi ➔ "iotexpo"</li>
-                                <li>• รหัสผ่าน ➔ "12345678"</li>
-                                <li>• NTP ➔ pool.ntp.org</li>
-                            </ul>
-                        </div>
+                    <h3 class="text-sm font-bold text-white mb-3">ตารางสรุปการต่อฮาร์ดแวร์ของ lab นี้</h3>
+                    <div id="wokwiPinout" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs font-mono"></div>
+                </div>
+
+                <div class="mt-6">
+                    <h3 class="text-sm font-bold text-white mb-2">wokwi.toml ของ lab นี้</h3>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 overflow-x-auto font-mono text-xs">
+                        <pre id="wokwiTomlCode" class="text-slate-300"></pre>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 3: MODULAR C++ SOURCE CODE -->
+        <!-- TAB 3: C++ SOURCE (แยกตาม lab) -->
         <section id="content-code" class="tab-content hidden space-y-6">
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                     <div>
                         <h2 class="text-xl font-bold text-white flex items-center space-x-2">
                             <i class="fa-solid fa-code text-cyan-400"></i>
-                            <span>ซอร์สโค้ด C++ แบบ Modular (ESP-IDF v6)</span>
+                            <span>ซอร์สโค้ด C++ แยกตาม lab (ESP-IDF v6)</span>
                         </h2>
-                        <p class="text-xs text-slate-400 mt-1">driver แบบ OOP, task ของ FreeRTOS และ service ของ logic หลัก</p>
+                        <p class="text-xs text-slate-400 mt-1">แต่ละ lab มี <code>main.cpp</code> ของตัวเอง ส่วน class ทั้งหมดอยู่ในโฟลเดอร์ <code>final-homework-esp32/components/</code> ที่ทุก lab ใช้ร่วมกัน</p>
                     </div>
                     <button onclick="copyActiveCode()" id="copyCodeBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-lg text-xs font-semibold flex items-center space-x-2 border border-slate-700 transition-all">
                         <i class="fa-regular fa-copy"></i>
@@ -642,22 +530,19 @@
                     </button>
                 </div>
 
-                <!-- CODE SUB TABS NAV -->
-                <div class="flex space-x-1 border-b border-slate-800 pb-2 overflow-x-auto text-xs font-mono no-scrollbar">
-                    <button onclick="switchCodeTab('main')" id="subtab-main" class="code-subtab px-3 py-1.5 rounded-lg bg-cyan-950 text-cyan-300 border border-cyan-800">main.cpp</button>
-                    <button onclick="switchCodeTab('i2c')" id="subtab-i2c" class="code-subtab px-3 py-1.5 rounded-lg text-slate-400 hover:bg-slate-800">I2CBus.hpp</button>
-                    <button onclick="switchCodeTab('ds1307_h')" id="subtab-ds1307_h" class="code-subtab px-3 py-1.5 rounded-lg text-slate-400 hover:bg-slate-800">DS1307.hpp</button>
-                    <button onclick="switchCodeTab('ds1307_cpp')" id="subtab-ds1307_cpp" class="code-subtab px-3 py-1.5 rounded-lg text-slate-400 hover:bg-slate-800">DS1307.cpp</button>
-                    <button onclick="switchCodeTab('ssd1306_h')" id="subtab-ssd1306_h" class="code-subtab px-3 py-1.5 rounded-lg text-slate-400 hover:bg-slate-800">SSD1306.hpp</button>
-                    <button onclick="switchCodeTab('ssd1306_cpp')" id="subtab-ssd1306_cpp" class="code-subtab px-3 py-1.5 rounded-lg text-slate-400 hover:bg-slate-800">SSD1306.cpp</button>
-                    <button onclick="switchCodeTab('button')" id="subtab-button" class="code-subtab px-3 py-1.5 rounded-lg text-slate-400 hover:bg-slate-800">ButtonManager.hpp</button>
-                    <button onclick="switchCodeTab('time')" id="subtab-time" class="code-subtab px-3 py-1.5 rounded-lg text-slate-400 hover:bg-slate-800">TimeManager.hpp</button>
-                    <button onclick="switchCodeTab('alarm')" id="subtab-alarm" class="code-subtab px-3 py-1.5 rounded-lg text-slate-400 hover:bg-slate-800">AlarmEngine.hpp</button>
-                    <button onclick="switchCodeTab('stopwatch')" id="subtab-stopwatch" class="code-subtab px-3 py-1.5 rounded-lg text-slate-400 hover:bg-slate-800">StopwatchEngine.hpp</button>
-                </div>
+                <div class="lab-picker flex gap-2 overflow-x-auto no-scrollbar pb-2"></div>
+                <p id="codeLabDesc" class="text-xs text-slate-400 mt-2"></p>
 
-                <!-- CODE DISPLAY AREA -->
-                <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 mt-4 overflow-x-auto font-mono text-xs max-h-[500px]">
+                <!-- ไฟล์ในโฟลเดอร์ lab -->
+                <p class="text-[10px] uppercase tracking-wider text-slate-500 font-bold mt-4 mb-1">ไฟล์ของ lab นี้</p>
+                <div id="codeLabFiles" class="flex gap-1 border-b border-slate-800 pb-2 overflow-x-auto text-xs font-mono no-scrollbar"></div>
+
+                <!-- class ที่ lab นี้ใช้ (อยู่ใน components/) -->
+                <p class="text-[10px] uppercase tracking-wider text-slate-500 font-bold mt-3 mb-1">class ใน <code>components/</code> ที่ lab นี้ใช้ (ไม่ต้อง copy ลงโฟลเดอร์ lab)</p>
+                <div id="codeComponentFiles" class="space-y-2 text-xs font-mono"></div>
+
+                <p id="codeFilePath" class="text-[11px] font-mono text-cyan-400 mt-4"></p>
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 mt-1 overflow-x-auto overflow-y-auto font-mono text-xs max-h-[560px]">
                     <pre id="codeDisplayArea" class="text-slate-300 leading-relaxed"></pre>
                 </div>
             </div>
@@ -882,332 +767,524 @@
             activeBtn.classList.remove('text-slate-400');
         }
 
-        // CODE SUB-TABS DATA
-        const codeFiles = {
-            main: `// main.cpp - ESP32 Digital Clock Application Entry Point
-#include <stdio.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "freertos/queue.h"
-#include "freertos/event_groups.h"
-#include "esp_log.h"
-
-#include "I2CBus.hpp"
-#include "DS1307.hpp"
-#include "SSD1306.hpp"
-#include "ButtonManager.hpp"
-#include "TimeManager.hpp"
-#include "AlarmEngine.hpp"
-#include "StopwatchEngine.hpp"
-
-static const char* TAG = "MAIN_APP";
-
-// Shared Drivers & System Objects
-static Clock::I2CBus i2cBus(I2C_NUM_0, GPIO_NUM_21, GPIO_NUM_22);
-static Clock::DS1307 rtcDriver(i2cBus);
-static Clock::SSD1306 display(i2cBus, 0x3C);
-static Clock::ButtonManager buttonMgr;
-static Clock::TimeManager timeMgr(rtcDriver);
-static Clock::AlarmEngine alarmEngine(GPIO_NUM_25);
-static Clock::StopwatchEngine stopwatchEngine;
-
-extern "C" void app_main(void) {
-    ESP_LOGI(TAG, "Initializing Modular C++ OOP Clock System...");
-
-    // Spiral 1: Hardware Layer Init
-    i2cBus.init();
-    rtcDriver.init();
-    display.init();
-
-    // Spiral 2 & 3: Managers & Input
-    timeMgr.initWifiNTP("iotexpo", "12345678");
-    buttonMgr.init();
-    alarmEngine.init();
-
-    // Spawn FreeRTOS Tasks
-    xTaskCreatePinnedToCore([](void* p){ buttonMgr.taskLoop(); }, "vTaskButton", 3072, NULL, 5, NULL, 0);
-    xTaskCreatePinnedToCore([](void* p){ timeMgr.taskNtpLoop(); }, "vTaskNTP", 6144, NULL, 1, NULL, 0);
-    xTaskCreatePinnedToCore([](void* p){ alarmEngine.taskAlarmLoop(timeMgr); }, "vTaskAlarm", 2048, NULL, 4, NULL, 1);
-    
-    // Main Display Render Loop (10 FPS)
-    while (true) {
-        display.clear();
-        // Render UI based on active mode state machine
-        display.renderHeader(timeMgr.isNtpSynced());
-        timeMgr.renderTime(display);
-        display.flush();
-        vTaskDelay(pdMS_TO_TICKS(100));
+        // ข้อมูลซอร์สของแต่ละ lab (สร้างจากไฟล์จริงใน final-homework-esp32/ ด้วยสคริปต์ ไม่ได้เขียนมือ)
+        const LAB_DATA = {
+ "labs": [
+  {
+   "dir": "01-hal-i2c",
+   "name": "Lab 1",
+   "title": "HAL + I2C",
+   "desc": "สแกนบัส I2C, อ่าน/เขียน DS1307 และแสดงข้อความบนจอ SSD1306 (ยังไม่มี Wi-Fi ปุ่ม และ buzzer)",
+   "pins": [
+    [
+     "DS1307 RTC",
+     "text-cyan-400",
+     [
+      "SDA ➔ GPIO 21",
+      "SCL ➔ GPIO 22",
+      "5V ➔ ขา 5V ของบอร์ด",
+      "GND ➔ GND.2"
+     ]
+    ],
+    [
+     "SSD1306 OLED",
+     "text-cyan-400",
+     [
+      "SDA ➔ GPIO 21",
+      "SCL ➔ GPIO 22",
+      "VCC ➔ 3V3",
+      "GND ➔ GND.2"
+     ]
+    ]
+   ],
+   "requires": [
+    "i2c_bus",
+    "ds1307",
+    "ssd1306",
+    "clock_logic"
+   ],
+   "files": [
+    {
+     "name": "main.cpp",
+     "path": "final-homework-esp32/01-hal-i2c/main/main.cpp",
+     "text": "// Spiral 1: HAL + I2C - สแกนบัส, DS1307, SSD1306\n// ใช้ component: i2c_bus, ds1307, ssd1306, clock_logic\n#include <cstdio>\n#include <cstdlib>\n\n#include \"DS1307.hpp\"\n#include \"I2CBus.hpp\"\n#include \"SSD1306.hpp\"\n#include \"clock_logic/datetime.hpp\"\n#include \"esp_log.h\"\n#include \"freertos/FreeRTOS.h\"\n#include \"freertos/task.h\"\n\nstatic const char* TAG = \"hal_demo\";\n\nstatic Clock::I2CBus i2cBus(I2C_NUM_0, GPIO_NUM_21, GPIO_NUM_22);\nstatic Clock::DS1307 rtc(i2cBus);\nstatic Clock::SSD1306 display(i2cBus);\n\nstatic void scanBus() {\n    int found = 0;\n    for (uint8_t addr = 0x08; addr <= 0x77; ++addr) {\n        if (i2cBus.probe(addr)) {\n            ESP_LOGI(TAG, \"I2C device found at 0x%02X\", addr);\n            ++found;\n        }\n    }\n    ESP_LOGI(TAG, \"Scan done: %d device(s)\", found);\n}\n\nextern \"C\" void app_main(void) {\n    if (!i2cBus.init()) {\n        ESP_LOGE(TAG, \"I2C bus init failed\");\n        return;\n    }\n    scanBus();\n\n    ESP_LOGI(TAG, \"DS1307 init: %s\", rtc.init() ? \"OK\" : \"FAIL\");\n    ESP_LOGI(TAG, \"SSD1306 init: %s\", display.init() ? \"OK\" : \"FAIL\");\n\n    // เขียนเวลา 2026-10-25 08:30:00 แล้วอ่านกลับมาเทียบ\n    Clock::DateTime written;\n    written.year = 2026;\n    written.month = 10;\n    written.day = 25;\n    written.weekday = Clock::weekdayFromDate(written.year, written.month, written.day);\n    written.hour = 8;\n    written.minute = 30;\n    written.second = 0;\n    Clock::DateTime readBack;\n    if (rtc.setTime(written) && rtc.getTime(readBack)) {\n        const long diff = labs(static_cast<long>(Clock::toEpoch(readBack) - Clock::toEpoch(written)));\n        ESP_LOGI(TAG, \"Read-back check: %s (diff=%lds)\", diff <= 2 ? \"PASS\" : \"FAIL\", diff);\n    } else {\n        ESP_LOGE(TAG, \"Read-back check: FAIL (I2C error)\");\n    }\n\n    // วนทุก 1 วินาที อ่านเวลาจาก DS1307 แสดงบนจอและ Serial\n    while (true) {\n        Clock::DateTime now;\n        if (rtc.getTime(now)) {\n            char date[16], time[16];\n            snprintf(date, sizeof(date), \"%04u-%02u-%02u\", now.year, now.month, now.day);\n            snprintf(time, sizeof(time), \"%02u:%02u:%02u\", now.hour, now.minute, now.second);\n            display.clear();\n            display.drawString(0, 0, \"SPIRAL 1: HAL I2C\");\n            display.drawString(0, 16, date, 2);\n            display.drawString(0, 40, time, 2);\n            display.flush();\n            ESP_LOGI(TAG, \"DS1307 %s %s\", date, time);\n        } else {\n            ESP_LOGW(TAG, \"DS1307 read failed\");\n        }\n        vTaskDelay(pdMS_TO_TICKS(1000));\n    }\n}\n"
+    },
+    {
+     "name": "main/CMakeLists.txt",
+     "path": "final-homework-esp32/01-hal-i2c/main/CMakeLists.txt",
+     "text": "idf_component_register(SRCS \"main.cpp\"\n                       INCLUDE_DIRS \".\"\n                       REQUIRES i2c_bus ds1307 ssd1306 clock_logic)\n"
     }
-}`,
-            i2c: `// I2CBus.hpp - Thread-Safe ESP-IDF v6 I2C Master Wrapper
-#pragma once
-#include "driver/i2c_master.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/semphr.h"
-
-namespace Clock {
-class I2CBus {
-private:
-    i2c_port_t port_;
-    gpio_num_t sdaPin_;
-    gpio_num_t sclPin_;
-    i2c_master_bus_handle_t busHandle_{nullptr};
-    SemaphoreHandle_t mutex_{nullptr};
-
-public:
-    I2CBus(i2c_port_t port, gpio_num_t sda, gpio_num_t scl)
-        : port_(port), sdaPin_(sda), sclPin_(scl) {
-        mutex_ = xSemaphoreCreateMutex();
+   ],
+   "diagram": "{\n  \"version\": 1,\n  \"author\": \"Final Homework ESP32 Digital Clock\",\n  \"editor\": \"wokwi\",\n  \"parts\": [\n    { \"type\": \"board-esp32-devkit-c-v4\", \"id\": \"esp\", \"top\": 0, \"left\": 0, \"attrs\": {} },\n    { \"type\": \"wokwi-ds1307\", \"id\": \"rtc\", \"top\": -120, \"left\": 200, \"attrs\": {} },\n    { \"type\": \"board-ssd1306\", \"id\": \"oled\", \"top\": 60, \"left\": 200, \"attrs\": { \"i2cAddress\": \"0x3c\" } }\n  ],\n  \"connections\": [\n    [ \"esp:TX\", \"$serialMonitor:RX\", \"\", [] ],\n    [ \"esp:RX\", \"$serialMonitor:TX\", \"\", [] ],\n    [ \"esp:GND.2\", \"rtc:GND\", \"black\", [ \"v0\" ] ],\n    [ \"esp:5V\", \"rtc:5V\", \"red\", [ \"v0\" ] ],\n    [ \"esp:21\", \"rtc:SDA\", \"green\", [ \"h0\" ] ],\n    [ \"esp:22\", \"rtc:SCL\", \"blue\", [ \"h0\" ] ],\n    [ \"esp:GND.2\", \"oled:GND\", \"black\", [ \"v0\" ] ],\n    [ \"esp:3V3\", \"oled:VCC\", \"red\", [ \"v0\" ] ],\n    [ \"esp:21\", \"oled:SDA\", \"green\", [ \"h0\" ] ],\n    [ \"esp:22\", \"oled:SCL\", \"blue\", [ \"h0\" ] ]\n  ],\n  \"dependencies\": {}\n}\n",
+   "toml": "[wokwi]\nversion = 1\nfirmware = 'build/flasher_args.json'\nelf = 'build/final01_hal_i2c.elf'\n"
+  },
+  {
+   "dir": "02-time-ntp",
+   "name": "Lab 2",
+   "title": "Wi-Fi + SNTP",
+   "desc": "TimeManager ต่อ Wi-Fi แบบ Station ขอเวลาจาก NTP แล้วเขียนลง DS1307 (วงจรเหมือน Lab 1)",
+   "pins": [
+    [
+     "DS1307 RTC",
+     "text-cyan-400",
+     [
+      "SDA ➔ GPIO 21",
+      "SCL ➔ GPIO 22",
+      "5V ➔ ขา 5V ของบอร์ด",
+      "GND ➔ GND.2"
+     ]
+    ],
+    [
+     "SSD1306 OLED",
+     "text-cyan-400",
+     [
+      "SDA ➔ GPIO 21",
+      "SCL ➔ GPIO 22",
+      "VCC ➔ 3V3",
+      "GND ➔ GND.2"
+     ]
+    ],
+    [
+     "Wi-Fi และ NTP",
+     "text-amber-400",
+     [
+      "SSID ➔ Wokwi-GUEST (ไม่มีรหัส)",
+      "NTP ➔ pool.ntp.org",
+      "TZ ➔ ICT-7",
+      "ตั้งค่าที่ menuconfig ➔ Digital Clock"
+     ]
+    ]
+   ],
+   "requires": [
+    "i2c_bus",
+    "ds1307",
+    "ssd1306",
+    "clock_logic",
+    "time_manager"
+   ],
+   "files": [
+    {
+     "name": "main.cpp",
+     "path": "final-homework-esp32/02-time-ntp/main/main.cpp",
+     "text": "// Spiral 2: Wi-Fi STA + SNTP + ซิงก์เวลาลง DS1307\n// ใช้ component: i2c_bus, ds1307, ssd1306, clock_logic, time_manager\n#include <cstdio>\n\n#include \"DS1307.hpp\"\n#include \"I2CBus.hpp\"\n#include \"SSD1306.hpp\"\n#include \"TimeManager.hpp\"\n#include \"esp_log.h\"\n#include \"freertos/FreeRTOS.h\"\n#include \"freertos/task.h\"\n\nstatic const char* TAG = \"time_demo\";\n\nstatic Clock::I2CBus i2cBus(I2C_NUM_0, GPIO_NUM_21, GPIO_NUM_22);\nstatic Clock::DS1307 rtc(i2cBus);\nstatic Clock::SSD1306 display(i2cBus);\nstatic Clock::TimeManager timeMgr(rtc);\n\nstatic void ntpTask(void*) { timeMgr.taskNtpLoop(); }\n\nextern \"C\" void app_main(void) {\n    if (!i2cBus.init() || !rtc.init() || !display.init()) {\n        ESP_LOGE(TAG, \"hardware init failed\");\n        return;\n    }\n\n    // อ่าน DS1307 ตั้งเวลาระบบก่อนต่อเน็ต นาฬิกาจึงถูกตั้งแต่วินาทีแรก\n    if (timeMgr.loadFromRtc()) ESP_LOGI(TAG, \"Time from RTC loaded\");\n\n    // NVS -> esp_netif -> Wi-Fi STA -> SNTP -> เขียนลง DS1307 ทำงานใน task แยก\n    xTaskCreatePinnedToCore(ntpTask, \"ntp_sync\", 6144, nullptr, 1, nullptr, 0);\n\n    const int64_t bootUs = esp_timer_get_time();\n    bool failureLogged = false;\n\n    while (true) {\n        Clock::DateTime now;\n        if (timeMgr.getLocalTime(now)) {\n            const bool synced = timeMgr.isNtpSynced();\n            const char* status = synced ? \"NTP SYNCED\" : (timeMgr.isWifiConnected() ? \"SYNCING\" : \"RTC ONLY\");\n\n            char date[16], time[16];\n            snprintf(date, sizeof(date), \"%04u-%02u-%02u\", now.year, now.month, now.day);\n            snprintf(time, sizeof(time), \"%02u:%02u:%02u\", now.hour, now.minute, now.second);\n            display.clear();\n            display.drawString(0, 0, status);\n            display.drawString(0, 16, time, 2);\n            display.drawString(0, 40, date, 2);\n            display.flush();\n            ESP_LOGI(TAG, \"[time] %s %s source=%s\", date, time, synced ? \"NTP\" : \"RTC\");\n        }\n\n        // ผ่านไป 60 วินาทีแล้วยังซิงก์ไม่ได้ = ใช้เวลาจาก RTC ต่อไป\n        if (!failureLogged && !timeMgr.isNtpSynced() && esp_timer_get_time() - bootUs > 60'000'000) {\n            ESP_LOGW(TAG, \"NTP failed, using RTC time\");\n            failureLogged = true;\n        }\n        vTaskDelay(pdMS_TO_TICKS(1000));\n    }\n}\n"
+    },
+    {
+     "name": "main/CMakeLists.txt",
+     "path": "final-homework-esp32/02-time-ntp/main/CMakeLists.txt",
+     "text": "idf_component_register(SRCS \"main.cpp\"\n                       INCLUDE_DIRS \".\"\n                       REQUIRES i2c_bus ds1307 ssd1306 clock_logic time_manager)\n"
+    },
+    {
+     "name": "sdkconfig.defaults",
+     "path": "final-homework-esp32/02-time-ntp/sdkconfig.defaults",
+     "text": "# แอป Wi-Fi มีขนาดใหญ่ ใช้พาร์ทิชันแอปขนาดใหญ่ขึ้น\nCONFIG_PARTITION_TABLE_SINGLE_APP_LARGE=y\n"
     }
-
-    bool init() {
-        i2c_master_bus_config_t bus_config = {};
-        bus_config.i2c_port = port_;
-        bus_config.sda_io_num = sdaPin_;
-        bus_config.scl_io_num = sclPin_;
-        bus_config.clk_source = I2C_CLK_SRC_DEFAULT;
-        bus_config.glitch_ignore_cnt = 7;
-        return i2c_new_master_bus(&bus_config, &busHandle_) == ESP_OK;
+   ],
+   "diagram": "{\n  \"version\": 1,\n  \"author\": \"Final Homework ESP32 Digital Clock\",\n  \"editor\": \"wokwi\",\n  \"parts\": [\n    { \"type\": \"board-esp32-devkit-c-v4\", \"id\": \"esp\", \"top\": 0, \"left\": 0, \"attrs\": {} },\n    { \"type\": \"wokwi-ds1307\", \"id\": \"rtc\", \"top\": -120, \"left\": 200, \"attrs\": {} },\n    { \"type\": \"board-ssd1306\", \"id\": \"oled\", \"top\": 60, \"left\": 200, \"attrs\": { \"i2cAddress\": \"0x3c\" } }\n  ],\n  \"connections\": [\n    [ \"esp:TX\", \"$serialMonitor:RX\", \"\", [] ],\n    [ \"esp:RX\", \"$serialMonitor:TX\", \"\", [] ],\n    [ \"esp:GND.2\", \"rtc:GND\", \"black\", [ \"v0\" ] ],\n    [ \"esp:5V\", \"rtc:5V\", \"red\", [ \"v0\" ] ],\n    [ \"esp:21\", \"rtc:SDA\", \"green\", [ \"h0\" ] ],\n    [ \"esp:22\", \"rtc:SCL\", \"blue\", [ \"h0\" ] ],\n    [ \"esp:GND.2\", \"oled:GND\", \"black\", [ \"v0\" ] ],\n    [ \"esp:3V3\", \"oled:VCC\", \"red\", [ \"v0\" ] ],\n    [ \"esp:21\", \"oled:SDA\", \"green\", [ \"h0\" ] ],\n    [ \"esp:22\", \"oled:SCL\", \"blue\", [ \"h0\" ] ]\n  ],\n  \"dependencies\": {}\n}\n",
+   "toml": "[wokwi]\nversion = 1\nfirmware = 'build/flasher_args.json'\nelf = 'build/final02_time_ntp.elf'\n"
+  },
+  {
+   "dir": "03-input-ui",
+   "name": "Lab 3",
+   "title": "ปุ่ม + UI",
+   "desc": "ปุ่ม 4 ตัวแบบ ISR + debounce แยกกดสั้น/กดค้าง และ state machine สลับโหมด (ไม่มี DS1307 ในวงจรนี้)",
+   "pins": [
+    [
+     "SSD1306 OLED",
+     "text-cyan-400",
+     [
+      "SDA ➔ GPIO 21",
+      "SCL ➔ GPIO 22",
+      "VCC ➔ 3V3",
+      "GND ➔ GND.2"
+     ]
+    ],
+    [
+     "ปุ่มกด 4 ปุ่ม",
+     "text-emerald-400",
+     [
+      "MODE ➔ GPIO 18 (คีย์ m)",
+      "SET ➔ GPIO 19 (คีย์ s)",
+      "ALARM ➔ GPIO 4 (คีย์ a)",
+      "LAP/RST ➔ GPIO 5 (คีย์ l)"
+     ]
+    ]
+   ],
+   "requires": [
+    "i2c_bus",
+    "ssd1306",
+    "button_manager",
+    "clock_logic"
+   ],
+   "files": [
+    {
+     "name": "main.cpp",
+     "path": "final-homework-esp32/03-input-ui/main/main.cpp",
+     "text": "// Spiral 3: ปุ่ม ISR + debounce + short/long press + UI state machine\n// ใช้ component: i2c_bus, ssd1306, button_manager, clock_logic (ไม่ใช้ DS1307 ใน spiral นี้)\n#include <cstdio>\n\n#include \"ButtonManager.hpp\"\n#include \"I2CBus.hpp\"\n#include \"SSD1306.hpp\"\n#include \"clock_logic/ui_mode.hpp\"\n#include \"esp_log.h\"\n#include \"freertos/FreeRTOS.h\"\n#include \"freertos/task.h\"\n\nstatic const char* TAG = \"ui_demo\";\n\nstatic Clock::I2CBus i2cBus(I2C_NUM_0, GPIO_NUM_21, GPIO_NUM_22);\nstatic Clock::SSD1306 display(i2cBus);\nstatic Clock::ButtonManager buttons;\n\nstatic void buttonTask(void*) { buttons.taskLoop(); }\n\n// ค่าตัวอย่างที่ SET เพิ่มได้ในโหมด SetTime / Alarm (ยังไม่มี RTC ใน spiral นี้)\nstruct Draft {\n    uint8_t field[3] = {12, 0, 0};  // ชม. / นาที / วินาที\n};\n\nstatic void draw(const Clock::UiState& ui, const Draft& draft) {\n    char line[24];\n    display.clear();\n    display.drawString(0, 0, Clock::modeName(ui.mode), 2);\n    if (Clock::fieldCount(ui.mode) > 0) {\n        snprintf(line, sizeof(line), \"%02u:%02u:%02u\", draft.field[0], draft.field[1], draft.field[2]);\n        display.drawString(0, 28, line, 2);\n        // ไฮไลต์ฟิลด์ที่กำลังแก้ (ตัวอักษร 2 หลัก กว้าง 12 พิกเซล x 2 = 24 พิกเซล บวกเครื่องหมาย \":\" อีก 12)\n        display.invertRect(ui.field * 36, 26, 24, 18);\n    } else {\n        display.drawString(0, 28, \"press buttons\", 1);\n    }\n    display.flush();\n}\n\nextern \"C\" void app_main(void) {\n    esp_log_level_set(\"ButtonManager\", ESP_LOG_DEBUG);  // ดูจำนวนขอบดิบเทียบกับที่ผ่าน debounce\n\n    if (!i2cBus.init() || !display.init() || !buttons.init()) {\n        ESP_LOGE(TAG, \"hardware init failed\");\n        return;\n    }\n    xTaskCreatePinnedToCore(buttonTask, \"vTaskButton\", 3072, nullptr, 5, nullptr, 0);\n\n    Clock::UiState ui;\n    Draft draft;\n    draw(ui, draft);\n\n    // task UI (main task): รอ event จาก queue ที่ ButtonManager ส่งมา\n    while (true) {\n        Clock::ButtonEvent ev;\n        if (!buttons.receive(ev, portMAX_DELAY)) continue;\n\n        ESP_LOGI(TAG, \"[btn] %s %s\", Clock::ButtonManager::buttonName(ev.button),\n                 ev.press == Clock::PressType::Long ? \"long\" : \"short\");\n\n        const Clock::UiResult r = Clock::handlePress(ui, ev.button, ev.press);\n        if (r.modeChanged) {\n            ESP_LOGI(TAG, \"[mode] %s -> %s\", Clock::modeName(r.previousMode), Clock::modeName(ui.mode));\n        }\n        if (r.command == Clock::Command::IncrementField) {\n            const uint8_t modulus = (ui.field == 0) ? 24 : 60;\n            draft.field[ui.field] = Clock::wrapIncrement(draft.field[ui.field], modulus);\n            ESP_LOGI(TAG, \"[field] %u -> %02u\", ui.field, draft.field[ui.field]);\n        } else if (r.command != Clock::Command::None) {\n            ESP_LOGI(TAG, \"[cmd] %d\", static_cast<int>(r.command));\n        }\n        draw(ui, draft);\n    }\n}\n"
+    },
+    {
+     "name": "main/CMakeLists.txt",
+     "path": "final-homework-esp32/03-input-ui/main/CMakeLists.txt",
+     "text": "idf_component_register(SRCS \"main.cpp\"\n                       INCLUDE_DIRS \".\"\n                       REQUIRES i2c_bus ssd1306 button_manager clock_logic)\n"
+    },
+    {
+     "name": "sdkconfig.defaults",
+     "path": "final-homework-esp32/03-input-ui/sdkconfig.defaults",
+     "text": "# เปิดให้ ESP_LOGD คอมไพล์เข้าไป เพื่อให้ main เปิดระดับ debug เฉพาะ tag ButtonManager แล้วเห็นจำนวน bounce\nCONFIG_LOG_MAXIMUM_LEVEL_DEBUG=y\n"
     }
-
-    bool writeReg(uint8_t devAddr, uint8_t reg, uint8_t data) {
-        xSemaphoreTake(mutex_, portMAX_DELAY);
-        // Execute ESP-IDF master transmit logic
-        xSemaphoreGive(mutex_);
-        return true;
+   ],
+   "diagram": "{\n  \"version\": 1,\n  \"author\": \"Final Homework ESP32 Digital Clock\",\n  \"editor\": \"wokwi\",\n  \"parts\": [\n    { \"type\": \"board-esp32-devkit-c-v4\", \"id\": \"esp\", \"top\": 0, \"left\": 0, \"attrs\": {} },\n    { \"type\": \"board-ssd1306\", \"id\": \"oled\", \"top\": 40, \"left\": 200, \"attrs\": { \"i2cAddress\": \"0x3c\" } },\n    { \"type\": \"wokwi-pushbutton\", \"id\": \"btn_mode\", \"top\": 300, \"left\": -80, \"attrs\": { \"color\": \"red\", \"label\": \"MODE\", \"key\": \"m\" } },\n    { \"type\": \"wokwi-pushbutton\", \"id\": \"btn_set\", \"top\": 300, \"left\": 20, \"attrs\": { \"color\": \"green\", \"label\": \"SET\", \"key\": \"s\" } },\n    { \"type\": \"wokwi-pushbutton\", \"id\": \"btn_alarm\", \"top\": 300, \"left\": 120, \"attrs\": { \"color\": \"yellow\", \"label\": \"ALARM\", \"key\": \"a\" } },\n    { \"type\": \"wokwi-pushbutton\", \"id\": \"btn_lap\", \"top\": 300, \"left\": 220, \"attrs\": { \"color\": \"blue\", \"label\": \"LAP/RST\", \"key\": \"l\" } }\n  ],\n  \"connections\": [\n    [ \"esp:TX\", \"$serialMonitor:RX\", \"\", [] ],\n    [ \"esp:RX\", \"$serialMonitor:TX\", \"\", [] ],\n    [ \"esp:GND.2\", \"oled:GND\", \"black\", [ \"v0\" ] ],\n    [ \"esp:3V3\", \"oled:VCC\", \"red\", [ \"v0\" ] ],\n    [ \"esp:21\", \"oled:SDA\", \"green\", [ \"h0\" ] ],\n    [ \"esp:22\", \"oled:SCL\", \"blue\", [ \"h0\" ] ],\n    [ \"esp:18\", \"btn_mode:1.l\", \"red\", [ \"v0\" ] ],\n    [ \"esp:GND.1\", \"btn_mode:2.l\", \"black\", [ \"v0\" ] ],\n    [ \"esp:19\", \"btn_set:1.l\", \"green\", [ \"v0\" ] ],\n    [ \"esp:GND.1\", \"btn_set:2.l\", \"black\", [ \"v0\" ] ],\n    [ \"esp:4\", \"btn_alarm:1.l\", \"gold\", [ \"v0\" ] ],\n    [ \"esp:GND.1\", \"btn_alarm:2.l\", \"black\", [ \"v0\" ] ],\n    [ \"esp:5\", \"btn_lap:1.l\", \"blue\", [ \"v0\" ] ],\n    [ \"esp:GND.1\", \"btn_lap:2.l\", \"black\", [ \"v0\" ] ]\n  ],\n  \"dependencies\": {}\n}\n",
+   "toml": "[wokwi]\nversion = 1\nfirmware = 'build/flasher_args.json'\nelf = 'build/final03_input_ui.elf'\n"
+  },
+  {
+   "dir": "04-alarm-stopwatch",
+   "name": "Lab 4",
+   "title": "ปลุก + Stopwatch",
+   "desc": "AlarmEngine (buzzer ผ่าน LEDC) กับ StopwatchEngine ที่บันทึก lap ได้ ใช้เวลาจาก DS1307",
+   "pins": [
+    [
+     "DS1307 + SSD1306",
+     "text-cyan-400",
+     [
+      "SDA ➔ GPIO 21",
+      "SCL ➔ GPIO 22",
+      "DS1307 5V ➔ 5V",
+      "OLED VCC ➔ 3V3"
+     ]
+    ],
+    [
+     "ปุ่มกด 4 ปุ่ม",
+     "text-emerald-400",
+     [
+      "MODE ➔ GPIO 18",
+      "SET ➔ GPIO 19",
+      "ALARM ➔ GPIO 4",
+      "LAP/RST ➔ GPIO 5"
+     ]
+    ],
+    [
+     "Piezo buzzer",
+     "text-amber-400",
+     [
+      "ขา 2 (+) ➔ GPIO 25",
+      "ขา 1 (−) ➔ GND.1",
+      "PWM จาก LEDC 2 kHz"
+     ]
+    ]
+   ],
+   "requires": [
+    "i2c_bus",
+    "ds1307",
+    "ssd1306",
+    "clock_logic",
+    "time_manager",
+    "button_manager",
+    "alarm_engine",
+    "stopwatch_engine"
+   ],
+   "files": [
+    {
+     "name": "main.cpp",
+     "path": "final-homework-esp32/04-alarm-stopwatch/main/main.cpp",
+     "text": "// Spiral 4: นาฬิกาปลุก + buzzer (LEDC) และ stopwatch + lap\n// ใช้ component: i2c_bus, ds1307, ssd1306, clock_logic, time_manager, button_manager,\n//                alarm_engine, stopwatch_engine\n#include <cstdio>\n\n#include \"AlarmEngine.hpp\"\n#include \"ButtonManager.hpp\"\n#include \"DS1307.hpp\"\n#include \"I2CBus.hpp\"\n#include \"SSD1306.hpp\"\n#include \"StopwatchEngine.hpp\"\n#include \"TimeManager.hpp\"\n#include \"esp_log.h\"\n#include \"esp_timer.h\"\n#include \"freertos/FreeRTOS.h\"\n#include \"freertos/task.h\"\n\nstatic const char* TAG = \"alarm_demo\";\n\nstatic Clock::I2CBus i2cBus(I2C_NUM_0, GPIO_NUM_21, GPIO_NUM_22);\nstatic Clock::DS1307 rtc(i2cBus);\nstatic Clock::SSD1306 display(i2cBus);\nstatic Clock::TimeManager timeMgr(rtc);\nstatic Clock::ButtonManager buttons;\nstatic Clock::AlarmEngine alarmEngine(GPIO_NUM_25);\nstatic Clock::StopwatchEngine stopwatch;\n\nstatic void buttonTask(void*) { buttons.taskLoop(); }\n\n// task ตรวจปลุก: เทียบเวลาท้องถิ่นกับเวลาปลุกทุก 1 วินาที\nstatic void alarmTask(void*) {\n    while (true) {\n        Clock::DateTime now;\n        if (timeMgr.getLocalTime(now)) {\n            alarmEngine.check(now, static_cast<uint32_t>(esp_timer_get_time() / 1000));\n        }\n        vTaskDelay(pdMS_TO_TICKS(1000));\n    }\n}\n\nstatic void draw(const Clock::UiState& ui) {\n    char line[32];\n    display.clear();\n    display.drawString(0, 0, Clock::modeName(ui.mode));\n    if (ui.mode == Clock::Mode::Stopwatch) {\n        const Clock::StopwatchSnapshot s = stopwatch.snapshot();\n        Clock::formatStopwatch(s.elapsedMs, line, sizeof(line));\n        display.drawString(0, 14, line, 2);\n        // lap ล่าสุด 3 รอบ\n        const size_t first = s.lapCount > 3 ? s.lapCount - 3 : 0;\n        for (size_t i = first; i < s.lapCount; ++i) {\n            char split[16];\n            Clock::formatStopwatch(s.laps[i].splitMs, split, sizeof(split));\n            snprintf(line, sizeof(line), \"L%u %s\", static_cast<unsigned>(i + 1), split);\n            display.drawString(0, 34 + static_cast<int>(i - first) * 10, line);\n        }\n    } else {\n        Clock::DateTime now;\n        if (timeMgr.getLocalTime(now)) {\n            snprintf(line, sizeof(line), \"%02u:%02u:%02u\", now.hour, now.minute, now.second);\n            display.drawString(0, 14, line, 2);\n        }\n        const Clock::AlarmSetting a = alarmEngine.setting();\n        snprintf(line, sizeof(line), \"ALARM %02u:%02u %s%s\", a.hour, a.minute, a.enabled ? \"ON\" : \"OFF\",\n                 alarmEngine.ringing() ? \" RING\" : \"\");\n        display.drawString(0, 40, line);\n    }\n    display.flush();\n}\n\nextern \"C\" void app_main(void) {\n    if (!i2cBus.init() || !rtc.init() || !display.init() || !buttons.init() || !alarmEngine.init()) {\n        ESP_LOGE(TAG, \"hardware init failed\");\n        return;\n    }\n    timeMgr.loadFromRtc();\n\n    // ตั้งปลุกตัวอย่างเป็นเวลาปัจจุบัน + 1 นาที จะได้ทดสอบเสียงได้ทันที\n    Clock::DateTime now;\n    if (timeMgr.getLocalTime(now)) {\n        Clock::AlarmSetting a;\n        a.hour = (now.minute == 59) ? (now.hour + 1) % 24 : now.hour;\n        a.minute = (now.minute + 1) % 60;\n        a.enabled = true;\n        alarmEngine.setSetting(a);\n        ESP_LOGI(TAG, \"[alarm] demo alarm set to %02u:%02u\", a.hour, a.minute);\n    }\n\n    xTaskCreatePinnedToCore(buttonTask, \"vTaskButton\", 3072, nullptr, 5, nullptr, 0);\n    xTaskCreatePinnedToCore(alarmTask, \"vTaskAlarm\", 3072, nullptr, 4, nullptr, 1);\n\n    Clock::UiState ui;\n    while (true) {\n        Clock::ButtonEvent ev;\n        // รอ event ได้นานสุด 100 ms แล้ววาดจอใหม่ (10 FPS)\n        if (buttons.receive(ev, pdMS_TO_TICKS(100))) {\n            // กดปุ่มใดก็หยุดเสียงปลุกที่กำลังดัง\n            if (alarmEngine.silence()) {\n                draw(ui);\n                continue;\n            }\n            const Clock::UiResult r = Clock::handlePress(ui, ev.button, ev.press);\n            switch (r.command) {\n                case Clock::Command::ToggleAlarm:\n                    ESP_LOGI(TAG, \"[alarm] %s\", alarmEngine.toggleEnabled() ? \"enabled\" : \"disabled\");\n                    break;\n                case Clock::Command::StopwatchToggle: stopwatch.toggle(); break;\n                case Clock::Command::StopwatchLapOrReset: stopwatch.lapOrReset(); break;\n                case Clock::Command::StopwatchReset: stopwatch.reset(); break;\n                default: break;\n            }\n        }\n        draw(ui);\n    }\n}\n"
+    },
+    {
+     "name": "main/CMakeLists.txt",
+     "path": "final-homework-esp32/04-alarm-stopwatch/main/CMakeLists.txt",
+     "text": "idf_component_register(SRCS \"main.cpp\"\n                       INCLUDE_DIRS \".\"\n                       REQUIRES i2c_bus ds1307 ssd1306 clock_logic time_manager button_manager alarm_engine\n                                stopwatch_engine esp_timer freertos)\n"
     }
-
-    bool readRegs(uint8_t devAddr, uint8_t startReg, uint8_t* buffer, size_t len) {
-        xSemaphoreTake(mutex_, portMAX_DELAY);
-        // Execute ESP-IDF master receive logic
-        xSemaphoreGive(mutex_);
-        return true;
+   ],
+   "diagram": "{\n  \"version\": 1,\n  \"author\": \"Final Homework ESP32 Digital Clock\",\n  \"editor\": \"wokwi\",\n  \"parts\": [\n    { \"type\": \"board-esp32-devkit-c-v4\", \"id\": \"esp\", \"top\": 0, \"left\": 0, \"attrs\": {} },\n    { \"type\": \"wokwi-ds1307\", \"id\": \"rtc\", \"top\": -120, \"left\": 200, \"attrs\": {} },\n    { \"type\": \"board-ssd1306\", \"id\": \"oled\", \"top\": 60, \"left\": 200, \"attrs\": { \"i2cAddress\": \"0x3c\" } },\n    { \"type\": \"wokwi-buzzer\", \"id\": \"buzzer\", \"top\": 20, \"left\": -160, \"attrs\": {} },\n    { \"type\": \"wokwi-pushbutton\", \"id\": \"btn_mode\", \"top\": 300, \"left\": -80, \"attrs\": { \"color\": \"red\", \"label\": \"MODE\", \"key\": \"m\" } },\n    { \"type\": \"wokwi-pushbutton\", \"id\": \"btn_set\", \"top\": 300, \"left\": 20, \"attrs\": { \"color\": \"green\", \"label\": \"SET\", \"key\": \"s\" } },\n    { \"type\": \"wokwi-pushbutton\", \"id\": \"btn_alarm\", \"top\": 300, \"left\": 120, \"attrs\": { \"color\": \"yellow\", \"label\": \"ALARM\", \"key\": \"a\" } },\n    { \"type\": \"wokwi-pushbutton\", \"id\": \"btn_lap\", \"top\": 300, \"left\": 220, \"attrs\": { \"color\": \"blue\", \"label\": \"LAP/RST\", \"key\": \"l\" } }\n  ],\n  \"connections\": [\n    [ \"esp:TX\", \"$serialMonitor:RX\", \"\", [] ],\n    [ \"esp:RX\", \"$serialMonitor:TX\", \"\", [] ],\n    [ \"esp:GND.2\", \"rtc:GND\", \"black\", [ \"v0\" ] ],\n    [ \"esp:5V\", \"rtc:5V\", \"red\", [ \"v0\" ] ],\n    [ \"esp:21\", \"rtc:SDA\", \"green\", [ \"h0\" ] ],\n    [ \"esp:22\", \"rtc:SCL\", \"blue\", [ \"h0\" ] ],\n    [ \"esp:GND.2\", \"oled:GND\", \"black\", [ \"v0\" ] ],\n    [ \"esp:3V3\", \"oled:VCC\", \"red\", [ \"v0\" ] ],\n    [ \"esp:21\", \"oled:SDA\", \"green\", [ \"h0\" ] ],\n    [ \"esp:22\", \"oled:SCL\", \"blue\", [ \"h0\" ] ],\n    [ \"esp:25\", \"buzzer:2\", \"orange\", [ \"h0\" ] ],\n    [ \"esp:GND.3\", \"buzzer:1\", \"black\", [ \"h0\" ] ],\n    [ \"esp:18\", \"btn_mode:1.l\", \"red\", [ \"v0\" ] ],\n    [ \"esp:GND.1\", \"btn_mode:2.l\", \"black\", [ \"v0\" ] ],\n    [ \"esp:19\", \"btn_set:1.l\", \"green\", [ \"v0\" ] ],\n    [ \"esp:GND.1\", \"btn_set:2.l\", \"black\", [ \"v0\" ] ],\n    [ \"esp:4\", \"btn_alarm:1.l\", \"gold\", [ \"v0\" ] ],\n    [ \"esp:GND.1\", \"btn_alarm:2.l\", \"black\", [ \"v0\" ] ],\n    [ \"esp:5\", \"btn_lap:1.l\", \"blue\", [ \"v0\" ] ],\n    [ \"esp:GND.1\", \"btn_lap:2.l\", \"black\", [ \"v0\" ] ]\n  ],\n  \"dependencies\": {}\n}\n",
+   "toml": "[wokwi]\nversion = 1\nfirmware = 'build/flasher_args.json'\nelf = 'build/final04_alarm_stopwatch.elf'\n"
+  },
+  {
+   "dir": "05-integration",
+   "name": "Lab 5",
+   "title": "รวมระบบ FreeRTOS",
+   "desc": "รวมทุกส่วนเป็นนาฬิกาเต็มระบบ แบ่งงานเป็น 5 task ตามตารางในสเปก",
+   "pins": [
+    [
+     "DS1307 + SSD1306",
+     "text-cyan-400",
+     [
+      "SDA ➔ GPIO 21",
+      "SCL ➔ GPIO 22",
+      "DS1307 5V ➔ 5V",
+      "OLED VCC ➔ 3V3"
+     ]
+    ],
+    [
+     "ปุ่มกด 4 ปุ่ม",
+     "text-emerald-400",
+     [
+      "MODE ➔ GPIO 18",
+      "SET ➔ GPIO 19",
+      "ALARM ➔ GPIO 4",
+      "LAP/RST ➔ GPIO 5"
+     ]
+    ],
+    [
+     "Buzzer และเครือข่าย",
+     "text-amber-400",
+     [
+      "Buzzer ➔ GPIO 25",
+      "Wi-Fi ➔ Wokwi-GUEST",
+      "NTP ➔ pool.ntp.org",
+      "TZ ➔ ICT-7"
+     ]
+    ]
+   ],
+   "requires": [
+    "i2c_bus",
+    "ds1307",
+    "ssd1306",
+    "button_manager",
+    "time_manager",
+    "alarm_engine",
+    "stopwatch_engine",
+    "clock_logic"
+   ],
+   "files": [
+    {
+     "name": "main.cpp",
+     "path": "final-homework-esp32/05-integration/main/main.cpp",
+     "text": "// Spiral 5: ระบบเต็ม แบ่ง FreeRTOS task ตามตารางในสเปก\n// ใช้ component: i2c_bus, ds1307, ssd1306, button_manager, time_manager,\n//                alarm_engine, stopwatch_engine, clock_logic\n//\n// Task                Prio  Stack  Core  จังหวะ / หน้าที่\n// vTaskClockDisplay    3    4096   1     100 ms      วาดจอ (เป็นเจ้าของจอตัวเดียว)\n// vTaskButtonHandler   5    3072   0     ISR queue   debounce, แยก short/long\n// vTaskUiEvents        4    4096   0     event ปุ่ม   สลับโหมด / สั่งงาน\n// vTaskAlarmCheck      4    3072   1     1000 ms     เทียบเวลาปลุก\n// vTaskNTPSync         1    6144   0     3600 s      Wi-Fi + SNTP + เขียน DS1307\n#include <cstdio>\n\n#include \"AlarmEngine.hpp\"\n#include \"ButtonManager.hpp\"\n#include \"DS1307.hpp\"\n#include \"I2CBus.hpp\"\n#include \"SSD1306.hpp\"\n#include \"StopwatchEngine.hpp\"\n#include \"TimeManager.hpp\"\n#include \"esp_log.h\"\n#include \"esp_timer.h\"\n#include \"freertos/FreeRTOS.h\"\n#include \"freertos/semphr.h\"\n#include \"freertos/task.h\"\n\nstatic const char* TAG = \"main\";\n\nstatic Clock::I2CBus i2cBus(I2C_NUM_0, GPIO_NUM_21, GPIO_NUM_22);\nstatic Clock::DS1307 rtc(i2cBus);\nstatic Clock::SSD1306 display(i2cBus);\nstatic Clock::TimeManager timeMgr(rtc);\nstatic Clock::ButtonManager buttons;\nstatic Clock::AlarmEngine alarmEngine(GPIO_NUM_25);\nstatic Clock::StopwatchEngine stopwatch;\n\n// ข้อมูลที่ UI task กับ task จอใช้ร่วมกัน อยู่หลัง mutex ตัวเดียว\nstruct SharedUi {\n    Clock::UiState ui;\n    Clock::DateTime timeDraft;       // เวลาที่กำลังแก้ในโหมด SetTime\n    Clock::AlarmSetting alarmDraft;  // เวลาปลุกที่กำลังแก้ในโหมด Alarm\n    bool timeDirty = false;\n};\nstatic SharedUi shared;\nstatic SemaphoreHandle_t sharedMutex;\n\nstatic uint32_t nowMs() { return static_cast<uint32_t>(esp_timer_get_time() / 1000); }\n\n// เข้าโหมด SetTime/Alarm: คัดลอกค่าปัจจุบันมาเป็นร่างให้แก้\nstatic void beginEdit(Clock::Mode mode) {\n    if (mode == Clock::Mode::SetTime) {\n        timeMgr.getLocalTime(shared.timeDraft);\n        shared.timeDirty = false;\n    } else if (mode == Clock::Mode::Alarm) {\n        shared.alarmDraft = alarmEngine.setting();\n    }\n}\n\n// ออกจากโหมด SetTime/Alarm: บันทึกค่าที่แก้\nstatic void commitEdit(Clock::Mode mode) {\n    if (mode == Clock::Mode::SetTime && shared.timeDirty) {\n        if (timeMgr.setLocalTime(shared.timeDraft)) ESP_LOGI(TAG, \"[time] manual set saved to RTC\");\n    } else if (mode == Clock::Mode::Alarm) {\n        alarmEngine.setSetting(shared.alarmDraft);\n        ESP_LOGI(TAG, \"[alarm] set to %02u:%02u\", shared.alarmDraft.hour, shared.alarmDraft.minute);\n    }\n}\n\nstatic void incrementField() {\n    if (shared.ui.mode == Clock::Mode::SetTime) {\n        uint8_t* f[3] = {&shared.timeDraft.hour, &shared.timeDraft.minute, &shared.timeDraft.second};\n        *f[shared.ui.field] = Clock::wrapIncrement(*f[shared.ui.field], shared.ui.field == 0 ? 24 : 60);\n        shared.timeDirty = true;\n    } else if (shared.ui.mode == Clock::Mode::Alarm) {\n        if (shared.ui.field == 0) {\n            shared.alarmDraft.hour = Clock::wrapIncrement(shared.alarmDraft.hour, 24);\n        } else {\n            shared.alarmDraft.minute = Clock::wrapIncrement(shared.alarmDraft.minute, 60);\n        }\n    }\n}\n\n// ---------- tasks ----------\n\nstatic void vTaskButtonHandler(void*) { buttons.taskLoop(); }\n\nstatic void vTaskNTPSync(void*) { timeMgr.taskNtpLoop(); }\n\nstatic void vTaskUiEvents(void*) {\n    while (true) {\n        Clock::ButtonEvent ev;\n        if (!buttons.receive(ev, portMAX_DELAY)) continue;\n        if (alarmEngine.silence()) continue;  // กดปุ่มใดก็หยุดเสียงปลุก\n\n        xSemaphoreTake(sharedMutex, portMAX_DELAY);\n        const Clock::UiResult r = Clock::handlePress(shared.ui, ev.button, ev.press);\n        if (r.modeChanged) {\n            commitEdit(r.previousMode);\n            beginEdit(shared.ui.mode);\n            ESP_LOGI(TAG, \"[mode] %s -> %s\", Clock::modeName(r.previousMode), Clock::modeName(shared.ui.mode));\n        }\n        switch (r.command) {\n            case Clock::Command::IncrementField: incrementField(); break;\n            case Clock::Command::ToggleAlarm: alarmEngine.toggleEnabled(); break;\n            case Clock::Command::StopwatchToggle: stopwatch.toggle(); break;\n            case Clock::Command::StopwatchLapOrReset: stopwatch.lapOrReset(); break;\n            case Clock::Command::StopwatchReset: stopwatch.reset(); break;\n            default: break;\n        }\n        xSemaphoreGive(sharedMutex);\n    }\n}\n\nstatic void vTaskAlarmCheck(void*) {\n    while (true) {\n        Clock::DateTime now;\n        if (timeMgr.getLocalTime(now)) alarmEngine.check(now, nowMs());\n        vTaskDelay(pdMS_TO_TICKS(1000));\n    }\n}\n\nstatic void drawClock(const Clock::DateTime& now, bool ntp, const Clock::AlarmSetting& a) {\n    char line[32];\n    snprintf(line, sizeof(line), \"%02u:%02u:%02u\", now.hour, now.minute, now.second);\n    display.drawString(0, 14, line, 2);\n    snprintf(line, sizeof(line), \"%04u-%02u-%02u\", now.year, now.month, now.day);\n    display.drawString(0, 36, line);\n    display.drawString(104, 0, ntp ? \"NTP\" : \"RTC\");\n    snprintf(line, sizeof(line), \"ALARM %02u:%02u %s\", a.hour, a.minute, a.enabled ? \"ON\" : \"OFF\");\n    display.drawString(0, 52, line);\n}\n\nstatic void drawEditor(const SharedUi& s, bool isTime) {\n    char line[16];\n    if (isTime) {\n        snprintf(line, sizeof(line), \"%02u:%02u:%02u\", s.timeDraft.hour, s.timeDraft.minute, s.timeDraft.second);\n    } else {\n        snprintf(line, sizeof(line), \"%02u:%02u\", s.alarmDraft.hour, s.alarmDraft.minute);\n    }\n    display.drawString(0, 24, line, 2);\n    display.invertRect(s.ui.field * 36, 22, 24, 18);  // ไฮไลต์ฟิลด์ที่กำลังแก้ (2 หลัก x 12 พิกเซล + \":\" 12 พิกเซล)\n}\n\nstatic void drawStopwatch() {\n    char line[32];\n    const Clock::StopwatchSnapshot sw = stopwatch.snapshot();\n    Clock::formatStopwatch(sw.elapsedMs, line, sizeof(line));\n    display.drawString(0, 14, line, 2);\n    const size_t first = sw.lapCount > 3 ? sw.lapCount - 3 : 0;\n    for (size_t i = first; i < sw.lapCount; ++i) {\n        char split[16];\n        Clock::formatStopwatch(sw.laps[i].splitMs, split, sizeof(split));\n        snprintf(line, sizeof(line), \"L%u %s\", static_cast<unsigned>(i + 1), split);\n        display.drawString(0, 36 + static_cast<int>(i - first) * 10, line);\n    }\n}\n\nstatic void vTaskClockDisplay(void*) {\n    int64_t lastLogUs = 0;\n    while (true) {\n        // คัดลอกสถานะออกมาก่อนวาด จะได้ไม่ถือ mutex ระหว่างส่ง I2C\n        xSemaphoreTake(sharedMutex, portMAX_DELAY);\n        const SharedUi snap = shared;\n        xSemaphoreGive(sharedMutex);\n\n        Clock::DateTime now;\n        const bool haveTime = timeMgr.getLocalTime(now);\n        const bool ntp = timeMgr.isNtpSynced();\n\n        display.clear();\n        display.drawString(0, 0, Clock::modeName(snap.ui.mode));\n        switch (snap.ui.mode) {\n            case Clock::Mode::Clock:\n                if (haveTime) drawClock(now, ntp, alarmEngine.setting());\n                break;\n            case Clock::Mode::SetTime: drawEditor(snap, true); break;\n            case Clock::Mode::Alarm: drawEditor(snap, false); break;\n            case Clock::Mode::Stopwatch: drawStopwatch(); break;\n        }\n        display.flush();\n\n        if (haveTime && esp_timer_get_time() - lastLogUs >= 1'000'000) {\n            lastLogUs = esp_timer_get_time();\n            ESP_LOGI(TAG, \"[clock] %02u:%02u:%02u src=%s\", now.hour, now.minute, now.second, ntp ? \"NTP\" : \"RTC\");\n        }\n        vTaskDelay(pdMS_TO_TICKS(100));\n    }\n}\n\nextern \"C\" void app_main(void) {\n    sharedMutex = xSemaphoreCreateMutex();\n\n    if (!i2cBus.init() || !rtc.init() || !display.init() || !alarmEngine.init() || !buttons.init()) {\n        ESP_LOGE(TAG, \"hardware init failed\");\n        return;\n    }\n    timeMgr.loadFromRtc();\n\n    xTaskCreatePinnedToCore(vTaskButtonHandler, \"vTaskButtonHandler\", 3072, nullptr, 5, nullptr, 0);\n    xTaskCreatePinnedToCore(vTaskUiEvents, \"vTaskUiEvents\", 4096, nullptr, 4, nullptr, 0);\n    xTaskCreatePinnedToCore(vTaskClockDisplay, \"vTaskClockDisplay\", 4096, nullptr, 3, nullptr, 1);\n    xTaskCreatePinnedToCore(vTaskAlarmCheck, \"vTaskAlarmCheck\", 3072, nullptr, 4, nullptr, 1);\n    xTaskCreatePinnedToCore(vTaskNTPSync, \"vTaskNTPSync\", 6144, nullptr, 1, nullptr, 0);\n    ESP_LOGI(TAG, \"All tasks started\");\n}\n"
+    },
+    {
+     "name": "main/CMakeLists.txt",
+     "path": "final-homework-esp32/05-integration/main/CMakeLists.txt",
+     "text": "idf_component_register(SRCS \"main.cpp\"\n                       INCLUDE_DIRS \".\"\n                       REQUIRES i2c_bus ds1307 ssd1306 button_manager time_manager\n                                alarm_engine stopwatch_engine clock_logic)\n"
+    },
+    {
+     "name": "sdkconfig.defaults",
+     "path": "final-homework-esp32/05-integration/sdkconfig.defaults",
+     "text": "# แอป Wi-Fi มีขนาดใหญ่ ใช้พาร์ทิชันแอปขนาดใหญ่ขึ้น\nCONFIG_PARTITION_TABLE_SINGLE_APP_LARGE=y\n"
     }
+   ],
+   "diagram": "{\n  \"version\": 1,\n  \"author\": \"Final Homework ESP32 Digital Clock\",\n  \"editor\": \"wokwi\",\n  \"parts\": [\n    { \"type\": \"board-esp32-devkit-c-v4\", \"id\": \"esp\", \"top\": 0, \"left\": 0, \"attrs\": {} },\n    { \"type\": \"wokwi-ds1307\", \"id\": \"rtc\", \"top\": -120, \"left\": 200, \"attrs\": {} },\n    { \"type\": \"board-ssd1306\", \"id\": \"oled\", \"top\": 60, \"left\": 200, \"attrs\": { \"i2cAddress\": \"0x3c\" } },\n    { \"type\": \"wokwi-pushbutton\", \"id\": \"btn_mode\", \"top\": 280, \"left\": -120, \"attrs\": { \"color\": \"red\", \"label\": \"MODE\" } },\n    { \"type\": \"wokwi-pushbutton\", \"id\": \"btn_set\", \"top\": 280, \"left\": -20, \"attrs\": { \"color\": \"green\", \"label\": \"SET\" } },\n    { \"type\": \"wokwi-pushbutton\", \"id\": \"btn_alarm\", \"top\": 280, \"left\": 80, \"attrs\": { \"color\": \"yellow\", \"label\": \"ALARM\" } },\n    { \"type\": \"wokwi-pushbutton\", \"id\": \"btn_lap\", \"top\": 280, \"left\": 180, \"attrs\": { \"color\": \"blue\", \"label\": \"LAP/RST\" } },\n    { \"type\": \"wokwi-buzzer\", \"id\": \"buzzer\", \"top\": -120, \"left\": -140, \"attrs\": { \"volume\": \"0.1\" } }\n  ],\n  \"connections\": [\n    [ \"esp:TX\", \"$serialMonitor:RX\", \"\", [] ],\n    [ \"esp:RX\", \"$serialMonitor:TX\", \"\", [] ],\n    [ \"esp:GND.2\", \"rtc:GND\", \"black\", [ \"v0\" ] ],\n    [ \"esp:5V\", \"rtc:5V\", \"red\", [ \"v0\" ] ],\n    [ \"esp:21\", \"rtc:SDA\", \"green\", [ \"h0\" ] ],\n    [ \"esp:22\", \"rtc:SCL\", \"blue\", [ \"h0\" ] ],\n    [ \"esp:GND.2\", \"oled:GND\", \"black\", [ \"v0\" ] ],\n    [ \"esp:3V3\", \"oled:VCC\", \"red\", [ \"v0\" ] ],\n    [ \"esp:21\", \"oled:SDA\", \"green\", [ \"h0\" ] ],\n    [ \"esp:22\", \"oled:SCL\", \"blue\", [ \"h0\" ] ],\n    [ \"esp:18\", \"btn_mode:1.l\", \"red\", [ \"h0\" ] ],\n    [ \"esp:GND.3\", \"btn_mode:2.l\", \"black\", [ \"h0\" ] ],\n    [ \"esp:19\", \"btn_set:1.l\", \"green\", [ \"h0\" ] ],\n    [ \"esp:GND.3\", \"btn_set:2.l\", \"black\", [ \"h0\" ] ],\n    [ \"esp:4\", \"btn_alarm:1.l\", \"yellow\", [ \"h0\" ] ],\n    [ \"esp:GND.3\", \"btn_alarm:2.l\", \"black\", [ \"h0\" ] ],\n    [ \"esp:5\", \"btn_lap:1.l\", \"blue\", [ \"h0\" ] ],\n    [ \"esp:GND.3\", \"btn_lap:2.l\", \"black\", [ \"h0\" ] ],\n    [ \"esp:25\", \"buzzer:2\", \"orange\", [ \"v0\" ] ],\n    [ \"esp:GND.1\", \"buzzer:1\", \"black\", [ \"v0\" ] ]\n  ],\n  \"dependencies\": {}\n}\n",
+   "toml": "[wokwi]\nversion = 1\nfirmware = 'build/flasher_args.json'\nelf = 'build/final05_integration.elf'\n"
+  }
+ ],
+ "components": {
+  "i2c_bus": [
+   {
+    "name": "I2CBus.hpp",
+    "path": "final-homework-esp32/components/i2c_bus/include/I2CBus.hpp",
+    "text": "#pragma once\n#include <cstddef>\n#include <cstdint>\n\n#include \"driver/i2c_master.h\"\n#include \"freertos/FreeRTOS.h\"\n#include \"freertos/semphr.h\"\n\nnamespace Clock {\n\n// ตัวห่อ I2C master ของ ESP-IDF v6 ที่ thread-safe (mutex คุมทุกการส่ง/รับ)\n// อุปกรณ์หลายตัว (DS1307, SSD1306) ใช้บัสเดียวกันจากหลาย task ได้\nclass I2CBus {\npublic:\n    static constexpr size_t MAX_DEVICES = 4;\n    static constexpr size_t MAX_WRITE = 160;  // เฟรมจอ 1 หน้า = 1 + 128 ไบต์\n\n    I2CBus(i2c_port_num_t port, gpio_num_t sda, gpio_num_t scl, uint32_t speedHz = 100000);\n    ~I2CBus();\n    I2CBus(const I2CBus&) = delete;\n    I2CBus& operator=(const I2CBus&) = delete;\n\n    bool init();\n    bool probe(uint8_t addr);\n    bool write(uint8_t addr, const uint8_t* data, size_t len);\n    bool writeReg(uint8_t addr, uint8_t reg, uint8_t value);\n    bool writeRegs(uint8_t addr, uint8_t reg, const uint8_t* data, size_t len);\n    bool readRegs(uint8_t addr, uint8_t reg, uint8_t* buffer, size_t len);\n\nprivate:\n    struct Slot {\n        uint8_t addr = 0;\n        i2c_master_dev_handle_t handle = nullptr;\n    };\n\n    i2c_master_dev_handle_t handleFor(uint8_t addr);  // เรียกตอนถือ mutex แล้วเท่านั้น\n\n    i2c_port_num_t port_;\n    gpio_num_t sda_;\n    gpio_num_t scl_;\n    uint32_t speedHz_;\n    i2c_master_bus_handle_t bus_ = nullptr;\n    SemaphoreHandle_t mutex_ = nullptr;\n    Slot slots_[MAX_DEVICES];\n};\n\n}  // namespace Clock\n"
+   },
+   {
+    "name": "I2CBus.cpp",
+    "path": "final-homework-esp32/components/i2c_bus/I2CBus.cpp",
+    "text": "#include \"I2CBus.hpp\"\n\n#include <cstring>\n\n#include \"esp_log.h\"\n\nnamespace Clock {\n\nstatic const char* TAG = \"I2CBus\";\nstatic constexpr int XFER_TIMEOUT_MS = 100;\nstatic constexpr TickType_t LOCK_TIMEOUT = pdMS_TO_TICKS(500);\n\nnamespace {\nclass Lock {\npublic:\n    explicit Lock(SemaphoreHandle_t m) : m_(m), ok_(xSemaphoreTake(m, LOCK_TIMEOUT) == pdTRUE) {}\n    ~Lock() {\n        if (ok_) xSemaphoreGive(m_);\n    }\n    bool ok() const { return ok_; }\n\nprivate:\n    SemaphoreHandle_t m_;\n    bool ok_;\n};\n}  // namespace\n\nI2CBus::I2CBus(i2c_port_num_t port, gpio_num_t sda, gpio_num_t scl, uint32_t speedHz)\n    : port_(port), sda_(sda), scl_(scl), speedHz_(speedHz) {}\n\nI2CBus::~I2CBus() {\n    for (auto& s : slots_) {\n        if (s.handle) i2c_master_bus_rm_device(s.handle);\n    }\n    if (bus_) i2c_del_master_bus(bus_);\n    if (mutex_) vSemaphoreDelete(mutex_);\n}\n\nbool I2CBus::init() {\n    if (bus_) return true;\n    mutex_ = xSemaphoreCreateMutex();\n    if (!mutex_) return false;\n\n    i2c_master_bus_config_t cfg = {};\n    cfg.i2c_port = port_;\n    cfg.sda_io_num = sda_;\n    cfg.scl_io_num = scl_;\n    cfg.clk_source = I2C_CLK_SRC_DEFAULT;\n    cfg.glitch_ignore_cnt = 7;\n    cfg.flags.enable_internal_pullup = true;\n\n    esp_err_t err = i2c_new_master_bus(&cfg, &bus_);\n    if (err != ESP_OK) {\n        ESP_LOGE(TAG, \"i2c_new_master_bus failed: %s\", esp_err_to_name(err));\n        bus_ = nullptr;\n        return false;\n    }\n    return true;\n}\n\ni2c_master_dev_handle_t I2CBus::handleFor(uint8_t addr) {\n    for (auto& s : slots_) {\n        if (s.handle && s.addr == addr) return s.handle;\n    }\n    for (auto& s : slots_) {\n        if (s.handle) continue;\n        i2c_device_config_t dev = {};\n        dev.dev_addr_length = I2C_ADDR_BIT_LEN_7;\n        dev.device_address = addr;\n        dev.scl_speed_hz = speedHz_;\n        if (i2c_master_bus_add_device(bus_, &dev, &s.handle) != ESP_OK) {\n            s.handle = nullptr;\n            return nullptr;\n        }\n        s.addr = addr;\n        return s.handle;\n    }\n    ESP_LOGE(TAG, \"no free device slot for 0x%02X\", addr);\n    return nullptr;\n}\n\nbool I2CBus::probe(uint8_t addr) {\n    if (!bus_) return false;\n    Lock lock(mutex_);\n    return lock.ok() && i2c_master_probe(bus_, addr, XFER_TIMEOUT_MS) == ESP_OK;\n}\n\nbool I2CBus::write(uint8_t addr, const uint8_t* data, size_t len) {\n    if (!bus_) return false;\n    Lock lock(mutex_);\n    if (!lock.ok()) return false;\n    i2c_master_dev_handle_t dev = handleFor(addr);\n    return dev && i2c_master_transmit(dev, data, len, XFER_TIMEOUT_MS) == ESP_OK;\n}\n\nbool I2CBus::writeReg(uint8_t addr, uint8_t reg, uint8_t value) {\n    const uint8_t buf[2] = {reg, value};\n    return write(addr, buf, sizeof(buf));\n}\n\nbool I2CBus::writeRegs(uint8_t addr, uint8_t reg, const uint8_t* data, size_t len) {\n    if (len + 1 > MAX_WRITE) return false;\n    uint8_t buf[MAX_WRITE];\n    buf[0] = reg;\n    memcpy(buf + 1, data, len);\n    return write(addr, buf, len + 1);\n}\n\nbool I2CBus::readRegs(uint8_t addr, uint8_t reg, uint8_t* buffer, size_t len) {\n    if (!bus_) return false;\n    Lock lock(mutex_);\n    if (!lock.ok()) return false;\n    i2c_master_dev_handle_t dev = handleFor(addr);\n    return dev && i2c_master_transmit_receive(dev, &reg, 1, buffer, len, XFER_TIMEOUT_MS) == ESP_OK;\n}\n\n}  // namespace Clock\n"
+   }
+  ],
+  "ds1307": [
+   {
+    "name": "DS1307.hpp",
+    "path": "final-homework-esp32/components/ds1307/include/DS1307.hpp",
+    "text": "#pragma once\n#include \"I2CBus.hpp\"\n#include \"clock_logic/datetime.hpp\"\n\nnamespace Clock {\n\nclass DS1307 {\npublic:\n    static constexpr uint8_t I2C_ADDR = 0x68;\n\n    explicit DS1307(I2CBus& bus) : bus_(bus) {}\n\n    // เคลียร์ CH ถ้านาฬิกาหยุด และบังคับโหมด 24 ชั่วโมง คืน false ถ้าอ่านไม่ได้\n    bool init();\n    bool getTime(DateTime& dt);\n    bool setTime(const DateTime& dt);\n\nprivate:\n    I2CBus& bus_;\n};\n\n}  // namespace Clock\n"
+   },
+   {
+    "name": "DS1307.cpp",
+    "path": "final-homework-esp32/components/ds1307/DS1307.cpp",
+    "text": "#include \"DS1307.hpp\"\n\n#include \"esp_log.h\"\n\nnamespace Clock {\n\nstatic const char* TAG = \"DS1307\";\n\nbool DS1307::init() {\n    uint8_t raw[7];\n    if (!bus_.readRegs(I2C_ADDR, 0x00, raw, sizeof(raw))) {\n        ESP_LOGE(TAG, \"no ACK from DS1307 at 0x%02X\", I2C_ADDR);\n        return false;\n    }\n    if (raw[0] & DS1307_CH_BIT) {\n        ESP_LOGW(TAG, \"clock halted (CH=1), starting oscillator\");\n        if (!bus_.writeReg(I2C_ADDR, 0x00, raw[0] & static_cast<uint8_t>(~DS1307_CH_BIT))) return false;\n    }\n    if (raw[2] & DS1307_12H_BIT) {\n        DateTime dt;\n        if (ds1307Decode(raw, dt)) {\n            ESP_LOGW(TAG, \"12-hour mode detected, converting to 24-hour\");\n            return setTime(dt);\n        }\n    }\n    return true;\n}\n\nbool DS1307::getTime(DateTime& dt) {\n    uint8_t raw[7];\n    if (!bus_.readRegs(I2C_ADDR, 0x00, raw, sizeof(raw))) return false;\n    return ds1307Decode(raw, dt);\n}\n\nbool DS1307::setTime(const DateTime& dt) {\n    DateTime fixed = dt;\n    fixed.weekday = weekdayFromDate(dt.year, dt.month, dt.day);\n    if (!isValid(fixed)) return false;\n    uint8_t raw[7];\n    ds1307Encode(fixed, raw);\n    return bus_.writeRegs(I2C_ADDR, 0x00, raw, sizeof(raw));\n}\n\n}  // namespace Clock\n"
+   }
+  ],
+  "ssd1306": [
+   {
+    "name": "SSD1306.hpp",
+    "path": "final-homework-esp32/components/ssd1306/include/SSD1306.hpp",
+    "text": "#pragma once\n#include <cstddef>\n#include <cstdint>\n\n#include \"I2CBus.hpp\"\n\nnamespace Clock {\n\n// จอ OLED 128x64 ควบคุมด้วย SSD1306 ผ่าน I2C วาดลง framebuffer 1024 ไบต์ก่อน\n// แล้วค่อย flush() ส่งทั้งเฟรมทีเดียว (การวาดเองไม่แตะบัส จึงเรียกจาก task ไหนก็ได้\n// ตราบใดที่ task เดียวเป็นเจ้าของ framebuffer)\nclass SSD1306 {\npublic:\n    static constexpr int WIDTH = 128;\n    static constexpr int HEIGHT = 64;\n    static constexpr size_t PAGES = HEIGHT / 8;\n    static constexpr size_t BUFFER_SIZE = WIDTH * PAGES;\n    static constexpr uint8_t DEFAULT_ADDR = 0x3C;\n\n    explicit SSD1306(I2CBus& bus, uint8_t addr = DEFAULT_ADDR) : bus_(bus), addr_(addr) {}\n\n    bool init();\n    void clear();\n    void setPixel(int x, int y, bool on = true);\n    // วาดตัวอักษร ASCII ขนาด 5x7 ขยาย scale เท่า (ตัวอักษรกว้าง 6*scale รวมช่องไฟ) คืนตำแหน่ง x ถัดไป\n    int drawChar(int x, int y, char c, int scale = 1);\n    int drawString(int x, int y, const char* str, int scale = 1);\n    void invertRect(int x, int y, int w, int h);  // ใช้ไฮไลต์ฟิลด์ที่กำลังแก้\n    bool flush();\n\n    const uint8_t* buffer() const { return buffer_; }\n\nprivate:\n    bool command(uint8_t cmd);\n    bool commands(const uint8_t* cmds, size_t len);\n\n    I2CBus& bus_;\n    uint8_t addr_;\n    uint8_t buffer_[BUFFER_SIZE] = {};\n};\n\n}  // namespace Clock\n"
+   },
+   {
+    "name": "SSD1306.cpp",
+    "path": "final-homework-esp32/components/ssd1306/SSD1306.cpp",
+    "text": "#include \"SSD1306.hpp\"\n\n#include <cstring>\n\n#include \"esp_log.h\"\n#include \"font5x7.hpp\"\n\nnamespace Clock {\n\nstatic const char* TAG = \"SSD1306\";\n\nnamespace {\nconstexpr uint8_t CTRL_CMD = 0x00;\nconstexpr uint8_t CTRL_DATA = 0x40;\n}  // namespace\n\nbool SSD1306::command(uint8_t cmd) {\n    const uint8_t buf[2] = {CTRL_CMD, cmd};\n    return bus_.write(addr_, buf, sizeof(buf));\n}\n\nbool SSD1306::commands(const uint8_t* cmds, size_t len) {\n    for (size_t i = 0; i < len; ++i) {\n        if (!command(cmds[i])) return false;\n    }\n    return true;\n}\n\nbool SSD1306::init() {\n    // ลำดับเริ่มต้นมาตรฐานของ SSD1306 128x64 ใช้ charge pump ภายใน\n    static const uint8_t seq[] = {\n        0xAE,        // display off\n        0xD5, 0x80,  // clock divide / oscillator frequency\n        0xA8, 0x3F,  // multiplex ratio = 64\n        0xD3, 0x00,  // display offset = 0\n        0x40,        // start line = 0\n        0x8D, 0x14,  // charge pump enable\n        0x20, 0x00,  // horizontal addressing mode\n        0xA1,        // segment remap (กลับซ้าย-ขวา)\n        0xC8,        // COM scan direction ย้อนกลับ (กลับบน-ล่าง)\n        0xDA, 0x12,  // COM pins configuration\n        0x81, 0xCF,  // contrast\n        0xD9, 0xF1,  // pre-charge period\n        0xDB, 0x40,  // VCOMH deselect level\n        0xA4,        // แสดงตามเนื้อหา RAM\n        0xA6,        // normal (ไม่กลับสี)\n        0x2E,        // ปิด scroll\n        0xAF,        // display on\n    };\n    if (!commands(seq, sizeof(seq))) {\n        ESP_LOGE(TAG, \"init failed: no ACK from 0x%02X\", addr_);\n        return false;\n    }\n    clear();\n    return flush();\n}\n\nvoid SSD1306::clear() { memset(buffer_, 0, sizeof(buffer_)); }\n\nvoid SSD1306::setPixel(int x, int y, bool on) {\n    if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return;\n    const uint8_t mask = static_cast<uint8_t>(1u << (y & 7));\n    uint8_t& cell = buffer_[x + (y >> 3) * WIDTH];\n    if (on) {\n        cell |= mask;\n    } else {\n        cell &= static_cast<uint8_t>(~mask);\n    }\n}\n\nint SSD1306::drawChar(int x, int y, char c, int scale) {\n    if (scale < 1) scale = 1;\n    const unsigned char uc = static_cast<unsigned char>(c);\n    const uint8_t* glyph = FONT5X7[(uc < FONT_FIRST || uc > FONT_LAST) ? '?' - FONT_FIRST : uc - FONT_FIRST];\n    for (int col = 0; col < FONT_WIDTH; ++col) {\n        for (int row = 0; row < FONT_HEIGHT; ++row) {\n            if (!((glyph[col] >> row) & 1)) continue;\n            for (int dx = 0; dx < scale; ++dx) {\n                for (int dy = 0; dy < scale; ++dy) {\n                    setPixel(x + col * scale + dx, y + row * scale + dy, true);\n                }\n            }\n        }\n    }\n    return x + (FONT_WIDTH + 1) * scale;\n}\n\nint SSD1306::drawString(int x, int y, const char* str, int scale) {\n    for (; *str; ++str) x = drawChar(x, y, *str, scale);\n    return x;\n}\n\nvoid SSD1306::invertRect(int x, int y, int w, int h) {\n    for (int yy = y; yy < y + h; ++yy) {\n        for (int xx = x; xx < x + w; ++xx) {\n            if (xx < 0 || xx >= WIDTH || yy < 0 || yy >= HEIGHT) continue;\n            buffer_[xx + (yy >> 3) * WIDTH] ^= static_cast<uint8_t>(1u << (yy & 7));\n        }\n    }\n}\n\nbool SSD1306::flush() {\n    // ตั้งช่วงคอลัมน์ 0..127 และหน้า 0..7 แล้วส่งข้อมูลทีละหน้า (control byte 0x40 + 128 ไบต์)\n    static const uint8_t addrWindow[] = {0x21, 0x00, 0x7F, 0x22, 0x00, 0x07};\n    if (!commands(addrWindow, sizeof(addrWindow))) return false;\n    for (size_t page = 0; page < PAGES; ++page) {\n        if (!bus_.writeRegs(addr_, CTRL_DATA, buffer_ + page * WIDTH, WIDTH)) return false;\n    }\n    return true;\n}\n\n}  // namespace Clock\n"
+   }
+  ],
+  "clock_logic": [
+   {
+    "name": "alarm_logic.hpp",
+    "path": "final-homework-esp32/components/clock_logic/include/clock_logic/alarm_logic.hpp",
+    "text": "#pragma once\n#include <cstdint>\n\nnamespace Clock {\n\nstruct AlarmSetting {\n    uint8_t hour = 7;\n    uint8_t minute = 0;\n    bool enabled = false;\n};\n\n// เวลาปัจจุบัน (เวลาท้องถิ่น) ตรงกับเวลาปลุกหรือไม่ เทียบแค่ชั่วโมงและนาที\nconstexpr bool alarmMatches(const AlarmSetting& a, uint8_t hour, uint8_t minute) {\n    return a.enabled && a.hour == hour && a.minute == minute;\n}\n\nenum class AlarmEvent : uint8_t { None, Start, Stop };\n\n// ตัวตัดสินใจปลุก: เรียก update() ทุกวินาที\n//  - Start  เมื่อเวลาตรงและยังไม่ได้ปลุกในนาทีนั้น (ปลุกครั้งเดียวต่อนาที)\n//  - Stop   เมื่อเสียงดังครบ ringMs หรือผู้ใช้สั่งหยุด/ปิดปลุก\nclass AlarmState {\npublic:\n    explicit AlarmState(uint32_t ringMs = 30000) : ringMs_(ringMs) {}\n\n    AlarmEvent update(const AlarmSetting& a, uint8_t hour, uint8_t minute, uint32_t nowMs) {\n        if (ringing_) {\n            if (!a.enabled || nowMs - startedMs_ >= ringMs_) {\n                ringing_ = false;\n                return AlarmEvent::Stop;\n            }\n            return AlarmEvent::None;\n        }\n        if (!alarmMatches(a, hour, minute)) {\n            armedForMatch_ = true;  // ออกจากนาทีที่ตรงแล้ว พร้อมปลุกรอบหน้า\n            return AlarmEvent::None;\n        }\n        if (!armedForMatch_) return AlarmEvent::None;  // ปลุกในนาทีนี้ไปแล้ว\n        armedForMatch_ = false;\n        ringing_ = true;\n        startedMs_ = nowMs;\n        return AlarmEvent::Start;\n    }\n\n    // ผู้ใช้กดหยุดเสียง\n    AlarmEvent silence() {\n        if (!ringing_) return AlarmEvent::None;\n        ringing_ = false;\n        return AlarmEvent::Stop;\n    }\n\n    bool ringing() const { return ringing_; }\n\nprivate:\n    uint32_t ringMs_;\n    uint32_t startedMs_ = 0;\n    bool ringing_ = false;\n    bool armedForMatch_ = true;\n};\n\n}  // namespace Clock\n"
+   },
+   {
+    "name": "bcd.hpp",
+    "path": "final-homework-esp32/components/clock_logic/include/clock_logic/bcd.hpp",
+    "text": "#pragma once\n#include <cstdint>\n\nnamespace Clock {\n\nconstexpr uint8_t bcdToDec(uint8_t bcd) { return static_cast<uint8_t>((bcd >> 4) * 10 + (bcd & 0x0F)); }\n\nconstexpr uint8_t decToBcd(uint8_t dec) { return static_cast<uint8_t>(((dec / 10) << 4) | (dec % 10)); }\n\nconstexpr bool isValidBcd(uint8_t bcd) { return (bcd >> 4) <= 9 && (bcd & 0x0F) <= 9; }\n\n}  // namespace Clock\n"
+   },
+   {
+    "name": "button_fsm.hpp",
+    "path": "final-homework-esp32/components/clock_logic/include/clock_logic/button_fsm.hpp",
+    "text": "#pragma once\n#include <cstdint>\n\nnamespace Clock {\n\nenum class PressType : uint8_t { None, Short, Long };\n\n// State machine ของปุ่มหนึ่งปุ่ม: debounce + แยก short/long press ไม่ผูกฮาร์ดแวร์\n//   edge()  รับระดับสัญญาณดิบพร้อมเวลา (เรียกจาก task ที่รับ event จาก ISR)\n//   poll()  ตัดสินว่าสัญญาณนิ่งพอหรือยัง และคืน event ได้ครั้งละหนึ่งอัน\n// ปุ่มต่อแบบ pull-up: pressed = true คือขาเป็น LOW\nclass ButtonFsm {\npublic:\n    explicit ButtonFsm(uint32_t debounceMs = 30, uint32_t longPressMs = 1000)\n        : debounceMs_(debounceMs), longPressMs_(longPressMs) {}\n\n    void edge(bool pressed, uint32_t nowMs) {\n        if (pressed == raw_) return;\n        raw_ = pressed;\n        rawChangedMs_ = nowMs;\n    }\n\n    PressType poll(uint32_t nowMs) {\n        // ระดับดิบต้องนิ่งอย่างน้อย debounceMs_ จึงจะถือเป็นระดับจริง\n        if (raw_ != stable_ && nowMs - rawChangedMs_ >= debounceMs_) {\n            stable_ = raw_;\n            if (stable_) {\n                pressedAtMs_ = rawChangedMs_;\n                longReported_ = false;\n            } else if (!longReported_) {\n                return PressType::Short;\n            }\n            return PressType::None;\n        }\n        if (stable_ && !longReported_ && nowMs - pressedAtMs_ >= longPressMs_) {\n            longReported_ = true;\n            return PressType::Long;\n        }\n        return PressType::None;\n    }\n\n    // true เมื่อไม่มีอะไรต้องรอแล้ว task บล็อกรอ event จาก ISR ได้เลย\n    bool idle() const { return raw_ == stable_ && (!stable_ || longReported_); }\n\n    bool pressed() const { return stable_; }\n\nprivate:\n    uint32_t debounceMs_;\n    uint32_t longPressMs_;\n    bool raw_ = false;\n    bool stable_ = false;\n    bool longReported_ = false;\n    uint32_t rawChangedMs_ = 0;\n    uint32_t pressedAtMs_ = 0;\n};\n\n}  // namespace Clock\n"
+   },
+   {
+    "name": "datetime.hpp",
+    "path": "final-homework-esp32/components/clock_logic/include/clock_logic/datetime.hpp",
+    "text": "#pragma once\n#include <cstdint>\n\n#include \"clock_logic/bcd.hpp\"\n\nnamespace Clock {\n\nstruct DateTime {\n    uint16_t year = 2000;  // 2000..2099 (DS1307 เก็บปี 2 หลัก)\n    uint8_t month = 1;     // 1..12\n    uint8_t day = 1;       // 1..31\n    uint8_t weekday = 1;   // 1..7 (1 = อาทิตย์ ตามรีจิสเตอร์ DS1307)\n    uint8_t hour = 0;      // 0..23\n    uint8_t minute = 0;    // 0..59\n    uint8_t second = 0;    // 0..59\n\n    bool operator==(const DateTime& o) const {\n        return year == o.year && month == o.month && day == o.day && weekday == o.weekday && hour == o.hour &&\n               minute == o.minute && second == o.second;\n    }\n};\n\nconstexpr bool isLeapYear(int y) { return (y % 4 == 0 && y % 100 != 0) || y % 400 == 0; }\n\nconstexpr int daysInMonth(int year, int month) {\n    constexpr int days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};\n    return (month == 2 && isLeapYear(year)) ? 29 : days[month - 1];\n}\n\nconstexpr bool isValid(const DateTime& dt) {\n    return dt.year >= 2000 && dt.year <= 2099 && dt.month >= 1 && dt.month <= 12 && dt.day >= 1 &&\n           dt.day <= daysInMonth(dt.year, dt.month) && dt.weekday >= 1 && dt.weekday <= 7 && dt.hour <= 23 &&\n           dt.minute <= 59 && dt.second <= 59;\n}\n\n// จำนวนวันนับจาก 1970-01-01 (อัลกอริทึม days_from_civil ของ Howard Hinnant)\nconstexpr int64_t daysFromCivil(int y, int m, int d) {\n    y -= m <= 2;\n    const int64_t era = (y >= 0 ? y : y - 399) / 400;\n    const int64_t yoe = y - era * 400;\n    const int64_t doy = (153 * (m + (m > 2 ? -3 : 9)) + 2) / 5 + d - 1;\n    const int64_t doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;\n    return era * 146097 + doe - 719468;\n}\n\n// 1 = อาทิตย์ ... 7 = เสาร์\nconstexpr uint8_t weekdayFromDate(int y, int m, int d) {\n    const int64_t days = daysFromCivil(y, m, d);  // 1970-01-01 เป็นวันพฤหัส\n    const int64_t w = ((days % 7) + 7 + 4) % 7;   // 0 = อาทิตย์\n    return static_cast<uint8_t>(w + 1);\n}\n\n// DateTime (UTC) -> epoch วินาที\nconstexpr int64_t toEpoch(const DateTime& dt) {\n    return daysFromCivil(dt.year, dt.month, dt.day) * 86400 + dt.hour * 3600 + dt.minute * 60 + dt.second;\n}\n\n// epoch วินาที -> DateTime (UTC) คืน false ถ้าอยู่นอกช่วงปี 2000..2099\ninline bool fromEpoch(int64_t epoch, DateTime& out) {\n    int64_t days = epoch / 86400;\n    int64_t rem = epoch % 86400;\n    if (rem < 0) {\n        rem += 86400;\n        days -= 1;\n    }\n    const int64_t z = days + 719468;\n    const int64_t era = (z >= 0 ? z : z - 146096) / 146097;\n    const int64_t doe = z - era * 146097;\n    const int64_t yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365;\n    const int64_t doy = doe - (365 * yoe + yoe / 4 - yoe / 100);\n    const int64_t mp = (5 * doy + 2) / 153;\n    const int d = static_cast<int>(doy - (153 * mp + 2) / 5 + 1);\n    const int m = static_cast<int>(mp < 10 ? mp + 3 : mp - 9);\n    const int y = static_cast<int>(yoe + era * 400 + (m <= 2));\n\n    DateTime dt;\n    dt.year = static_cast<uint16_t>(y);\n    dt.month = static_cast<uint8_t>(m);\n    dt.day = static_cast<uint8_t>(d);\n    dt.weekday = weekdayFromDate(y, m, d);\n    dt.hour = static_cast<uint8_t>(rem / 3600);\n    dt.minute = static_cast<uint8_t>((rem % 3600) / 60);\n    dt.second = static_cast<uint8_t>(rem % 60);\n    if (!isValid(dt)) return false;\n    out = dt;\n    return true;\n}\n\n// ---- รีจิสเตอร์ DS1307 (0x00..0x06) ----\n//  0: bit7 = CH (clock halt), bit6..4 = สิบวินาที, bit3..0 = หน่วยวินาที\n//  2: bit6 = 12/24h (1 = 12h), bit5 = AM/PM หรือสิบชั่วโมงบิต 1, bit4 = สิบชั่วโมง\nconstexpr uint8_t DS1307_CH_BIT = 0x80;\nconstexpr uint8_t DS1307_12H_BIT = 0x40;\nconstexpr uint8_t DS1307_PM_BIT = 0x20;\n\n// raw[7] -> DateTime รองรับทั้งโหมด 12 และ 24 ชั่วโมง คืน false ถ้าค่าเสีย (เช่น BCD ผิด)\ninline bool ds1307Decode(const uint8_t raw[7], DateTime& out) {\n    const uint8_t secReg = raw[0] & static_cast<uint8_t>(~DS1307_CH_BIT);\n    if (!isValidBcd(secReg) || !isValidBcd(raw[1]) || !isValidBcd(raw[3]) || !isValidBcd(raw[4]) ||\n        !isValidBcd(raw[5]) || !isValidBcd(raw[6])) {\n        return false;\n    }\n    uint8_t hour;\n    if (raw[2] & DS1307_12H_BIT) {\n        const uint8_t h12Reg = raw[2] & 0x1F;\n        if (!isValidBcd(h12Reg)) return false;\n        const uint8_t h12 = bcdToDec(h12Reg);\n        if (h12 < 1 || h12 > 12) return false;\n        hour = static_cast<uint8_t>(h12 % 12 + ((raw[2] & DS1307_PM_BIT) ? 12 : 0));\n    } else {\n        const uint8_t h24Reg = raw[2] & 0x3F;\n        if (!isValidBcd(h24Reg)) return false;\n        hour = bcdToDec(h24Reg);\n    }\n    DateTime dt;\n    dt.second = bcdToDec(secReg);\n    dt.minute = bcdToDec(raw[1]);\n    dt.hour = hour;\n    dt.weekday = bcdToDec(raw[3]);\n    dt.day = bcdToDec(raw[4]);\n    dt.month = bcdToDec(raw[5]);\n    dt.year = static_cast<uint16_t>(2000 + bcdToDec(raw[6]));\n    if (!isValid(dt)) return false;\n    out = dt;\n    return true;\n}\n\n// DateTime -> raw[7] เขียนเป็นโหมด 24 ชั่วโมงและเคลียร์ CH เสมอ (ให้นาฬิกาเดิน)\ninline void ds1307Encode(const DateTime& dt, uint8_t raw[7]) {\n    raw[0] = decToBcd(dt.second);  // bit7 = 0 -> CH ถูกเคลียร์\n    raw[1] = decToBcd(dt.minute);\n    raw[2] = decToBcd(dt.hour);  // bit6 = 0 -> โหมด 24 ชั่วโมง\n    raw[3] = decToBcd(dt.weekday);\n    raw[4] = decToBcd(dt.day);\n    raw[5] = decToBcd(dt.month);\n    raw[6] = decToBcd(static_cast<uint8_t>(dt.year - 2000));\n}\n\n}  // namespace Clock\n"
+   },
+   {
+    "name": "stopwatch_core.hpp",
+    "path": "final-homework-esp32/components/clock_logic/include/clock_logic/stopwatch_core.hpp",
+    "text": "#pragma once\n#include <cstddef>\n#include <cstdint>\n\nnamespace Clock {\n\nconstexpr size_t STOPWATCH_MAX_LAPS = 10;\n\nstruct LapRecord {\n    uint64_t totalMs = 0;  // เวลารวม ณ ตอนกด lap\n    uint64_t splitMs = 0;  // เวลาของรอบนี้ (ห่างจาก lap ก่อนหน้า)\n};\n\n// สโตปวอทช์แบบไม่ผูกฮาร์ดแวร์ รับเวลาปัจจุบัน (ไมโครวินาที) จากภายนอก\nclass StopwatchCore {\npublic:\n    void start(uint64_t nowUs) {\n        if (running_) return;\n        startedAtUs_ = nowUs;\n        running_ = true;\n    }\n\n    void stop(uint64_t nowUs) {\n        if (!running_) return;\n        accumulatedUs_ += nowUs - startedAtUs_;\n        running_ = false;\n    }\n\n    void reset() {\n        running_ = false;\n        accumulatedUs_ = 0;\n        startedAtUs_ = 0;\n        lapCount_ = 0;\n        lastLapTotalMs_ = 0;\n    }\n\n    // บันทึก lap คืน false ถ้าไม่ได้เดินอยู่หรือ lap เต็ม\n    bool lap(uint64_t nowUs) {\n        if (!running_ || lapCount_ >= STOPWATCH_MAX_LAPS) return false;\n        const uint64_t total = elapsedMs(nowUs);\n        laps_[lapCount_].totalMs = total;\n        laps_[lapCount_].splitMs = total - lastLapTotalMs_;\n        lastLapTotalMs_ = total;\n        ++lapCount_;\n        return true;\n    }\n\n    uint64_t elapsedMs(uint64_t nowUs) const {\n        const uint64_t us = accumulatedUs_ + (running_ ? nowUs - startedAtUs_ : 0);\n        return us / 1000;\n    }\n\n    bool running() const { return running_; }\n    size_t lapCount() const { return lapCount_; }\n    const LapRecord& lapAt(size_t i) const { return laps_[i]; }\n\nprivate:\n    bool running_ = false;\n    uint64_t startedAtUs_ = 0;\n    uint64_t accumulatedUs_ = 0;\n    uint64_t lastLapTotalMs_ = 0;\n    size_t lapCount_ = 0;\n    LapRecord laps_[STOPWATCH_MAX_LAPS];\n};\n\n}  // namespace Clock\n"
+   },
+   {
+    "name": "ui_mode.hpp",
+    "path": "final-homework-esp32/components/clock_logic/include/clock_logic/ui_mode.hpp",
+    "text": "#pragma once\n#include <cstdint>\n\n#include \"clock_logic/button_fsm.hpp\"\n\nnamespace Clock {\n\nenum class Mode : uint8_t { Clock, SetTime, Alarm, Stopwatch };\nconstexpr uint8_t MODE_COUNT = 4;\n\nenum class Button : uint8_t { Mode, Set, Alarm, Lap };\n\n// ลำดับโหมด: Clock -> SetTime -> Alarm -> Stopwatch -> Clock\nconstexpr Mode nextMode(Mode m) { return static_cast<Mode>((static_cast<uint8_t>(m) + 1) % MODE_COUNT); }\n\nconstexpr const char* modeName(Mode m) {\n    switch (m) {\n        case Mode::Clock: return \"CLOCK\";\n        case Mode::SetTime: return \"SET TIME\";\n        case Mode::Alarm: return \"ALARM\";\n        case Mode::Stopwatch: return \"STOPWATCH\";\n    }\n    return \"?\";\n}\n\n// จำนวนฟิลด์ที่แก้ไขได้ในแต่ละโหมด (SetTime: ชม./นาที/วินาที, Alarm: ชม./นาที)\nconstexpr uint8_t fieldCount(Mode m) {\n    switch (m) {\n        case Mode::SetTime: return 3;\n        case Mode::Alarm: return 2;\n        default: return 0;\n    }\n}\n\nenum class Command : uint8_t {\n    None,\n    IncrementField,       // เพิ่มค่าฟิลด์ที่เลือกอยู่\n    ToggleAlarm,          // เปิด/ปิดปลุก\n    StopwatchToggle,      // เริ่ม/หยุดสโตปวอทช์\n    StopwatchLapOrReset,  // กำลังเดิน = บันทึก lap, หยุดอยู่ = รีเซ็ต\n    StopwatchReset,       // รีเซ็ตทันที\n};\n\nstruct UiState {\n    Mode mode = Mode::Clock;\n    uint8_t field = 0;\n};\n\nstruct UiResult {\n    Command command = Command::None;\n    bool modeChanged = false;\n    Mode previousMode = Mode::Clock;  // ใช้ตัดสินว่าต้องบันทึกค่าที่แก้ (ออกจาก SetTime/Alarm)\n};\n\n// ตารางหน้าที่ปุ่ม\n//   MODE  สั้น = โหมดถัดไป             ยาว = กลับหน้า Clock\n//   SET   สั้น = เพิ่มค่า (SetTime/Alarm) หรือ เริ่ม/หยุด (Stopwatch)\n//         ยาว = ไปฟิลด์ถัดไป (SetTime/Alarm)\n//   ALARM สั้น = เปิด/ปิดปลุก (ทุกโหมด)\n//   LAP   สั้น = lap/รีเซ็ต (Stopwatch)   ยาว = รีเซ็ต (Stopwatch)\ninline UiResult handlePress(UiState& ui, Button button, PressType press) {\n    UiResult r;\n    r.previousMode = ui.mode;\n    if (press == PressType::None) return r;\n\n    switch (button) {\n        case Button::Mode: {\n            const Mode target = (press == PressType::Long) ? Mode::Clock : nextMode(ui.mode);\n            if (target != ui.mode) {\n                ui.mode = target;\n                ui.field = 0;\n                r.modeChanged = true;\n            }\n            break;\n        }\n        case Button::Set:\n            if (ui.mode == Mode::SetTime || ui.mode == Mode::Alarm) {\n                if (press == PressType::Short) {\n                    r.command = Command::IncrementField;\n                } else {\n                    ui.field = static_cast<uint8_t>((ui.field + 1) % fieldCount(ui.mode));\n                }\n            } else if (ui.mode == Mode::Stopwatch && press == PressType::Short) {\n                r.command = Command::StopwatchToggle;\n            }\n            break;\n        case Button::Alarm:\n            if (press == PressType::Short) r.command = Command::ToggleAlarm;\n            break;\n        case Button::Lap:\n            if (ui.mode == Mode::Stopwatch) {\n                r.command = (press == PressType::Short) ? Command::StopwatchLapOrReset : Command::StopwatchReset;\n            }\n            break;\n    }\n    return r;\n}\n\n// เพิ่มค่าแบบวนรอบ เช่น wrapIncrement(59, 60) = 0\nconstexpr uint8_t wrapIncrement(uint8_t value, uint8_t modulus) {\n    return static_cast<uint8_t>((value + 1) % modulus);\n}\n\n}  // namespace Clock\n"
+   }
+  ],
+  "time_manager": [
+   {
+    "name": "TimeManager.hpp",
+    "path": "final-homework-esp32/components/time_manager/include/TimeManager.hpp",
+    "text": "#pragma once\n#include <atomic>\n#include <cstdint>\n\n#include \"DS1307.hpp\"\n#include \"clock_logic/datetime.hpp\"\n#include \"esp_event.h\"\n#include \"esp_netif.h\"\n#include \"esp_timer.h\"\n#include \"freertos/FreeRTOS.h\"\n#include \"freertos/event_groups.h\"\n\nnamespace Clock {\n\n// เวลาระบบ (time()) เก็บเป็น UTC เสมอ DS1307 ก็เก็บ UTC ส่วนการแสดงผลแปลงผ่าน TZ (CONFIG_DC_TZ)\n// เปิดเครื่องอ่าน RTC ก่อนเพื่อให้นาฬิกาเดินได้แม้ไม่มีเน็ต แล้วค่อยให้ NTP แก้เวลาทับเมื่อต่อได้\nclass TimeManager {\npublic:\n    explicit TimeManager(DS1307& rtc);\n    TimeManager(const TimeManager&) = delete;\n    TimeManager& operator=(const TimeManager&) = delete;\n\n    bool loadFromRtc();\n    bool initWifi();\n    bool syncNow(uint32_t timeoutMs);\n    bool isWifiConnected() const;\n    bool isNtpSynced() const;\n    bool getLocalTime(DateTime& out) const;\n    bool setLocalTime(const DateTime& local);\n    [[noreturn]] void taskNtpLoop();\n\nprivate:\n    static constexpr EventBits_t WIFI_STARTED_BIT = BIT0;\n    static constexpr EventBits_t WIFI_CONNECTED_BIT = BIT1;\n    static constexpr EventBits_t WIFI_GAVE_UP_BIT = BIT2;\n    static constexpr EventBits_t NTP_SYNCED_BIT = BIT3;\n\n    static void onEvent(void* arg, esp_event_base_t base, int32_t id, void* data);\n    static void onReconnectTimer(void* arg);\n    void handleDisconnect();\n    void restartGivenUpWifi();\n\n    DS1307& rtc_;\n    StaticEventGroup_t eventStorage_;\n    EventGroupHandle_t events_;\n    std::atomic<int> retry_{0};\n    esp_netif_t* staNetif_ = nullptr;\n    esp_timer_handle_t reconnectTimer_ = nullptr;\n};\n\n}  // namespace Clock\n"
+   },
+   {
+    "name": "Kconfig.projbuild",
+    "path": "final-homework-esp32/components/time_manager/Kconfig.projbuild",
+    "text": "menu \"Digital Clock\"\n\n    config DC_WIFI_SSID\n        string \"Wi-Fi SSID\"\n        default \"Wokwi-GUEST\"\n        help\n            ชื่อ Wi-Fi ที่จะต่อเพื่อดึงเวลา NTP\n            ค่าเริ่มต้น Wokwi-GUEST ใช้ได้เฉพาะใน Wokwi simulator\n            บอร์ดจริงใช้ SSID iotexpo / password 12345678\n            ตั้งผ่าน `idf.py menuconfig` -> Digital Clock\n\n    config DC_WIFI_PASSWORD\n        string \"Wi-Fi password\"\n        default \"\"\n        help\n            รหัส Wi-Fi ปล่อยว่างสำหรับ AP แบบเปิด (Wokwi-GUEST)\n            บอร์ดจริงให้ตั้งเป็น 12345678 ผ่าน `idf.py menuconfig`\n            ว่าง = ยอมรับ WIFI_AUTH_OPEN, มีรหัส = ต้องเป็น WPA2-PSK ขึ้นไป\n\n    config DC_WIFI_MAX_RETRY\n        int \"Wi-Fi reconnect attempts before waiting for next NTP cycle\"\n        range 1 20\n        default 5\n        help\n            จำนวนครั้งที่ต่อ Wi-Fi ใหม่แบบ back-off (1, 2, 4, ... สูงสุด 30 วินาที)\n            ครบแล้วจะรอรอบ NTP ถัดไปค่อยเริ่มนับใหม่\n\n    config DC_NTP_SERVER\n        string \"NTP server\"\n        default \"pool.ntp.org\"\n\n    config DC_TZ\n        string \"POSIX timezone\"\n        default \"ICT-7\"\n        help\n            DS1307 และเวลาระบบเก็บเป็น UTC ค่านี้ใช้แปลงเป็นเวลาท้องถิ่นตอนแสดงผล\n            ICT-7 = เวลาประเทศไทย (UTC+7) เครื่องหมายใน POSIX TZ กลับด้านกับ UTC offset\n\n    config DC_NTP_RESYNC_SEC\n        int \"NTP resync period (seconds)\"\n        range 60 86400\n        default 3600\n\n    config DC_NTP_TIMEOUT_SEC\n        int \"Timeout for Wi-Fi connect and NTP reply (seconds)\"\n        range 1 120\n        default 15\n\nendmenu\n"
+   },
+   {
+    "name": "TimeManager.cpp",
+    "path": "final-homework-esp32/components/time_manager/TimeManager.cpp",
+    "text": "#include \"TimeManager.hpp\"\n\n#include <sys/time.h>\n\n#include <algorithm>\n#include <cinttypes>\n#include <cstdlib>\n#include <cstring>\n#include <ctime>\n\n#include \"esp_log.h\"\n#include \"esp_netif_sntp.h\"\n#include \"esp_wifi.h\"\n#include \"freertos/task.h\"\n#include \"nvs_flash.h\"\n\nnamespace Clock {\n\nstatic const char* TAG = \"TimeManager\";\n\nstatic constexpr uint32_t BACKOFF_BASE_MS = 1000;\nstatic constexpr uint32_t BACKOFF_MAX_MS = 30000;\nstatic constexpr uint32_t NTP_RETRY_SEC = 30;\n\n// pdMS_TO_TICKS คูณด้วย TickType_t 32 บิต จะล้นถ้ารอเป็นชั่วโมง จึงแปลงจากวินาทีตรง ๆ\nstatic constexpr TickType_t secondsToTicks(uint32_t s) { return static_cast<TickType_t>(s) * configTICK_RATE_HZ; }\n\nstatic void formatDateTime(const DateTime& dt, char* buf, size_t len) {\n    snprintf(buf, len, \"%04u-%02u-%02u %02u:%02u:%02u\", dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);\n}\n\nTimeManager::TimeManager(DS1307& rtc) : rtc_(rtc), events_(xEventGroupCreateStatic(&eventStorage_)) {\n    // ตั้ง TZ ตั้งแต่สร้างออบเจกต์ ทุกการแปลง local time จึงถูกต้องแม้ยังไม่ได้เรียก loadFromRtc\n    setenv(\"TZ\", CONFIG_DC_TZ, 1);\n    tzset();\n}\n\nbool TimeManager::loadFromRtc() {\n    DateTime utc;\n    if (!rtc_.getTime(utc)) {\n        ESP_LOGE(TAG, \"RTC unreadable, system clock not set\");\n        return false;\n    }\n    const timeval tv = {.tv_sec = static_cast<time_t>(toEpoch(utc)), .tv_usec = 0};\n    if (settimeofday(&tv, nullptr) != 0) {\n        ESP_LOGE(TAG, \"settimeofday failed\");\n        return false;\n    }\n    char buf[24];\n    formatDateTime(utc, buf, sizeof(buf));\n    ESP_LOGI(TAG, \"System clock loaded from DS1307: %s UTC (TZ=%s)\", buf, CONFIG_DC_TZ);\n    return true;\n}\n\nbool TimeManager::initWifi() {\n    if (xEventGroupGetBits(events_) & WIFI_STARTED_BIT) return true;\n\n    esp_err_t err = nvs_flash_init();\n    if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {\n        ESP_LOGW(TAG, \"NVS partition needs erase (%s)\", esp_err_to_name(err));\n        if (nvs_flash_erase() != ESP_OK) return false;\n        err = nvs_flash_init();\n    }\n    if (err != ESP_OK) {\n        ESP_LOGE(TAG, \"nvs_flash_init: %s\", esp_err_to_name(err));\n        return false;\n    }\n    if ((err = esp_netif_init()) != ESP_OK) {\n        ESP_LOGE(TAG, \"esp_netif_init: %s\", esp_err_to_name(err));\n        return false;\n    }\n    // INVALID_STATE = มีโมดูลอื่นสร้าง default loop ไปแล้ว ใช้ร่วมกันได้\n    err = esp_event_loop_create_default();\n    if (err != ESP_OK && err != ESP_ERR_INVALID_STATE) {\n        ESP_LOGE(TAG, \"esp_event_loop_create_default: %s\", esp_err_to_name(err));\n        return false;\n    }\n    if (staNetif_ == nullptr) staNetif_ = esp_netif_create_default_wifi_sta();\n    if (reconnectTimer_ == nullptr) {\n        const esp_timer_create_args_t args = {\n            .callback = &TimeManager::onReconnectTimer,\n            .arg = this,\n            .dispatch_method = ESP_TIMER_TASK,\n            .name = \"wifi_reconnect\",\n            .skip_unhandled_events = true,\n        };\n        if ((err = esp_timer_create(&args, &reconnectTimer_)) != ESP_OK) {\n            ESP_LOGE(TAG, \"esp_timer_create: %s\", esp_err_to_name(err));\n            return false;\n        }\n    }\n\n    const wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();\n    if ((err = esp_wifi_init(&cfg)) != ESP_OK) {\n        ESP_LOGE(TAG, \"esp_wifi_init: %s\", esp_err_to_name(err));\n        return false;\n    }\n    if ((err = esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &TimeManager::onEvent, this,\n                                                   nullptr)) != ESP_OK ||\n        (err = esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &TimeManager::onEvent, this,\n                                                   nullptr)) != ESP_OK) {\n        ESP_LOGE(TAG, \"event handler register: %s\", esp_err_to_name(err));\n        return false;\n    }\n\n    wifi_config_t wifi = {};\n    strncpy(reinterpret_cast<char*>(wifi.sta.ssid), CONFIG_DC_WIFI_SSID, sizeof(wifi.sta.ssid));\n    strncpy(reinterpret_cast<char*>(wifi.sta.password), CONFIG_DC_WIFI_PASSWORD, sizeof(wifi.sta.password));\n    // AP เปิด (Wokwi-GUEST) ต้องยอมรับ OPEN ไม่งั้น driver จะไม่ยอมต่อ\n    wifi.sta.threshold.authmode = CONFIG_DC_WIFI_PASSWORD[0] == '\\0' ? WIFI_AUTH_OPEN : WIFI_AUTH_WPA2_PSK;\n\n    if ((err = esp_wifi_set_mode(WIFI_MODE_STA)) != ESP_OK ||\n        (err = esp_wifi_set_config(WIFI_IF_STA, &wifi)) != ESP_OK || (err = esp_wifi_start()) != ESP_OK) {\n        ESP_LOGE(TAG, \"Wi-Fi start: %s\", esp_err_to_name(err));\n        return false;\n    }\n    xEventGroupSetBits(events_, WIFI_STARTED_BIT);\n    ESP_LOGI(TAG, \"Wi-Fi STA started, connecting to \\\"%s\\\" (%s)\", CONFIG_DC_WIFI_SSID,\n             CONFIG_DC_WIFI_PASSWORD[0] == '\\0' ? \"open\" : \"WPA2\");\n    return true;\n}\n\nvoid TimeManager::onEvent(void* arg, esp_event_base_t base, int32_t id, void* data) {\n    auto* self = static_cast<TimeManager*>(arg);\n    if (base == WIFI_EVENT && id == WIFI_EVENT_STA_START) {\n        esp_wifi_connect();\n    } else if (base == WIFI_EVENT && id == WIFI_EVENT_STA_DISCONNECTED) {\n        self->handleDisconnect();\n    } else if (base == IP_EVENT && id == IP_EVENT_STA_GOT_IP) {\n        const auto* got = static_cast<const ip_event_got_ip_t*>(data);\n        ESP_LOGI(TAG, \"Wi-Fi connected, IP \" IPSTR, IP2STR(&got->ip_info.ip));\n        self->retry_ = 0;\n        xEventGroupClearBits(self->events_, WIFI_GAVE_UP_BIT);\n        xEventGroupSetBits(self->events_, WIFI_CONNECTED_BIT);\n    }\n}\n\n// handler รันใน event loop task ห้าม delay ตรงนี้ จึงหน่วงการต่อใหม่ด้วย esp_timer แบบ back-off\nvoid TimeManager::handleDisconnect() {\n    xEventGroupClearBits(events_, WIFI_CONNECTED_BIT);\n    const int attempt = retry_.load();\n    if (attempt >= CONFIG_DC_WIFI_MAX_RETRY) {\n        ESP_LOGW(TAG, \"Wi-Fi gave up after %d retries, next try on NTP cycle\", attempt);\n        xEventGroupSetBits(events_, WIFI_GAVE_UP_BIT);\n        return;\n    }\n    retry_ = attempt + 1;\n    const uint32_t delayMs = std::min(BACKOFF_BASE_MS << std::min(attempt, 5), BACKOFF_MAX_MS);\n    ESP_LOGW(TAG, \"Wi-Fi disconnected, retry %d/%d in %\" PRIu32 \" ms\", attempt + 1, CONFIG_DC_WIFI_MAX_RETRY,\n             delayMs);\n    if (esp_timer_start_once(reconnectTimer_, static_cast<uint64_t>(delayMs) * 1000) != ESP_OK) esp_wifi_connect();\n}\n\nvoid TimeManager::onReconnectTimer(void*) { esp_wifi_connect(); }\n\nvoid TimeManager::restartGivenUpWifi() {\n    if (!(xEventGroupClearBits(events_, WIFI_GAVE_UP_BIT) & WIFI_GAVE_UP_BIT)) return;\n    ESP_LOGI(TAG, \"Wi-Fi retry budget reset, connecting again\");\n    retry_ = 0;\n    esp_wifi_connect();\n}\n\nbool TimeManager::syncNow(uint32_t timeoutMs) {\n    if (!initWifi()) return false;\n    restartGivenUpWifi();\n\n    const EventBits_t bits =\n        xEventGroupWaitBits(events_, WIFI_CONNECTED_BIT, pdFALSE, pdTRUE, pdMS_TO_TICKS(timeoutMs));\n    if (!(bits & WIFI_CONNECTED_BIT)) {\n        ESP_LOGW(TAG, \"No Wi-Fi after %\" PRIu32 \" ms\", timeoutMs);\n        return false;\n    }\n\n    // init ใหม่ทุกรอบเพื่อให้ได้ semaphore ใหม่ ไม่งั้น sync_wait อาจคืน OK จากการ sync เก่าที่ค้างอยู่\n    esp_netif_sntp_deinit();\n    esp_sntp_config_t cfg = ESP_NETIF_SNTP_DEFAULT_CONFIG(CONFIG_DC_NTP_SERVER);\n    esp_err_t err = esp_netif_sntp_init(&cfg);\n    if (err != ESP_OK) {\n        ESP_LOGE(TAG, \"esp_netif_sntp_init: %s\", esp_err_to_name(err));\n        return false;\n    }\n    ESP_LOGI(TAG, \"SNTP query %s (timeout %\" PRIu32 \" ms)\", CONFIG_DC_NTP_SERVER, timeoutMs);\n    err = esp_netif_sntp_sync_wait(pdMS_TO_TICKS(timeoutMs));\n    if (err != ESP_OK) {\n        ESP_LOGW(TAG, \"SNTP sync failed: %s\", esp_err_to_name(err));\n        return false;\n    }\n\n    DateTime utc;\n    if (!fromEpoch(static_cast<int64_t>(time(nullptr)), utc)) {\n        ESP_LOGE(TAG, \"SNTP returned a time outside 2000..2099\");\n        return false;\n    }\n    xEventGroupSetBits(events_, NTP_SYNCED_BIT);\n    const bool rtcOk = rtc_.setTime(utc);\n    DateTime local;\n    getLocalTime(local);\n    char utcBuf[24];\n    char localBuf[24];\n    formatDateTime(utc, utcBuf, sizeof(utcBuf));\n    formatDateTime(local, localBuf, sizeof(localBuf));\n    ESP_LOGI(TAG, \"ntp_demo: UTC %s -> DS1307 %s | local (%s) %s\", utcBuf, rtcOk ? \"written\" : \"WRITE FAILED\",\n             CONFIG_DC_TZ, localBuf);\n    return true;\n}\n\nbool TimeManager::isWifiConnected() const { return xEventGroupGetBits(events_) & WIFI_CONNECTED_BIT; }\n\nbool TimeManager::isNtpSynced() const { return xEventGroupGetBits(events_) & NTP_SYNCED_BIT; }\n\nbool TimeManager::getLocalTime(DateTime& out) const {\n    const time_t now = time(nullptr);\n    tm t;\n    if (localtime_r(&now, &t) == nullptr) return false;\n    DateTime dt;\n    dt.year = static_cast<uint16_t>(t.tm_year + 1900);\n    dt.month = static_cast<uint8_t>(t.tm_mon + 1);\n    dt.day = static_cast<uint8_t>(t.tm_mday);\n    dt.weekday = static_cast<uint8_t>(t.tm_wday + 1);\n    dt.hour = static_cast<uint8_t>(t.tm_hour);\n    dt.minute = static_cast<uint8_t>(t.tm_min);\n    dt.second = static_cast<uint8_t>(t.tm_sec);\n    if (!isValid(dt)) return false;\n    out = dt;\n    return true;\n}\n\nbool TimeManager::setLocalTime(const DateTime& local) {\n    DateTime checked = local;\n    checked.weekday = weekdayFromDate(local.year, local.month, local.day);\n    if (!isValid(checked)) {\n        ESP_LOGE(TAG, \"setLocalTime: invalid date/time\");\n        return false;\n    }\n    tm t = {};\n    t.tm_year = checked.year - 1900;\n    t.tm_mon = checked.month - 1;\n    t.tm_mday = checked.day;\n    t.tm_hour = checked.hour;\n    t.tm_min = checked.minute;\n    t.tm_sec = checked.second;\n    t.tm_isdst = -1;\n    const time_t epoch = mktime(&t);\n    if (epoch == static_cast<time_t>(-1)) return false;\n    const timeval tv = {.tv_sec = epoch, .tv_usec = 0};\n    if (settimeofday(&tv, nullptr) != 0) return false;\n    DateTime utc;\n    const bool rtcOk = fromEpoch(static_cast<int64_t>(epoch), utc) && rtc_.setTime(utc);\n    char buf[24];\n    formatDateTime(checked, buf, sizeof(buf));\n    ESP_LOGI(TAG, \"Manual set local %s, DS1307 %s\", buf, rtcOk ? \"updated\" : \"WRITE FAILED\");\n    return rtcOk;\n}\n\nvoid TimeManager::taskNtpLoop() {\n    const uint32_t timeoutMs = CONFIG_DC_NTP_TIMEOUT_SEC * 1000u;\n    for (;;) {\n        if (!initWifi()) {\n            ESP_LOGE(TAG, \"Wi-Fi init failed, retry in %\" PRIu32 \" s\", NTP_RETRY_SEC);\n            vTaskDelay(secondsToTicks(NTP_RETRY_SEC));\n            continue;\n        }\n        if (syncNow(timeoutMs)) {\n            ESP_LOGI(TAG, \"NTP sync OK, next resync in %d s\", CONFIG_DC_NTP_RESYNC_SEC);\n            vTaskDelay(secondsToTicks(CONFIG_DC_NTP_RESYNC_SEC));\n        } else {\n            ESP_LOGW(TAG, \"%s (retry in %\" PRIu32 \" s)\",\n                     isNtpSynced() ? \"NTP resync failed, keeping last NTP time\" : \"NTP failed, using RTC time\",\n                     NTP_RETRY_SEC);\n            vTaskDelay(secondsToTicks(NTP_RETRY_SEC));\n        }\n    }\n}\n\n}  // namespace Clock\n"
+   }
+  ],
+  "button_manager": [
+   {
+    "name": "ButtonManager.hpp",
+    "path": "final-homework-esp32/components/button_manager/include/ButtonManager.hpp",
+    "text": "#pragma once\n#include <cstddef>\n#include <cstdint>\n\n#include \"clock_logic/button_fsm.hpp\"\n#include \"clock_logic/ui_mode.hpp\"\n#include \"driver/gpio.h\"\n#include \"freertos/FreeRTOS.h\"\n#include \"freertos/queue.h\"\n\nnamespace Clock {\n\nstruct ButtonEvent {\n    Button button;\n    PressType press;\n};\n\n// ปุ่ม 4 ตัว: ISR ส่งแค่ขอบสัญญาณดิบเข้า queue แล้ว taskLoop() ป้อนให้ ButtonFsm ของแต่ละปุ่ม\n// ทำ debounce + แยก short/long แล้วส่ง ButtonEvent ออกทาง eventQueue()\n// ต่อแบบ pull-up ภายใน กด = LOW\nclass ButtonManager {\npublic:\n    static constexpr gpio_num_t PIN_MODE = GPIO_NUM_18, PIN_SET = GPIO_NUM_19, PIN_ALARM = GPIO_NUM_4,\n                                PIN_LAP = GPIO_NUM_5;\n    static constexpr size_t BUTTON_COUNT = 4;\n    static constexpr size_t EDGE_QUEUE_DEPTH = 32;\n    static constexpr size_t EVENT_QUEUE_DEPTH = 10;\n\n    ButtonManager();\n    ButtonManager(const ButtonManager&) = delete;\n    ButtonManager& operator=(const ButtonManager&) = delete;\n\n    bool init();\n    [[noreturn]] void taskLoop();\n    bool receive(ButtonEvent& ev, TickType_t timeout);\n    QueueHandle_t eventQueue() const { return eventQueue_; }\n\n    static constexpr const char* buttonName(Button b) {\n        switch (b) {\n            case Button::Mode: return \"MODE\";\n            case Button::Set: return \"SET\";\n            case Button::Alarm: return \"ALARM\";\n            case Button::Lap: return \"LAP\";\n        }\n        return \"?\";\n    }\n\nprivate:\n    struct EdgeEvent {\n        uint8_t index;\n        bool pressed;\n        uint32_t ms;\n    };\n\n    struct Slot {\n        Button id;\n        gpio_num_t pin;\n        ButtonFsm fsm;\n        ButtonManager* owner;  // ISR ได้ arg ตัวเดียว ใช้ชี้กลับไปหา edgeQueue_\n        uint16_t rawEdges;     // ขอบดิบที่เข้ามาตั้งแต่ปุ่มว่างครั้งก่อน (นับไว้โชว์ bounce)\n        uint16_t acceptedEdges;\n    };\n\n    static void onEdgeIsr(void* arg);\n    bool allIdle() const;\n    void emit(const Slot& slot, PressType press);\n\n    Slot slots_[BUTTON_COUNT];  // index = static_cast<uint8_t>(Button)\n    QueueHandle_t edgeQueue_ = nullptr;\n    QueueHandle_t eventQueue_ = nullptr;\n};\n\n}  // namespace Clock\n"
+   },
+   {
+    "name": "ButtonManager.cpp",
+    "path": "final-homework-esp32/components/button_manager/ButtonManager.cpp",
+    "text": "#include \"ButtonManager.hpp\"\n\n#include \"esp_attr.h\"\n#include \"esp_log.h\"\n#include \"esp_timer.h\"\n\nnamespace Clock {\n\nstatic const char* TAG = \"ButtonManager\";\n\n// FreeRTOS tick 100 Hz ทำให้ pdMS_TO_TICKS(5) = 0 ซึ่งจะกลายเป็น busy loop จึงบังคับอย่างน้อย 1 tick\nstatic constexpr TickType_t POLL_TICKS = pdMS_TO_TICKS(5) > 0 ? pdMS_TO_TICKS(5) : 1;\n\nstatic IRAM_ATTR uint32_t nowMs() { return static_cast<uint32_t>(esp_timer_get_time() / 1000); }\n\nButtonManager::ButtonManager()\n    : slots_{\n          {Button::Mode, PIN_MODE, ButtonFsm(), this, 0, 0},\n          {Button::Set, PIN_SET, ButtonFsm(), this, 0, 0},\n          {Button::Alarm, PIN_ALARM, ButtonFsm(), this, 0, 0},\n          {Button::Lap, PIN_LAP, ButtonFsm(), this, 0, 0},\n      } {\n    static_assert(static_cast<uint8_t>(Button::Mode) == 0 && static_cast<uint8_t>(Button::Set) == 1 &&\n                      static_cast<uint8_t>(Button::Alarm) == 2 && static_cast<uint8_t>(Button::Lap) == 3,\n                  \"slots_ is indexed by Button\");\n}\n\nvoid IRAM_ATTR ButtonManager::onEdgeIsr(void* arg) {\n    const Slot* slot = static_cast<const Slot*>(arg);\n    const EdgeEvent ev{static_cast<uint8_t>(slot->id), gpio_get_level(slot->pin) == 0, nowMs()};\n    BaseType_t woken = pdFALSE;\n    xQueueSendFromISR(slot->owner->edgeQueue_, &ev, &woken);\n    if (woken == pdTRUE) portYIELD_FROM_ISR();\n}\n\nbool ButtonManager::init() {\n    if (edgeQueue_ == nullptr) edgeQueue_ = xQueueCreate(EDGE_QUEUE_DEPTH, sizeof(EdgeEvent));\n    if (eventQueue_ == nullptr) eventQueue_ = xQueueCreate(EVENT_QUEUE_DEPTH, sizeof(ButtonEvent));\n    if (edgeQueue_ == nullptr || eventQueue_ == nullptr) {\n        ESP_LOGE(TAG, \"queue create failed\");\n        return false;\n    }\n\n    uint64_t mask = 0;\n    for (const Slot& slot : slots_) mask |= 1ULL << slot.pin;\n    gpio_config_t cfg = {};\n    cfg.pin_bit_mask = mask;\n    cfg.mode = GPIO_MODE_INPUT;\n    cfg.pull_up_en = GPIO_PULLUP_ENABLE;\n    cfg.pull_down_en = GPIO_PULLDOWN_DISABLE;\n    cfg.intr_type = GPIO_INTR_ANYEDGE;\n    esp_err_t err = gpio_config(&cfg);\n    if (err != ESP_OK) {\n        ESP_LOGE(TAG, \"gpio_config failed: %s\", esp_err_to_name(err));\n        return false;\n    }\n\n    // INVALID_STATE = มีคนติดตั้ง ISR service ไว้แล้ว (เช่นเรียก init ซ้ำ) ใช้ต่อได้เลย\n    err = gpio_install_isr_service(0);\n    if (err != ESP_OK && err != ESP_ERR_INVALID_STATE) {\n        ESP_LOGE(TAG, \"gpio_install_isr_service failed: %s\", esp_err_to_name(err));\n        return false;\n    }\n\n    for (Slot& slot : slots_) {\n        err = gpio_isr_handler_add(slot.pin, onEdgeIsr, &slot);\n        if (err != ESP_OK) {\n            ESP_LOGE(TAG, \"gpio_isr_handler_add(%s, GPIO%d) failed: %s\", buttonName(slot.id), slot.pin,\n                     esp_err_to_name(err));\n            return false;\n        }\n    }\n\n    ESP_LOGI(TAG, \"ready: MODE=GPIO%d SET=GPIO%d ALARM=GPIO%d LAP=GPIO%d\", PIN_MODE, PIN_SET, PIN_ALARM, PIN_LAP);\n    return true;\n}\n\nbool ButtonManager::allIdle() const {\n    for (const Slot& slot : slots_) {\n        if (!slot.fsm.idle()) return false;\n    }\n    return true;\n}\n\nvoid ButtonManager::emit(const Slot& slot, PressType press) {\n    const ButtonEvent ev{slot.id, press};\n    if (xQueueSend(eventQueue_, &ev, 0) != pdTRUE) {\n        ESP_LOGW(TAG, \"event queue full, dropped %s %s\", buttonName(slot.id),\n                 press == PressType::Long ? \"long\" : \"short\");\n    }\n}\n\nvoid ButtonManager::taskLoop() {\n    configASSERT(edgeQueue_ != nullptr && eventQueue_ != nullptr);\n    for (;;) {\n        // ถ้ามีปุ่มรอ debounce หรือรอครบ long press ต้องตื่นมา poll เองแม้ไม่มีขอบใหม่\n        const TickType_t wait = allIdle() ? portMAX_DELAY : POLL_TICKS;\n        EdgeEvent edge;\n        if (xQueueReceive(edgeQueue_, &edge, wait) == pdTRUE) {\n            do {\n                Slot& slot = slots_[edge.index];\n                slot.fsm.edge(edge.pressed, edge.ms);\n                ++slot.rawEdges;\n            } while (xQueueReceive(edgeQueue_, &edge, 0) == pdTRUE);\n        }\n\n        const uint32_t now = nowMs();\n        for (Slot& slot : slots_) {\n            const bool wasPressed = slot.fsm.pressed();\n            const PressType press = slot.fsm.poll(now);\n            if (slot.fsm.pressed() != wasPressed) ++slot.acceptedEdges;\n            if (press != PressType::None) emit(slot, press);\n\n            if (slot.fsm.idle() && slot.rawEdges > 0) {\n                ESP_LOGD(TAG, \"%s: %u raw edges, %u accepted, %u dropped by debounce\", buttonName(slot.id),\n                         slot.rawEdges, slot.acceptedEdges, slot.rawEdges - slot.acceptedEdges);\n                slot.rawEdges = 0;\n                slot.acceptedEdges = 0;\n            }\n        }\n    }\n}\n\nbool ButtonManager::receive(ButtonEvent& ev, TickType_t timeout) {\n    if (eventQueue_ == nullptr) return false;\n    return xQueueReceive(eventQueue_, &ev, timeout) == pdTRUE;\n}\n\n}  // namespace Clock\n"
+   }
+  ],
+  "alarm_engine": [
+   {
+    "name": "AlarmEngine.hpp",
+    "path": "final-homework-esp32/components/alarm_engine/include/AlarmEngine.hpp",
+    "text": "#pragma once\n#include <cstdint>\n\n#include \"clock_logic/alarm_logic.hpp\"\n#include \"clock_logic/datetime.hpp\"\n#include \"driver/gpio.h\"\n#include \"esp_timer.h\"\n#include \"freertos/FreeRTOS.h\"\n#include \"freertos/semphr.h\"\n\nnamespace Clock {\n\n// นาฬิกาปลุก + บัซเซอร์ (LEDC PWM) ที่ thread-safe\n//   check()    เรียกทุกวินาทีจาก task ปลุก ตัดสินด้วย AlarmState แล้วเปิด/ปิดเสียง\n//   silence()  / toggleEnabled() / setSetting() เรียกจาก task UI ได้\n// เสียงปลุกดัง 200 ms / เงียบ 200 ms ขับด้วย esp_timer แบบ periodic ไม่กินเวลา task ที่เรียก\nclass AlarmEngine {\npublic:\n    explicit AlarmEngine(gpio_num_t buzzerPin = GPIO_NUM_25, uint32_t ringMs = 30000);\n    AlarmEngine(const AlarmEngine&) = delete;\n    AlarmEngine& operator=(const AlarmEngine&) = delete;\n\n    bool init();\n\n    AlarmSetting setting() const;\n    void setSetting(const AlarmSetting& s);\n    bool toggleEnabled();  // คืนสถานะใหม่ ถ้าปิดขณะกำลังดังจะหยุดเสียงทันที\n\n    AlarmEvent check(const DateTime& localNow, uint32_t nowMs);\n    bool silence();  // คืน true ถ้าหยุดเสียงที่กำลังดังอยู่จริง\n    bool ringing() const;\n\n    void beep(uint32_t freqHz, uint32_t durationMs);\n\nprivate:\n    enum class StopReason : uint8_t { Timeout, Silenced, Disabled };\n\n    static void onRingTick(void* arg);\n    static void onBeepEnd(void* arg);\n\n    // เรียกตอนถือ mutex_ แล้วเท่านั้น\n    void startRingLocked();\n    void stopRingLocked();\n    void outputLocked(bool on);\n    bool applySettingLocked(const AlarmSetting& s);  // คืน true ถ้าการปิดปลุกทำให้เสียงที่ดังอยู่หยุด\n\n    static void logStop(StopReason reason);\n\n    gpio_num_t pin_;\n    SemaphoreHandle_t mutex_;\n    esp_timer_handle_t ringTimer_ = nullptr;\n    esp_timer_handle_t beepTimer_ = nullptr;\n    bool ready_ = false;\n    bool toneOn_ = false;\n    AlarmSetting setting_;\n    AlarmState state_;\n};\n\n}  // namespace Clock\n"
+   },
+   {
+    "name": "AlarmEngine.cpp",
+    "path": "final-homework-esp32/components/alarm_engine/AlarmEngine.cpp",
+    "text": "#include \"AlarmEngine.hpp\"\n\n#include \"driver/ledc.h\"\n#include \"esp_log.h\"\n\nnamespace Clock {\n\nstatic const char* TAG = \"alarm\";\n\nstatic constexpr ledc_mode_t LEDC_MODE = LEDC_LOW_SPEED_MODE;\nstatic constexpr ledc_timer_t LEDC_TIMER = LEDC_TIMER_0;\nstatic constexpr ledc_channel_t LEDC_CHANNEL = LEDC_CHANNEL_0;\nstatic constexpr uint32_t DUTY_HALF = 512;  // 50 % ของ 10 บิต\nstatic constexpr uint32_t RING_FREQ_HZ = 2000;\nstatic constexpr uint64_t RING_HALF_PERIOD_US = 200 * 1000;\n\nnamespace {\nclass Lock {\npublic:\n    explicit Lock(SemaphoreHandle_t m) : m_(m) { xSemaphoreTake(m_, portMAX_DELAY); }\n    ~Lock() { xSemaphoreGive(m_); }\n\nprivate:\n    SemaphoreHandle_t m_;\n};\n}  // namespace\n\nAlarmEngine::AlarmEngine(gpio_num_t buzzerPin, uint32_t ringMs)\n    : pin_(buzzerPin), mutex_(xSemaphoreCreateMutex()), state_(ringMs) {}\n\nbool AlarmEngine::init() {\n    Lock lock(mutex_);\n    if (ready_) return true;\n\n    ledc_timer_config_t timer = {};\n    timer.speed_mode = LEDC_MODE;\n    timer.duty_resolution = LEDC_TIMER_10_BIT;\n    timer.timer_num = LEDC_TIMER;\n    timer.freq_hz = RING_FREQ_HZ;\n    timer.clk_cfg = LEDC_AUTO_CLK;\n    esp_err_t err = ledc_timer_config(&timer);\n    if (err != ESP_OK) {\n        ESP_LOGE(TAG, \"ledc_timer_config failed: %s\", esp_err_to_name(err));\n        return false;\n    }\n\n    ledc_channel_config_t channel = {};\n    channel.gpio_num = pin_;\n    channel.speed_mode = LEDC_MODE;\n    channel.channel = LEDC_CHANNEL;\n    channel.timer_sel = LEDC_TIMER;\n    channel.duty = 0;\n    channel.hpoint = 0;\n    err = ledc_channel_config(&channel);\n    if (err != ESP_OK) {\n        ESP_LOGE(TAG, \"ledc_channel_config failed: %s\", esp_err_to_name(err));\n        return false;\n    }\n\n    esp_timer_create_args_t ringArgs = {};\n    ringArgs.callback = &AlarmEngine::onRingTick;\n    ringArgs.arg = this;\n    ringArgs.dispatch_method = ESP_TIMER_TASK;\n    ringArgs.name = \"alarm_ring\";\n    if (!ringTimer_ && esp_timer_create(&ringArgs, &ringTimer_) != ESP_OK) {\n        ESP_LOGE(TAG, \"esp_timer_create(ring) failed\");\n        return false;\n    }\n\n    esp_timer_create_args_t beepArgs = ringArgs;\n    beepArgs.callback = &AlarmEngine::onBeepEnd;\n    beepArgs.name = \"alarm_beep\";\n    if (!beepTimer_ && esp_timer_create(&beepArgs, &beepTimer_) != ESP_OK) {\n        ESP_LOGE(TAG, \"esp_timer_create(beep) failed\");\n        return false;\n    }\n\n    ready_ = true;\n    return true;\n}\n\nAlarmSetting AlarmEngine::setting() const {\n    Lock lock(mutex_);\n    return setting_;\n}\n\nvoid AlarmEngine::setSetting(const AlarmSetting& s) {\n    bool stopped;\n    {\n        Lock lock(mutex_);\n        stopped = applySettingLocked(s);\n    }\n    if (stopped) logStop(StopReason::Disabled);\n}\n\nbool AlarmEngine::toggleEnabled() {\n    bool stopped;\n    bool enabled;\n    {\n        Lock lock(mutex_);\n        AlarmSetting s = setting_;\n        s.enabled = !s.enabled;\n        enabled = s.enabled;\n        stopped = applySettingLocked(s);\n    }\n    if (stopped) logStop(StopReason::Disabled);\n    return enabled;\n}\n\nAlarmEvent AlarmEngine::check(const DateTime& localNow, uint32_t nowMs) {\n    AlarmEvent ev;\n    bool enabled;\n    {\n        Lock lock(mutex_);\n        ev = state_.update(setting_, localNow.hour, localNow.minute, nowMs);\n        enabled = setting_.enabled;\n        if (ev == AlarmEvent::Start) startRingLocked();\n        if (ev == AlarmEvent::Stop) stopRingLocked();\n    }\n    if (ev == AlarmEvent::Start) ESP_LOGI(TAG, \"[alarm] START %02u:%02u\", localNow.hour, localNow.minute);\n    if (ev == AlarmEvent::Stop) logStop(enabled ? StopReason::Timeout : StopReason::Disabled);\n    return ev;\n}\n\nbool AlarmEngine::silence() {\n    bool stopped;\n    {\n        Lock lock(mutex_);\n        stopped = state_.silence() == AlarmEvent::Stop;\n        if (stopped) stopRingLocked();\n    }\n    if (stopped) logStop(StopReason::Silenced);\n    return stopped;\n}\n\nbool AlarmEngine::ringing() const {\n    Lock lock(mutex_);\n    return state_.ringing();\n}\n\nvoid AlarmEngine::beep(uint32_t freqHz, uint32_t durationMs) {\n    Lock lock(mutex_);\n    if (!ready_ || state_.ringing()) return;  // ขณะปลุก เสียงปลุกเป็นเจ้าของบัซเซอร์\n    esp_timer_stop(beepTimer_);\n    ledc_set_freq(LEDC_MODE, LEDC_TIMER, freqHz);\n    outputLocked(true);\n    esp_timer_start_once(beepTimer_, static_cast<uint64_t>(durationMs) * 1000);\n}\n\n// callback ของ esp_timer อาจยังวิ่งอยู่ตอน stop ถูกเรียก จึงต้องเช็ก ringing ใต้ mutex\n// ไม่งั้นจะเปิดเสียงค้างหลัง Stop ได้\nvoid AlarmEngine::onRingTick(void* arg) {\n    auto* self = static_cast<AlarmEngine*>(arg);\n    Lock lock(self->mutex_);\n    if (!self->state_.ringing()) return;\n    self->outputLocked(!self->toneOn_);\n}\n\nvoid AlarmEngine::onBeepEnd(void* arg) {\n    auto* self = static_cast<AlarmEngine*>(arg);\n    Lock lock(self->mutex_);\n    if (!self->state_.ringing()) self->outputLocked(false);\n}\n\nvoid AlarmEngine::startRingLocked() {\n    if (!ready_) return;\n    esp_timer_stop(beepTimer_);\n    esp_timer_stop(ringTimer_);\n    ledc_set_freq(LEDC_MODE, LEDC_TIMER, RING_FREQ_HZ);\n    outputLocked(true);\n    esp_timer_start_periodic(ringTimer_, RING_HALF_PERIOD_US);\n}\n\nvoid AlarmEngine::stopRingLocked() {\n    if (!ready_) return;\n    esp_timer_stop(ringTimer_);\n    outputLocked(false);\n}\n\nvoid AlarmEngine::outputLocked(bool on) {\n    ledc_set_duty(LEDC_MODE, LEDC_CHANNEL, on ? DUTY_HALF : 0);\n    ledc_update_duty(LEDC_MODE, LEDC_CHANNEL);\n    toneOn_ = on;\n}\n\nbool AlarmEngine::applySettingLocked(const AlarmSetting& s) {\n    setting_ = s;\n    if (s.enabled || state_.silence() != AlarmEvent::Stop) return false;\n    stopRingLocked();\n    return true;\n}\n\nvoid AlarmEngine::logStop(StopReason reason) {\n    const char* text = reason == StopReason::Timeout ? \"timeout\" : reason == StopReason::Silenced ? \"silenced\" : \"disabled\";\n    ESP_LOGI(TAG, \"[alarm] STOP (%s)\", text);\n}\n\n}  // namespace Clock\n"
+   }
+  ],
+  "stopwatch_engine": [
+   {
+    "name": "StopwatchEngine.hpp",
+    "path": "final-homework-esp32/components/stopwatch_engine/include/StopwatchEngine.hpp",
+    "text": "#pragma once\n#include <cstddef>\n#include <cstdint>\n#include <cstdio>\n\n#include \"clock_logic/stopwatch_core.hpp\"\n#include \"freertos/FreeRTOS.h\"\n#include \"freertos/semphr.h\"\n\nnamespace Clock {\n\nstruct StopwatchSnapshot {\n    bool running = false;\n    uint64_t elapsedMs = 0;\n    size_t lapCount = 0;\n    LapRecord laps[STOPWATCH_MAX_LAPS];\n};\n\n// มิลลิวินาที -> \"MM:SS.cc\" (นาทีเกิน 99 จะยาวขึ้นแต่ไม่ตัดทิ้ง)\ninline void formatStopwatch(uint64_t ms, char* out, size_t len) {\n    snprintf(out, len, \"%02llu:%02llu.%02llu\", static_cast<unsigned long long>(ms / 60000),\n             static_cast<unsigned long long>(ms / 1000 % 60), static_cast<unsigned long long>(ms / 10 % 100));\n}\n\n// StopwatchCore แบบ thread-safe ที่อ่านเวลาจริงจาก esp_timer_get_time() (ความละเอียด 1 us)\nclass StopwatchEngine {\npublic:\n    StopwatchEngine();\n    StopwatchEngine(const StopwatchEngine&) = delete;\n    StopwatchEngine& operator=(const StopwatchEngine&) = delete;\n\n    void toggle();\n    void lapOrReset();  // กำลังเดิน = บันทึก lap, หยุดอยู่ = รีเซ็ต\n    void reset();\n    StopwatchSnapshot snapshot() const;\n\nprivate:\n    SemaphoreHandle_t mutex_;\n    StopwatchCore core_;\n};\n\n}  // namespace Clock\n"
+   },
+   {
+    "name": "StopwatchEngine.cpp",
+    "path": "final-homework-esp32/components/stopwatch_engine/StopwatchEngine.cpp",
+    "text": "#include \"StopwatchEngine.hpp\"\n\n#include \"esp_log.h\"\n#include \"esp_timer.h\"\n\nnamespace Clock {\n\nstatic const char* TAG = \"sw\";\n\nnamespace {\nclass Lock {\npublic:\n    explicit Lock(SemaphoreHandle_t m) : m_(m) { xSemaphoreTake(m_, portMAX_DELAY); }\n    ~Lock() { xSemaphoreGive(m_); }\n\nprivate:\n    SemaphoreHandle_t m_;\n};\n\nuint64_t nowUs() { return static_cast<uint64_t>(esp_timer_get_time()); }\n}  // namespace\n\nStopwatchEngine::StopwatchEngine() : mutex_(xSemaphoreCreateMutex()) {}\n\nvoid StopwatchEngine::toggle() {\n    bool running;\n    uint64_t elapsed;\n    {\n        Lock lock(mutex_);\n        const uint64_t now = nowUs();\n        if (core_.running()) {\n            core_.stop(now);\n        } else {\n            core_.start(now);\n        }\n        running = core_.running();\n        elapsed = core_.elapsedMs(now);\n    }\n    char text[16];\n    formatStopwatch(elapsed, text, sizeof(text));\n    ESP_LOGI(TAG, \"[sw] %s at %s\", running ? \"start\" : \"stop\", text);\n}\n\nvoid StopwatchEngine::lapOrReset() {\n    bool wasRunning;\n    bool recorded = false;\n    size_t index = 0;\n    LapRecord lap;\n    {\n        Lock lock(mutex_);\n        wasRunning = core_.running();\n        if (wasRunning) {\n            recorded = core_.lap(nowUs());\n            index = core_.lapCount();\n            if (recorded) lap = core_.lapAt(index - 1);\n        } else {\n            core_.reset();\n        }\n    }\n    if (!wasRunning) {\n        ESP_LOGI(TAG, \"[sw] reset\");\n        return;\n    }\n    if (!recorded) {\n        ESP_LOGW(TAG, \"[sw] lap ignored (max %u laps)\", static_cast<unsigned>(STOPWATCH_MAX_LAPS));\n        return;\n    }\n    char total[16];\n    char split[16];\n    formatStopwatch(lap.totalMs, total, sizeof(total));\n    formatStopwatch(lap.splitMs, split, sizeof(split));\n    ESP_LOGI(TAG, \"[sw] lap %u total=%s split=%s\", static_cast<unsigned>(index), total, split);\n}\n\nvoid StopwatchEngine::reset() {\n    {\n        Lock lock(mutex_);\n        core_.reset();\n    }\n    ESP_LOGI(TAG, \"[sw] reset\");\n}\n\nStopwatchSnapshot StopwatchEngine::snapshot() const {\n    StopwatchSnapshot s;\n    Lock lock(mutex_);\n    s.running = core_.running();\n    s.elapsedMs = core_.elapsedMs(nowUs());\n    s.lapCount = core_.lapCount();\n    for (size_t i = 0; i < s.lapCount; ++i) s.laps[i] = core_.lapAt(i);\n    return s;\n}\n\n}  // namespace Clock\n"
+   }
+  ]
+ }
 };
-}`,
-            ds1307_h: `// DS1307.hpp - Real Time Clock Driver Header
-#pragma once
-#include "I2CBus.hpp"
-#include <ctime>
 
-namespace Clock {
-struct DateTime {
-    uint8_t second;
-    uint8_t minute;
-    uint8_t hour;
-    uint8_t dayOfWeek;
-    uint8_t dayOfMonth;
-    uint8_t month;
-    uint16_t year;
-};
+        let currentLab = 0;
+        let currentFile = null; // { name, path, text }
 
-class DS1307 {
-private:
-    I2CBus& bus_;
-    static constexpr uint8_t I2C_ADDR = 0x68;
-
-    uint8_t bcd2dec(uint8_t val) { return ((val/16*10) + (val%16)); }
-    uint8_t dec2bcd(uint8_t val) { return ((val/10*16) + (val%10)); }
-
-public:
-    explicit DS1307(I2CBus& bus) : bus_(bus) {}
-    bool init();
-    bool getTime(DateTime& dt);
-    bool setTime(const DateTime& dt);
-};
-}`,
-            ds1307_cpp: `// DS1307.cpp - DS1307 Implementation
-#include "DS1307.hpp"
-
-namespace Clock {
-bool DS1307::init() {
-    uint8_t secondsReg = 0;
-    if (bus_.readRegs(I2C_ADDR, 0x00, &secondsReg, 1)) {
-        // Clear CH (Clock Halt) bit if set
-        if (secondsReg & 0x80) {
-            bus_.writeReg(I2C_ADDR, 0x00, 0x00);
-        }
-        return true;
-    }
-    return false;
-}
-
-bool DS1307::getTime(DateTime& dt) {
-    uint8_t raw[7];
-    if (!bus_.readRegs(I2C_ADDR, 0x00, raw, 7)) return false;
-    dt.second = bcd2dec(raw[0] & 0x7F);
-    dt.minute = bcd2dec(raw[1]);
-    dt.hour = bcd2dec(raw[2] & 0x3F);
-    dt.dayOfWeek = bcd2dec(raw[3]);
-    dt.dayOfMonth = bcd2dec(raw[4]);
-    dt.month = bcd2dec(raw[5]);
-    dt.year = 2000 + bcd2dec(raw[6]);
-    return true;
-}
-}`,
-            ssd1306_h: `// SSD1306.hpp - OLED Monochrome Display Buffer
-#pragma once
-#include "I2CBus.hpp"
-
-namespace Clock {
-class SSD1306 {
-private:
-    I2CBus& bus_;
-    uint8_t addr_;
-    uint8_t buffer_[1024]; // 128x64 / 8 bits
-
-public:
-    SSD1306(I2CBus& bus, uint8_t addr = 0x3C) : bus_(bus), addr_(addr) {}
-    bool init();
-    void clear();
-    void setPixel(int x, int y, bool color);
-    void drawString(int x, int y, const char* str);
-    void renderHeader(bool wifiConnected);
-    void flush();
-};
-}`,
-            ssd1306_cpp: `// SSD1306.cpp - OLED Display Driver Logic
-#include "SSD1306.hpp"
-#include <cstring>
-
-namespace Clock {
-bool SSD1306::init() {
-    // Send initialization sequence commands over I2CBus
-    clear();
-    flush();
-    return true;
-}
-
-void SSD1306::clear() {
-    memset(buffer_, 0, sizeof(buffer_));
-}
-
-void SSD1306::setPixel(int x, int y, bool color) {
-    if (x < 0 || x >= 128 || y < 0 || y >= 64) return;
-    if (color) buffer_[x + (y / 8) * 128] |= (1 << (y % 8));
-    else buffer_[x + (y / 8) * 128] &= ~(1 << (y % 8));
-}
-
-void SSD1306::flush() {
-    // Transmit buffer_ via thread-safe I2CBus
-}
-}`,
-            button: `// ButtonManager.hpp - GPIO ISR Switch Debouncer
-#pragma once
-#include "driver/gpio.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/queue.h"
-
-namespace Clock {
-enum class ButtonId { MODE, SET, ALARM, LAP };
-enum class PressType { SHORT, LONG };
-
-struct ButtonEvent {
-    ButtonId id;
-    PressType type;
-};
-
-class ButtonManager {
-private:
-    QueueHandle_t eventQueue_;
-
-public:
-    void init() {
-        eventQueue_ = xQueueCreate(10, sizeof(ButtonEvent));
-        // Configure GPIO 18, 19, 4, 5 with pull-up and ISR interrupts
-    }
-
-    void taskLoop() {
-        // Poll GPIO states & push events into queue
-    }
-
-    QueueHandle_t getQueue() const { return eventQueue_; }
-};
-}`,
-            time: `// TimeManager.hpp - POSIX System & NTP Sync Subsystem
-#pragma once
-#include "DS1307.hpp"
-
-namespace Clock {
-class TimeManager {
-private:
-    DS1307& rtc_;
-    bool ntpSynced_{false};
-
-public:
-    explicit TimeManager(DS1307& rtc) : rtc_(rtc) {}
-
-    void initWifiNTP(const char* ssid, const char* pass) {
-        // Connect to Wi-Fi 'iotexpo' and trigger esp_sntp
-    }
-
-    void taskNtpLoop() {
-        // Periodic 1-hour NTP sync task loop
-    }
-
-    bool isNtpSynced() const { return ntpSynced_; }
-    void renderTime(SSD1306& display) { /* Render clock UI */ }
-};
-}`,
-            alarm: `// AlarmEngine.hpp - Alarm Comparator & Piezo Buzzer
-#pragma once
-#include "driver/gpio.h"
-
-namespace Clock {
-class AlarmEngine {
-private:
-    gpio_num_t buzzerPin_;
-    uint8_t alarmHour_{7};
-    uint8_t alarmMinute_{0};
-    bool enabled_{false};
-    bool ringing_{false};
-
-public:
-    explicit AlarmEngine(gpio_num_t pin) : buzzerPin_(pin) {}
-    void init() { gpio_set_direction(buzzerPin_, GPIO_MODE_OUTPUT); }
-    void checkAlarm(uint8_t h, uint8_t m) {
-        if (enabled_ && h == alarmHour_ && m == alarmMinute_) ringing_ = true;
-    }
-};
-}`,
-            stopwatch: `// StopwatchEngine.hpp - Split Timing Engine
-#pragma once
-#include "esp_timer.h"
-
-namespace Clock {
-class StopwatchEngine {
-private:
-    int64_t startTime_{0};
-    int64_t elapsed_{0};
-    bool running_{false};
-    int64_t laps_[5];
-    size_t lapCount_{0};
-
-public:
-    void start() { if(!running_) { startTime_ = esp_timer_get_time() - elapsed_; running_ = true; } }
-    void pause() { if(running_) { elapsed_ = esp_timer_get_time() - startTime_; running_ = false; } }
-    void reset() { running_ = false; elapsed_ = 0; lapCount_ = 0; }
-    void recordLap() { if(lapCount_ < 5) laps_[lapCount_++] = elapsed_; }
-};
-}`
-        };
-
-        function switchCodeTab(fileKey) {
-            document.querySelectorAll('.code-subtab').forEach(el => {
-                el.classList.remove('bg-cyan-950', 'text-cyan-300', 'border', 'border-cyan-800');
-                el.classList.add('text-slate-400');
+        function renderLabPickers() {
+            document.querySelectorAll('.lab-picker').forEach(box => {
+                box.innerHTML = '';
+                LAB_DATA.labs.forEach((lab, i) => {
+                    const b = document.createElement('button');
+                    const active = i === currentLab;
+                    b.className = 'lab-pill shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ' + (active
+                        ? 'bg-cyan-950 text-cyan-300 border-cyan-700'
+                        : 'text-slate-400 border-slate-700 hover:bg-slate-800');
+                    b.textContent = lab.name + ' · ' + lab.title;
+                    b.onclick = () => selectLab(i);
+                    box.appendChild(b);
+                });
             });
+        }
 
-            const activeSubTab = document.getElementById('subtab-' + fileKey);
-            activeSubTab.classList.add('bg-cyan-950', 'text-cyan-300', 'border', 'border-cyan-800');
-            activeSubTab.classList.remove('text-slate-400');
+        function fileButton(file, active) {
+            const b = document.createElement('button');
+            b.className = 'code-subtab px-3 py-1.5 rounded-lg border ' + (active
+                ? 'bg-cyan-950 text-cyan-300 border-cyan-800'
+                : 'text-slate-400 border-transparent hover:bg-slate-800');
+            b.textContent = file.name;
+            b.title = file.path;
+            b.onclick = () => showFile(file);
+            return b;
+        }
 
-            document.getElementById('codeDisplayArea').innerText = codeFiles[fileKey] || "// ไม่พบเนื้อหาไฟล์";
+        function showFile(file) {
+            currentFile = file;
+            document.getElementById('codeDisplayArea').textContent = file.text;
+            document.getElementById('codeFilePath').textContent = file.path;
+            renderCodeFileButtons();
+        }
+
+        function renderCodeFileButtons() {
+            const lab = LAB_DATA.labs[currentLab];
+            const labBox = document.getElementById('codeLabFiles');
+            labBox.innerHTML = '';
+            lab.files.forEach(f => labBox.appendChild(fileButton(f, currentFile === f)));
+
+            const compBox = document.getElementById('codeComponentFiles');
+            compBox.innerHTML = '';
+            lab.requires.forEach(c => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center gap-1 overflow-x-auto no-scrollbar';
+                const tag = document.createElement('span');
+                tag.className = 'shrink-0 w-36 text-slate-500';
+                tag.textContent = c + '/';
+                row.appendChild(tag);
+                LAB_DATA.components[c].forEach(f => row.appendChild(fileButton(f, currentFile === f)));
+                compBox.appendChild(row);
+            });
+        }
+
+        function renderWokwi() {
+            const lab = LAB_DATA.labs[currentLab];
+            document.getElementById('wokwiLabDesc').textContent = lab.desc;
+            document.getElementById('wokwiFilePath').textContent = 'final-homework-esp32/' + lab.dir + '/diagram.json';
+            document.getElementById('wokwiJsonCode').textContent = lab.diagram;
+            document.getElementById('wokwiTomlCode').textContent = lab.toml;
+            const box = document.getElementById('wokwiPinout');
+            box.innerHTML = '';
+            lab.pins.forEach(([title, color, items]) => {
+                const card = document.createElement('div');
+                card.className = 'bg-slate-800/60 p-3 rounded-lg border border-slate-700/60';
+                const h = document.createElement('span');
+                h.className = color + ' font-bold';
+                h.textContent = title;
+                const ul = document.createElement('ul');
+                ul.className = 'text-slate-300 mt-1 space-y-0.5 text-[11px]';
+                items.forEach(t => {
+                    const li = document.createElement('li');
+                    li.textContent = '• ' + t;
+                    ul.appendChild(li);
+                });
+                card.appendChild(h);
+                card.appendChild(ul);
+                box.appendChild(card);
+            });
+        }
+
+        function selectLab(i) {
+            currentLab = i;
+            const lab = LAB_DATA.labs[i];
+            document.getElementById('codeLabDesc').textContent = lab.desc;
+            renderLabPickers();
+            renderWokwi();
+            showFile(lab.files[0]); // main.cpp ของ lab ที่เลือก
         }
 
         function copyActiveCode() {
-            const code = document.getElementById('codeDisplayArea').innerText;
-            navigator.clipboard.writeText(code);
+            if (!currentFile) return;
+            navigator.clipboard.writeText(currentFile.text);
             const btn = document.getElementById('copyCodeBtn');
             btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i><span>คัดลอกแล้ว!</span>`;
             setTimeout(() => {
@@ -1216,7 +1293,7 @@ public:
         }
 
         function copyToClipboard(elementId, btnId) {
-            const text = document.getElementById(elementId).innerText;
+            const text = document.getElementById(elementId).textContent;
             navigator.clipboard.writeText(text);
             const btn = document.getElementById(btnId);
             const orig = btn.innerHTML;
@@ -1483,7 +1560,7 @@ public:
         let simInstance;
         window.onload = function() {
             simInstance = new HardwareSimulator();
-            switchCodeTab('main');
+            selectLab(0);
         };
 
         function pressButton(btn) {
