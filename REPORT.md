@@ -1187,64 +1187,64 @@ python3 final-homework-esp32/test/host/mutate.py
 
 | # | หมวด | ชื่อ test | สิ่งที่ตรวจ | ผล |
 | ---: | --- | --- | --- | --- |
-| 1 | BCD | `test_bcd_to_dec_known_values` | แปลง BCD เป็นเลขฐานสิบ: 0x00, 0x09, 0x10, 0x59, 0x99 ได้ 0, 9, 10, 59, 99 | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 2 | BCD | `test_bcd_from_dec_known_values` | แปลงเลขฐานสิบเป็น BCD: 0, 9, 10, 59, 99 ได้ 0x00, 0x09, 0x10, 0x59, 0x99 | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 3 | BCD | `test_bcd_round_trip_0_to_99` | ทุกค่า 0 ถึง 99 แปลงไป-กลับแล้วได้ค่าเดิม และ hex ของ BCD อ่านออกมาเหมือนเลขฐานสิบ | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 4 | BCD | `test_bcd_valid_accepts_all_decimal_digits` | isValidBcd ยอมรับ BCD ที่ถูกต้องทั้ง 100 ค่า | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 5 | BCD | `test_bcd_valid_rejects_non_decimal_nibbles` | isValidBcd ปฏิเสธ 0x1A, 0xA0, 0xFF, 0x0F, 0xF0 | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 6 | DS1307 | `test_ds1307_decode_known_registers` | ถอดรหัสไบต์ `45 30 08 01 25 10 26` ได้ 2026-10-25 อาทิตย์ 08:30:45 และถอด 2099-12-31 23:59:59 ได้ | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 7 | DS1307 | `test_ds1307_encode_known_datetime` | เข้ารหัส DateTime ที่รู้ค่าได้ 7 ไบต์ตรงตามที่คำนวณไว้ (เขียนทับบัฟเฟอร์ที่ใส่ 0xFF ไว้ก่อน) | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 8 | DS1307 | `test_ds1307_encode_clears_ch_and_selects_24h` | เข้ารหัสแล้วบิต CH (หยุดนาฬิกา) และบิต 12 ชม. เป็น 0 เสมอ | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 9 | DS1307 | `test_ds1307_decode_ignores_clock_halt_bit` | ถ้าไบต์วินาทีมีบิต CH ค้างอยู่ ยังอ่านวินาทีได้ถูก | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 10 | DS1307 | `test_ds1307_decode_12h_mode` | โหมด 12 ชม.: 12 AM = 0, 1 AM = 1, 11 AM = 11, 12 PM = 12, 1 PM = 13, 11 PM = 23 | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 11 | DS1307 | `test_ds1307_decode_rejects_invalid_12h_hour` | ชั่วโมงโหมด 12 ชม. ที่ผิด (0, 13, 0x1A) ถูกปฏิเสธและไม่แก้ค่าผลลัพธ์ | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 12 | DS1307 | `test_ds1307_decode_rejects_invalid_values` | ค่าเสีย 12 แบบ (BCD ผิด, นาที 60, ชั่วโมง 24, วันที่ 0/32, 30 ก.พ., 29 ก.พ. ปีไม่อธิกสุรทิน, เดือน 0/13) ถูกปฏิเสธ | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 13 | DS1307 | `test_ds1307_encode_decode_round_trip` | เข้ารหัสแล้วถอดรหัสกลับ ครบ 1440 ค่า (ชั่วโมง x นาที) ได้ค่าเดิม | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 14 | Epoch | `test_epoch_unix_origin` | 1970-01-01 00:00:00 ได้ epoch 0 และ 23:59:59 ได้ 86399 | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 15 | Epoch | `test_epoch_y2k` | 2000-01-01 ได้ epoch 946684800 ทั้งสองทิศทาง และเป็นวันเสาร์ | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 16 | Epoch | `test_epoch_known_datetime` | 2026-10-25 08:30:00 ได้ epoch 1792917000 (คำนวณแยกด้วย Python) ทั้งสองทิศทาง | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 17 | Epoch | `test_epoch_leap_day_2028` | 29 ก.พ. 2028 ถูกต้อง ถอยหลัง 1 วินาทีเป็น 28 ก.พ. 23:59:59 และถัดไป 1 วันเป็น 1 มี.ค. | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 18 | Epoch | `test_epoch_leap_year_rules` | ปีอธิกสุรทิน: 2000 ใช่, 2028 ใช่, 2026 ไม่ใช่, 2100 ไม่ใช่ และจำนวนวันในเดือน ก.พ. | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 19 | Epoch | `test_epoch_weekday_known_dates` | วันในสัปดาห์ของ 5 วันที่รู้ค่า เช่น 2025-10-09 เป็นวันพฤหัสบดี | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 20 | Epoch | `test_epoch_from_out_of_range_rejected` | epoch ที่อยู่นอกปี 2000 ถึง 2099 ถูกปฏิเสธ ส่วน 4102444799 ได้ 2099-12-31 23:59:59 | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 21 | Epoch | `test_epoch_round_trip` | สุ่มตัวอย่างตลอดปี 2000 ถึง 2099 แปลงไป-กลับแล้วได้ epoch เดิมและวันในสัปดาห์สอดคล้อง | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 22 | Alarm | `test_alarm_matches_enabled_exact_minute` | ปลุก 07:30 ตรงเฉพาะ 07:30 ไม่ตรง 07:31, 07:29, 08:30, 19:30 | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 23 | Alarm | `test_alarm_matches_disabled_never` | ปลุกที่ปิดอยู่ไม่ตรงเวลาใดเลย | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 24 | Alarm | `test_alarm_state_starts_once_in_matching_minute` | Start ครั้งเดียวในนาทีที่ตรง ไม่ Start ซ้ำ และ Stop ตอนครบเวลาพอดี | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 25 | Alarm | `test_alarm_state_silence_no_retrigger_same_minute` | กดหยุดเสียงแล้วไม่ดังซ้ำในนาทีเดิม | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 26 | Alarm | `test_alarm_state_stops_after_ring_timeout` | ไม่ Stop ที่ 4999 ms และ Stop ที่ 5000 ms พอดี (ตั้ง ringMs = 5000) | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 27 | Alarm | `test_alarm_state_stops_when_disabled_while_ringing` | ปิดปลุกตอนกำลังดัง ได้ Stop และเปิดใหม่ในนาทีเดิมก็ไม่ดังซ้ำ | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 28 | Alarm | `test_alarm_state_disabled_never_starts` | ปลุกที่ปิดอยู่ไม่ Start ตลอดนาทีที่ตรงเวลา | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 29 | Alarm | `test_alarm_state_rearms_after_minute_passes` | พ้นนาทีที่ตรงแล้ว วันถัดไปเวลาเดิมดังได้อีก | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 30 | Alarm | `test_alarm_state_midnight_boundary` | ข้ามเที่ยงคืน: ปลุก 00:00 ดังครั้งเดียวต่อวัน ปลุก 23:59 ไม่ดังตอน 00:00 | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 31 | Alarm | `test_alarm_state_timeout_survives_ms_wraparound` | ตัวนับ ms ล้นข้าม 0xFFFFFFFF แล้ว timeout ยังถูกต้อง | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 32 | Stopwatch | `test_stopwatch_accumulates_across_pauses` | เวลาสะสมข้ามการหยุดชั่วคราวถูกต้อง (500, 1250, 2000, 2250 ms) และตัดเศษไมโครวินาทีทิ้ง | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 33 | Stopwatch | `test_stopwatch_repeated_start_stop_ignored` | start ซ้ำตอนกำลังเดินหรือ stop ซ้ำตอนหยุด ไม่เปลี่ยนค่า | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 34 | Stopwatch | `test_stopwatch_lap_total_and_split` | lap ได้ (รวม, ช่วง) = (1234, 1234), (3000, 1766), (4500, 1500) ms | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 35 | Stopwatch | `test_stopwatch_lap_rejected_when_stopped` | กด lap ตอนหยุดอยู่ถูกปฏิเสธ จำนวน lap ไม่เพิ่ม | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 36 | Stopwatch | `test_stopwatch_lap_capacity_enforced` | บันทึกได้ 10 lap รอบที่ 11 และ 12 ถูกปฏิเสธ | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 37 | Stopwatch | `test_stopwatch_reset_clears_everything` | reset ล้างสถานะ เวลา และ lap ทั้งหมด lap แรกหลัง reset มีค่าช่วงเท่าเวลารวม | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 38 | ปุ่ม | `test_button_clean_short_press` | กดแล้วปล่อยปกติ ได้ Short หนึ่งครั้งที่ 330 ms | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 39 | ปุ่ม | `test_button_bounce_shorter_than_debounce_no_event` | สัญญาณเด้งและกดสั้นกว่า 30 ms ไม่เกิด event | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 40 | ปุ่ม | `test_button_bounce_then_stable_press` | ปุ่มเด้งตอนกดและตอนปล่อย ได้ Short หนึ่งครั้ง และถือว่ากดจริงที่ 140 ms | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 41 | ปุ่ม | `test_button_long_press_fires_once` | กดค้าง 1000 ms ได้ Long หนึ่งครั้ง และไม่มี Short ตอนปล่อย | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 42 | ปุ่ม | `test_button_release_before_long_is_short` | ปล่อยก่อน 1000 ms ได้ Short | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 43 | ปุ่ม | `test_button_idle_semantics` | idle() เป็นจริง/เท็จถูกต้องทุกช่วง (ตอนพัก, ตอน debounce, ตอนกดค้าง, หลัง Long) | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 44 | ปุ่ม | `test_button_two_presses_in_a_row` | กดสองครั้งติดกันได้ Short สองครั้ง | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 45 | โหมด UI | `test_ui_next_mode_cycle_order` | ลำดับโหมด Clock → SetTime → Alarm → Stopwatch → Clock | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 46 | โหมด UI | `test_ui_mode_names` | ชื่อโหมดตรง: CLOCK, SET TIME, ALARM, STOPWATCH | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 47 | โหมด UI | `test_ui_field_counts` | จำนวนฟิลด์ที่แก้ได้ของแต่ละโหมดคือ 0, 3, 2, 0 | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 48 | โหมด UI | `test_ui_handle_press_full_table` | ตารางหน้าที่ปุ่มครบทั้ง 48 แบบ (4 โหมด x 4 ปุ่ม x 3 ชนิดการกด) | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 49 | โหมด UI | `test_ui_mode_short_resets_field` | กด MODE สั้นแล้วไปโหมดถัดไป ฟิลด์กลับเป็น 0 | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 50 | โหมด UI | `test_ui_mode_long_returns_to_clock` | กด MODE ค้างกลับหน้า Clock จากทุกโหมด | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 51 | โหมด UI | `test_ui_set_long_wraps_field` | กด SET ค้างเลื่อนฟิลด์แบบวนรอบ | ☐ ผ่าน ☐ ไม่ผ่าน |
-| 52 | โหมด UI | `test_ui_wrap_increment` | เพิ่มค่าแบบวน เช่น (59, 60) = 0 และ (23, 24) = 0 | ☐ ผ่าน ☐ ไม่ผ่าน |
+| 1 | BCD | `test_bcd_to_dec_known_values` | แปลง BCD เป็นเลขฐานสิบ: 0x00, 0x09, 0x10, 0x59, 0x99 ได้ 0, 9, 10, 59, 99 | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 2 | BCD | `test_bcd_from_dec_known_values` | แปลงเลขฐานสิบเป็น BCD: 0, 9, 10, 59, 99 ได้ 0x00, 0x09, 0x10, 0x59, 0x99 | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 3 | BCD | `test_bcd_round_trip_0_to_99` | ทุกค่า 0 ถึง 99 แปลงไป-กลับแล้วได้ค่าเดิม และ hex ของ BCD อ่านออกมาเหมือนเลขฐานสิบ | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 4 | BCD | `test_bcd_valid_accepts_all_decimal_digits` | isValidBcd ยอมรับ BCD ที่ถูกต้องทั้ง 100 ค่า | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 5 | BCD | `test_bcd_valid_rejects_non_decimal_nibbles` | isValidBcd ปฏิเสธ 0x1A, 0xA0, 0xFF, 0x0F, 0xF0 | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 6 | DS1307 | `test_ds1307_decode_known_registers` | ถอดรหัสไบต์ `45 30 08 01 25 10 26` ได้ 2026-10-25 อาทิตย์ 08:30:45 และถอด 2099-12-31 23:59:59 ได้ | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 7 | DS1307 | `test_ds1307_encode_known_datetime` | เข้ารหัส DateTime ที่รู้ค่าได้ 7 ไบต์ตรงตามที่คำนวณไว้ (เขียนทับบัฟเฟอร์ที่ใส่ 0xFF ไว้ก่อน) | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 8 | DS1307 | `test_ds1307_encode_clears_ch_and_selects_24h` | เข้ารหัสแล้วบิต CH (หยุดนาฬิกา) และบิต 12 ชม. เป็น 0 เสมอ | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 9 | DS1307 | `test_ds1307_decode_ignores_clock_halt_bit` | ถ้าไบต์วินาทีมีบิต CH ค้างอยู่ ยังอ่านวินาทีได้ถูก | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 10 | DS1307 | `test_ds1307_decode_12h_mode` | โหมด 12 ชม.: 12 AM = 0, 1 AM = 1, 11 AM = 11, 12 PM = 12, 1 PM = 13, 11 PM = 23 | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 11 | DS1307 | `test_ds1307_decode_rejects_invalid_12h_hour` | ชั่วโมงโหมด 12 ชม. ที่ผิด (0, 13, 0x1A) ถูกปฏิเสธและไม่แก้ค่าผลลัพธ์ | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 12 | DS1307 | `test_ds1307_decode_rejects_invalid_values` | ค่าเสีย 12 แบบ (BCD ผิด, นาที 60, ชั่วโมง 24, วันที่ 0/32, 30 ก.พ., 29 ก.พ. ปีไม่อธิกสุรทิน, เดือน 0/13) ถูกปฏิเสธ | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 13 | DS1307 | `test_ds1307_encode_decode_round_trip` | เข้ารหัสแล้วถอดรหัสกลับ ครบ 1440 ค่า (ชั่วโมง x นาที) ได้ค่าเดิม | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 14 | Epoch | `test_epoch_unix_origin` | 1970-01-01 00:00:00 ได้ epoch 0 และ 23:59:59 ได้ 86399 | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 15 | Epoch | `test_epoch_y2k` | 2000-01-01 ได้ epoch 946684800 ทั้งสองทิศทาง และเป็นวันเสาร์ | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 16 | Epoch | `test_epoch_known_datetime` | 2026-10-25 08:30:00 ได้ epoch 1792917000 (คำนวณแยกด้วย Python) ทั้งสองทิศทาง | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 17 | Epoch | `test_epoch_leap_day_2028` | 29 ก.พ. 2028 ถูกต้อง ถอยหลัง 1 วินาทีเป็น 28 ก.พ. 23:59:59 และถัดไป 1 วันเป็น 1 มี.ค. | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 18 | Epoch | `test_epoch_leap_year_rules` | ปีอธิกสุรทิน: 2000 ใช่, 2028 ใช่, 2026 ไม่ใช่, 2100 ไม่ใช่ และจำนวนวันในเดือน ก.พ. | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 19 | Epoch | `test_epoch_weekday_known_dates` | วันในสัปดาห์ของ 5 วันที่รู้ค่า เช่น 2025-10-09 เป็นวันพฤหัสบดี | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 20 | Epoch | `test_epoch_from_out_of_range_rejected` | epoch ที่อยู่นอกปี 2000 ถึง 2099 ถูกปฏิเสธ ส่วน 4102444799 ได้ 2099-12-31 23:59:59 | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 21 | Epoch | `test_epoch_round_trip` | สุ่มตัวอย่างตลอดปี 2000 ถึง 2099 แปลงไป-กลับแล้วได้ epoch เดิมและวันในสัปดาห์สอดคล้อง | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 22 | Alarm | `test_alarm_matches_enabled_exact_minute` | ปลุก 07:30 ตรงเฉพาะ 07:30 ไม่ตรง 07:31, 07:29, 08:30, 19:30 | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 23 | Alarm | `test_alarm_matches_disabled_never` | ปลุกที่ปิดอยู่ไม่ตรงเวลาใดเลย | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 24 | Alarm | `test_alarm_state_starts_once_in_matching_minute` | Start ครั้งเดียวในนาทีที่ตรง ไม่ Start ซ้ำ และ Stop ตอนครบเวลาพอดี | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 25 | Alarm | `test_alarm_state_silence_no_retrigger_same_minute` | กดหยุดเสียงแล้วไม่ดังซ้ำในนาทีเดิม | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 26 | Alarm | `test_alarm_state_stops_after_ring_timeout` | ไม่ Stop ที่ 4999 ms และ Stop ที่ 5000 ms พอดี (ตั้ง ringMs = 5000) | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 27 | Alarm | `test_alarm_state_stops_when_disabled_while_ringing` | ปิดปลุกตอนกำลังดัง ได้ Stop และเปิดใหม่ในนาทีเดิมก็ไม่ดังซ้ำ | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 28 | Alarm | `test_alarm_state_disabled_never_starts` | ปลุกที่ปิดอยู่ไม่ Start ตลอดนาทีที่ตรงเวลา | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 29 | Alarm | `test_alarm_state_rearms_after_minute_passes` | พ้นนาทีที่ตรงแล้ว วันถัดไปเวลาเดิมดังได้อีก | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 30 | Alarm | `test_alarm_state_midnight_boundary` | ข้ามเที่ยงคืน: ปลุก 00:00 ดังครั้งเดียวต่อวัน ปลุก 23:59 ไม่ดังตอน 00:00 | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 31 | Alarm | `test_alarm_state_timeout_survives_ms_wraparound` | ตัวนับ ms ล้นข้าม 0xFFFFFFFF แล้ว timeout ยังถูกต้อง | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 32 | Stopwatch | `test_stopwatch_accumulates_across_pauses` | เวลาสะสมข้ามการหยุดชั่วคราวถูกต้อง (500, 1250, 2000, 2250 ms) และตัดเศษไมโครวินาทีทิ้ง | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 33 | Stopwatch | `test_stopwatch_repeated_start_stop_ignored` | start ซ้ำตอนกำลังเดินหรือ stop ซ้ำตอนหยุด ไม่เปลี่ยนค่า | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 34 | Stopwatch | `test_stopwatch_lap_total_and_split` | lap ได้ (รวม, ช่วง) = (1234, 1234), (3000, 1766), (4500, 1500) ms | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 35 | Stopwatch | `test_stopwatch_lap_rejected_when_stopped` | กด lap ตอนหยุดอยู่ถูกปฏิเสธ จำนวน lap ไม่เพิ่ม | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 36 | Stopwatch | `test_stopwatch_lap_capacity_enforced` | บันทึกได้ 10 lap รอบที่ 11 และ 12 ถูกปฏิเสธ | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 37 | Stopwatch | `test_stopwatch_reset_clears_everything` | reset ล้างสถานะ เวลา และ lap ทั้งหมด lap แรกหลัง reset มีค่าช่วงเท่าเวลารวม | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 38 | ปุ่ม | `test_button_clean_short_press` | กดแล้วปล่อยปกติ ได้ Short หนึ่งครั้งที่ 330 ms | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 39 | ปุ่ม | `test_button_bounce_shorter_than_debounce_no_event` | สัญญาณเด้งและกดสั้นกว่า 30 ms ไม่เกิด event | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 40 | ปุ่ม | `test_button_bounce_then_stable_press` | ปุ่มเด้งตอนกดและตอนปล่อย ได้ Short หนึ่งครั้ง และถือว่ากดจริงที่ 140 ms | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 41 | ปุ่ม | `test_button_long_press_fires_once` | กดค้าง 1000 ms ได้ Long หนึ่งครั้ง และไม่มี Short ตอนปล่อย | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 42 | ปุ่ม | `test_button_release_before_long_is_short` | ปล่อยก่อน 1000 ms ได้ Short | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 43 | ปุ่ม | `test_button_idle_semantics` | idle() เป็นจริง/เท็จถูกต้องทุกช่วง (ตอนพัก, ตอน debounce, ตอนกดค้าง, หลัง Long) | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 44 | ปุ่ม | `test_button_two_presses_in_a_row` | กดสองครั้งติดกันได้ Short สองครั้ง | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 45 | โหมด UI | `test_ui_next_mode_cycle_order` | ลำดับโหมด Clock → SetTime → Alarm → Stopwatch → Clock | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 46 | โหมด UI | `test_ui_mode_names` | ชื่อโหมดตรง: CLOCK, SET TIME, ALARM, STOPWATCH | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 47 | โหมด UI | `test_ui_field_counts` | จำนวนฟิลด์ที่แก้ได้ของแต่ละโหมดคือ 0, 3, 2, 0 | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 48 | โหมด UI | `test_ui_handle_press_full_table` | ตารางหน้าที่ปุ่มครบทั้ง 48 แบบ (4 โหมด x 4 ปุ่ม x 3 ชนิดการกด) | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 49 | โหมด UI | `test_ui_mode_short_resets_field` | กด MODE สั้นแล้วไปโหมดถัดไป ฟิลด์กลับเป็น 0 | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 50 | โหมด UI | `test_ui_mode_long_returns_to_clock` | กด MODE ค้างกลับหน้า Clock จากทุกโหมด | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 51 | โหมด UI | `test_ui_set_long_wraps_field` | กด SET ค้างเลื่อนฟิลด์แบบวนรอบ | 🗸 ผ่าน ☐ ไม่ผ่าน |
+| 52 | โหมด UI | `test_ui_wrap_increment` | เพิ่มค่าแบบวน เช่น (59, 60) = 0 และ (23, 24) = 0 | 🗸 ผ่าน ☐ ไม่ผ่าน |
 
 ### 6.3 สรุปผลที่ต้องกรอก
 
 | รายการ | ผลที่ได้ |
 | --- | --- |
-| รัน host (`test/host/run.sh`) | <!-- TODO: จำนวน test / ผ่าน / ไม่ผ่าน --> |
+| รัน host (`test/host/run.sh`) | 52 test / ผ่าน 52 / ไม่ผ่าน 0 (`ALL TESTS PASSED: 52 tests, 0 failures`) |
 | รันบน Wokwi (`test`) | <!-- TODO: วางบรรทัดสรุปจาก Serial Monitor --> |
 | Mutation check (`mutate.py`) | <!-- TODO: จำนวนบั๊กเทียมที่ถูกจับ / ทั้งหมด --> |
 
